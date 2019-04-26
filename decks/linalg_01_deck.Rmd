@@ -315,5 +315,12 @@ To compute the Kronecker product, multiply each element of the matrix ${\bf A}$ 
 
 Let $${\bf A}=\begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix} \text{ and } {\bf B}=\begin{bmatrix} b_{11} & b_{12} & b_{13} \\ b_{21} & b_{22} & b_{23} \\ b_{31} & b_{32} & b_{33} \end{bmatrix}.$$  Then ${\bf A} \bigotimes {\bf B}=$
 
+## Orthogonal matrix
+
+An *orthogonal matrix* is a square matrix with ${\bf A}'={\bf A}^{-1}$.  That is, a square matrix ${\bf A}$ is orthogonal if ${\bf A}'{\bf A}={\bf I}={\bf A A}'$.  
+
+ - The vectors ${\bf x}$ and ${\bf y}$ are *orthogonal vectors* if ${\bf x'y}=0$.
+ - The vectors $\bfx$ and $\bfy$ are *orthonormal vectors* if ${\bf x}$ and ${\bf y}$ are orthogonal vectors and are normalized: ${\bf x' y}=0$, ${\bf x'x}=1$, and ${\bf y'y}=1$.  
+
 
 
