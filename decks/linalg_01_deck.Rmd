@@ -320,7 +320,37 @@ Let $${\bf A}=\begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix} \
 An *orthogonal matrix* is a square matrix with ${\bf A}'={\bf A}^{-1}$.  That is, a square matrix ${\bf A}$ is orthogonal if ${\bf A}'{\bf A}={\bf I}={\bf A A}'$.  
 
  - The vectors ${\bf x}$ and ${\bf y}$ are *orthogonal vectors* if ${\bf x'y}=0$.
- - The vectors $\bfx$ and $\bfy$ are *orthonormal vectors* if ${\bf x}$ and ${\bf y}$ are orthogonal vectors and are normalized: ${\bf x' y}=0$, ${\bf x'x}=1$, and ${\bf y'y}=1$.  
+ - The vectors ${\bf x}$ and ${\bf y}$ are *orthonormal vectors* if ${\bf x}$ and ${\bf y}$ are orthogonal vectors and are normalized: ${\bf x' y}=0$, ${\bf x'x}=1$, and ${\bf y'y}=1$.  
 
+## Commutative laws
 
+Suppose ${\bf A}$ and ${\bf B}$ conform for the operation of interest.  
+
+ - ${\bf A} + {\bf B}={ \bf B} + {\bf A}$
+ 
+ - $a {\bf B}= {\bf B} a$
+
+-  In general, ${\bf A B} \neq {\bf B A}$, and ${\bf A} \bigotimes {\bf B} \neq {\bf B} \bigotimes {\bf A}$.
+
+## Distributive laws
+
+  - ${\bf A} ({\bf B} + {\bf C}) = {\bf A B} + {\bf A C}$
+
+  -  $({\bf B} + {\bf C}) {\bf D} = {\bf B D} + {\bf C D}$
+
+  -  $a ({\bf B} + {\bf C}) = a {\bf B} + a {\bf C} = ({\bf B + C}) a$
+
+## Associative laws
+
+  - $({\bf A} +{\bf B}) + {\bf C} = {\bf A} + ({\bf B} + {\bf C})$
+  
+  - $({\bf A B}) {\bf C} = {\bf A} ({\bf B C})$
+
+## Transpose operations
+
+  - $({\bf A} + {\bf B})'={\bf A}' + {\bf B}'$
+
+  - $({\bf A B})'={\bf B}' {\bf A}'$
+    
+  - $({\bf A} \bigotimes {\bf B})'={\bf A}' \bigotimes {\bf B}'$
 

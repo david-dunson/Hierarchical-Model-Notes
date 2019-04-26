@@ -23,9 +23,9 @@ FIND SOME NICE RESOURCES TO REVIEW LINEAR ALGEBRA; MAYBE AN APPENDIX OF GELMAN O
 # Slides
 
 
-[Basics: Vectors and Matrices](decks/cs01_1_deck.html)
+[Basics: Vectors and Matrices](decks/linalg_01_deck.html)
 
-[Linear Dependence and Rank](decks/cs01_3_deck.html)
+[Linear Dependence and Rank](decks/linalg_02_deck.html)
 
 
 

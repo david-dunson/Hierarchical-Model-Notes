@@ -1,0 +1,49 @@
+---
+title: Linear Dependence and Rank
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: tango
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Linear dependence
+
+Consider the system of equations
+\begin{eqnarray}
+5x_1+2x_2&=&2\\
+10x_1+4x_2&=&4,
+\end{eqnarray}
+or
+\begin{eqnarray*}
+{\bf a}_1x_1+{\bf a}_2x_2={\bf b},
+\end{eqnarray*}
+
+where
+
+\begin{eqnarray*}
+{\bf a}_1=\begin{pmatrix} 5 \\ 10 \end{pmatrix}, {\bf a}_2=\begin{pmatrix}2 \\ 4 \end{pmatrix}, \text{ and } {\bf b}=\begin{pmatrix} 2 \\ 4 \end{pmatrix}.
+\end{eqnarray*}
+
+This system of equations has infinite solutions given by $x_1=\frac{4}{5}-\frac{2}{5}x_2$.
+
+##
+
+  - We do not have one unique solution because the coefficients in the second equation are a multiple of the first and thus are *linearly dependent*.
+
+  - So equation (2) does not provide any additional information about $x_1$ or $x_2$.
+
+  - Examining ${\bf a}_1=\begin{pmatrix} 5 \\ 10 \end{pmatrix}$ and ${\bf a}_2=\begin{pmatrix}2 \\ 4 \end{pmatrix}$, we see that $a_{11}=\frac{5}{2}a_{12}$ and $a_{21}=\frac{5}{2}a_{22}$.  Thus $\bfa_1$ and $\bfa_2$ are linearly dependent vectors.
+
+
+
+
+
