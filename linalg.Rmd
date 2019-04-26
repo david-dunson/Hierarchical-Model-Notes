@@ -18,7 +18,23 @@ library(tidyverse)
 
 # Resources
 
-FIND SOME NICE RESOURCES TO REVIEW LINEAR ALGEBRA; MAYBE AN APPENDIX OF GELMAN OR IS THAT JUST FOR REGRESSION?
+Penn State University maintains some very nice review materials online (these are shorter in length than the slides below.)
+
+
+[Matrix definitions](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/definitions)
+
+[Matrix arithmetic](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/arithmetic)
+
+[Matrix properties](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/properties)
+
+[Matrix inverse](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/inverse)
+
+[Advanced matrix properties](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/advanced-properties)
+
+
+
+
+
 
 # Slides
 
