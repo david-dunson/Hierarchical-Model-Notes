@@ -27,5 +27,7 @@ FIND SOME NICE RESOURCES TO REVIEW LINEAR ALGEBRA; MAYBE AN APPENDIX OF GELMAN O
 
 [Linear Dependence and Rank](decks/linalg_02_deck.html)
 
+[Determinants and Inverses](decks/linalg_03_deck.html)
+
 
 

@@ -41,9 +41,125 @@ This system of equations has infinite solutions given by $x_1=\frac{4}{5}-\frac{
 
   - So equation (2) does not provide any additional information about $x_1$ or $x_2$.
 
-  - Examining ${\bf a}_1=\begin{pmatrix} 5 \\ 10 \end{pmatrix}$ and ${\bf a}_2=\begin{pmatrix}2 \\ 4 \end{pmatrix}$, we see that $a_{11}=\frac{5}{2}a_{12}$ and $a_{21}=\frac{5}{2}a_{22}$.  Thus $\bfa_1$ and $\bfa_2$ are linearly dependent vectors.
+  - Examining ${\bf a}_1=\begin{pmatrix} 5 \\ 10 \end{pmatrix}$ and ${\bf a}_2=\begin{pmatrix}2 \\ 4 \end{pmatrix}$, we see that $a_{11}=\frac{5}{2}a_{12}$ and $a_{21}=\frac{5}{2}a_{22}$.  Thus ${\bf a}_1$ and ${\bf a}_2$ are linearly dependent vectors.
+
+##
+
+The $n$ vectors ${\bf a}_1, {\bf a}_2, \cdots, {\bf a}_n$ in $\mathcal{R}^n$ are *linearly dependent* if there exist numbers $c_1, c_2, \ldots, c_n$ (not all zero) such that ${\bf a}_1c_1 + {\bf a}_2c_2 + \cdots + {\bf a}_nc_n=0$.  If this equation is true only when $c_1=c_2=\cdots=c_n=0$ then the vectors are *linearly independent*.
+
+##
+
+More generally, suppose we have the matrix
+
+\begin{equation*}
+{\bf A}=
+\begin{bmatrix}
+2 & 2 & 4 \\
+1 & 0 & 2 \\
+0 & 8 & 0 \\
+3 & 1 & 6 
+\end{bmatrix}.
+\end{equation*}
+
+Each column of ${\bf A}$ may be viewed as a vector.  The *column space* of ${\bf A}$, denoted $C({\bf A})$, is the set of all vectors that may be written as a linear combination of the columns of ${\bf A}$. 
+
+##
+
+That is, $C({\bf A})$ is the set of all vectors that may be written as
+
+\begin{equation*}
+\lambda_1 \begin{bmatrix}
+2 \\ 1 \\ 0 \\ 3
+\end{bmatrix} + \lambda_2 \begin{bmatrix}
+2 \\ 0 \\ 8 \\ 1
+\end{bmatrix} + \lambda_3 \begin{bmatrix}
+4 \\ 2 \\ 0 \\ 6
+\end{bmatrix} = {\bf A} \begin{bmatrix}
+\lambda_1 \\ \lambda_2 \\ \lambda_3
+\end{bmatrix}={\bf A} {\bf \lambda},
+\end{equation*}
+
+for some vector ${\bf \lambda}=(\lambda_1,\lambda_2,\lambda_3)'$.
+
+##
+
+For example, the column space of ${\bf J}_2$ includes all vectors of the form
+
+$$\lambda {\bf J}_2=\begin{pmatrix} \lambda \\ \lambda \end{pmatrix},$$ 
+
+including 
+
+$$ \begin{pmatrix} 1 \\ 1 \end{pmatrix}, \begin{pmatrix} 2 \\ 2 \end{pmatrix}, \begin{pmatrix} -0.03 \\  -0.03 \end{pmatrix}, \text{ and } \begin{pmatrix} \pi \\ \pi \end{pmatrix}.$$  
+
+## 
+
+The columns of ${\bf A}$ are *linearly dependent* if they contain redundant information.  If we can find two distinct vectors, say ${\bf \lambda}$ and ${\bf \gamma}$, that give rise to the same vector ${\bf x}$ when premultiplied by ${\bf A}$, then the columns of ${\bf A}$ are linearly dependent. 
+
+(So ${\bf A \lambda}={\bf A \gamma}={\bf x}$ implies that the columns of ${\bf A}$ are linearly dependent.)
+
+ An equivalent definition, obtained by letting ${\bf \delta}={\bf \lambda}-{\bf \gamma}$ (prove to yourself!), is that the columns of ${\bf A}$ are linearly dependent if there exists a vector ${\bf \delta} \neq {\bf 0}$ such that ${\bf A \delta}={\bf 0}$.
+
+If the columns of ${\bf A}$ are not linearly dependent, then they are *linearly independent*.
+
+##
+
+Does the matrix 
+
+\begin{equation*}
+{\bf A}=
+\begin{bmatrix}
+2 & 2 & 4 \\
+1 & 0 & 2 \\
+0 & 8 & 0 \\
+3 & 1 & 6 
+\end{bmatrix}
+\end{equation*}
+
+have linearly independent or linearly dependent columns?
+
+##
+
+Does the matrix
+
+\begin{equation*}
+{\bf B}=
+\begin{bmatrix}
+2 & 2 & 4 \\
+1 & 0 & 2 \\
+0 & 8 & 0 \\
+4 & 1 & 6 
+\end{bmatrix}
+\end{equation*}
+
+have linearly independent or linearly dependent columns?
 
 
+## Rank
 
+The *rank* of a matrix ${\bf A}$ is the number of linearly independent columns in ${\bf A}$.  Knowledge of the matrix rank is important in determining the existence and multiplicity of solutions to a system of linear equations.
+
+##
+
+The matrix
+
+\begin{equation*}
+{\bf A}=
+\begin{bmatrix}
+2 & 2 & 4 \\
+1 & 0 & 2 \\
+0 & 8 & 0 \\
+3 & 1 & 6 
+\end{bmatrix}
+\end{equation*}
+
+has rank = \hspace{2in} 
+
+## Full rank matrices
+
+If ${\bf A}$ is an $(r \times c)$ matrix with $r \geq c$, we say ${\bf A}$ is *full rank* if rank(${\bf A}$)=$c$.  If rank(${\bf A}$)$<c$, then we say ${\bf A}$ is less than full rank.  In linear regression, the matrix of covariates ${\bf X}$ must have full rank in order for our parameter estimates, $\widehat{\beta}$, to be unique.
+
+## Singular matrices
+
+A square matrix that is less than full rank is called *singular*, while a full rank square matrix is called *nonsingular*.
 
 
