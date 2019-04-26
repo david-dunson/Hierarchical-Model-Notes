@@ -1,0 +1,82 @@
+---
+title: " "
+output: 
+  html_document:
+    toc_float: true
+  
+---
+
+---
+title: "STA 410/610: Multilevel and Hierarchical Models"
+description: "Variance component models with fixed and random effects. Multilevel and hierarchical models for longitudinal and/or clustered data. Focus on model fitting and interpretation. Maximum likelihood and Bayesian inference and computation. Prerequisite: STA 360/601/602 and R programming skills. QS."
+markup: "mmark"
+---
+
+
+
+#Welcome to STA410/610!
+
+### Class Meetings
+
+<font color="#6CA0DC"><i class="fas fa-university fa-lg"></i></font> &nbsp; Perkins 071 
+
+<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; WF 11:45 - 1:00
+
+
+### Teaching team and office hours 
+
+
+Note: office hours may vary due to travel and other commitments. Revisions to office hours will be noted in Sakai and on my office door.
+
+| Team member | Office hours | Location |
+| ----------  | -------------------------------------         | ---- |
+| [Professor Amy Herring](https://stat.duke.edu/people/amy-h-herring)  <a href="mailto:amy.herring@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp;  | Wednesday and Thursday 1:30-2:30pm | 208 Old Chemistry |
+ [TA Michael Akande](https://www2.stat.duke.edu/~oma9/)  <a href="mailto:olanrewaju.akande@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp;  | Tuesday 5-6pm and Friday 2:25-3:25pm | 203B Old Chemistry
+ [TA Henry Kirveslahti](https://stat.duke.edu/people/henry-kirveslahti-1)  <a href="mailto:henry.kirveslahti@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | Monday and Wednesday 5-6pm | 203B Old Chemistry
+ 
+                  
+
+
+### Materials
+
+You should have access to a laptop and bring it to every class, fully charged. Texts and readings will be assigned as needed. Required software packages include R/RStudio (free) and Tableau (free for students).
+
+
+### Topics and Important Dates
+
+STA 440 contains a mixture of lecture, lab, and combination sessions at the usual class times. The lecture topics include descriptions of case studies data and highlights of critical issues to consider in analysis of data. The lectures are not designed to dictate your analysis plans -- just to inform them. Sessions marked "lab" will be taught by TA's and involve hands-on analysis and/or consultation about case studies.
+
+Note: this schedule is approximate and is likely to be modified as the course progresses. Readiness assessments will be given without advance notice. Assignments are due at the beginning of class unless otherwise specified. 
+
+|Date           |Topic                      |Deliverables     |
+| ----------    | ---------------------------         | --------------- |
+| August 29     | Welcome and Groups        | Regression warm-up (in class)        |
+| August 31     | CS1: Birth Weight, Model Selection \& Validation    |   Getting to Know You Sheet              |
+| September 5   | CS1: Modeling in Class | Signed Team Expectations Agreement |
+| September 7   | CS1: Causal Inference | CS1 Interim Report: Model Development and Evaluation |
+| September 12  | CS2: Visualizing our World in Data | |
+| September 14  | CS2: Lab: Hands on for CS 1 \& 2| |
+| September 19  | CS2: Hands on with Tableau |  |
+| September 21  | CS3: Birth Weight Disparities \& Binomial regression | CS1 Final Report: Smoking and Birth Weight|
+| September 26  | CS3: Multilevel Models | |
+| September 28  | Group Presentations of CS2 | CS2 Final Report: Our World in Data  |
+| October 3     | CS3: Generalized Linear Multilevel Models | CS3 Interim Report 1: Infant Mortality Visualization| 
+| October 5     | CS4: Election Forecasting | Midsemester Grades Due (my deliverable)  |
+| October 10    | CS4: Election Forecasting with "Mr. P" | CS3 Interim Report 2: 2015 County-Specific Mortality by Race |
+| October 12    | Lab: Multilevel Models for CS3  | CS4 Election Predictions |
+| October 17    | Lab: Who Votes in NC? |  |
+| October 19    | CS4: Election Modeling Workshop | CS3 Final Report: Infant Mortality Trends and CS4 Election Predictions Update|
+| October 24    | CS4: Remodeling After Disaster Strikes! |  |
+| October 26    | CS4: Group Presentations: Who Votes in NC?  | CS4 Interim Report: Who Votes in NC? and CS4 Election Predictions Update| 
+| October 31    | Individual CS: Web Scraping |  CS4 Interim Report: Election Prediction Models |
+| November 2    | Individual CS: Web Scraping  | CS4 Election Predictions Update; CS4 Final Report Due by Midnight Nov 5|
+| November 7    | CS4: Presentations: Post Election Diagnostics |  |
+| November 9    | CS5: Missing Data |Individual CS Interim Report: Introduction and Analysis Plan  |
+| November 14   | CS5: Survival Analysis | |
+| November 16   | Hands on: Missing Data and Survival | CS5 Interim Report: Patterns of Missing Data |
+| November 28   | Lab: CS5 and Individual CS Help |  | 
+| November 30   | Lab: Individual CS Practice Presentations to Groups | CS5: Final Report |
+| December 5    | Individual Presentations | Individual Reports Due (Draft) |
+| December 7    | Individual Presentations | Individual Reports Due (Draft) |
+| December 13, 2-5pm   | Individual Presentations | Individual Reports Due (Final with any changes from draft highlighted) |
+

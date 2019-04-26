@@ -1,0 +1,48 @@
+---
+title: "Case Study 1: Birth Weight"
+---
+
+```{r, echo=FALSE, include=FALSE}
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+```
+
+
+# Learning Objectives
+
+- practice model building and validation
+- explore use of robust regression methods to accommodate outliers and extreme events
+- use causal inference methods to evaluate potential policy interventions
+
+# Case Study Goals
+
+- determine which factors are associated with birth weight and characterize the relationship between each factor and birth weight
+- explore whether fit of a linear regression model is adequate or whether robust regression methods are needed
+- estimate the impact of eliminating maternal smoking on birth weight in a population
+
+# Data
+
+- The data for this case study cannot be shared beyond class participants. Please see Sakai for the data and related documentation, and do not disseminate the data any further.
+
+# Reports
+
+- Interim report (9/7): produce a 5 page (maximum) report using R markdown that clearly describes your process for model selection and validation. Provide clear interpretations of the associations between each predictor and birth weight in layperson's language, including characterization of uncertainty.  Figures may be included as appropriate. Code should be fully reproducible.
+
+- Final report (9/14): produce a 5 page (maximum) report using R markdown that addresses the potential impact of eliminating smoking on birth weight in the population. Clearly describe your modeling approach and any assumptions required to produce estimates (including uncertainty characterization). Figures should be included. Code should be fully reproducible.
+
+# Resources
+
+An Introduction to Statistical Learning with Applications in R, James et al (2013), Chapter 5: Resampling Methods (free e-book through Duke Libraries)
+
+
+# Slides
+
+
+[Birth weight data](decks/cs01_1_deck.html)
+
+[Regression and model validation](decks/cs01_3_deck.html)
+
+
+[Introduction to causal inference](decks/cs01_4_deck.html)
+

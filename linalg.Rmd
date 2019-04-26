@@ -1,0 +1,31 @@
+---
+title: "Linear Algebra Review"
+---
+
+```{r, echo=FALSE, include=FALSE}
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+```
+
+
+# Learning Objectives
+
+- basic properties of vectors and matrices
+- linear independence, dependence, and rank of a matrix
+- inversion of full-rank and less than full-rank matrices
+
+
+# Resources
+
+FIND SOME NICE RESOURCES TO REVIEW LINEAR ALGEBRA; MAYBE AN APPENDIX OF GELMAN OR IS THAT JUST FOR REGRESSION?
+
+# Slides
+
+
+[Basics: Vectors and Matrices](decks/cs01_1_deck.html)
+
+[Linear Dependence and Rank](decks/cs01_3_deck.html)
+
+
+

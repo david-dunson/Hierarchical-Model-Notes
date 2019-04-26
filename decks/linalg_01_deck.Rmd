@@ -1,0 +1,319 @@
+---
+title: Review of Vectors and Matrices
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: tango
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Basic definitions
+
+A *matrix* is a two-dimensional array of elements.
+
+${\bf A}=\{a_{ij}\}$ means ${\bf A}$ is the matrix whose $i,j^{th}$ element (or component) is the *scalar* $a_{ij}$, where $i$ indexes row and $j$ indexes
+column, $i=1,\ldots,r$, $j=1, \ldots,c$.  In this context, a scalar
+$s$ will represent a real number.  Capital letters are used to represent matrices, and lowercase letters are used for vectors.
+
+The *dimension* of ${\bf A}$ is $(r \times c)$ (say "r by c"),
+often written ${\bf A}_{r \times c}$.  
+
+##
+
+The entire matrix ${\bf A}$ may be represented 
+
+
+\begin{equation*} {\bf A}_{r \times c} = 
+\begin{bmatrix}
+a_{11} & a_{12} & \ldots & a_{1c} \\ a_{21} & \ddots & & \cdots \\
+\cdots & & \ddots & \cdots \\ a_{r1} & \ldots & \ldots & a_{rc}
+\end{bmatrix}.  
+\end{equation*}
+
+## 
+
+A matrix with one column, i.e. an $(r \times 1)$ matrix, is called a *vector* or *column vector*.  The vector ${\bf b}_{3 \times 1}$ may be written
+
+\begin{equation*}
+{\bf b}_{3 \times 1} =
+\begin{bmatrix}
+b_{1} \\
+b_{2} \\
+b_{3}
+\end{bmatrix}.
+\end{equation*} 
+A $(1 \times r)$ matrix is called a *row vector*.  
+
+## 
+
+We can represent the matrix ${\bf A}_{r \times c}$ in terms of its columns $\{{\bf a}_1,{\bf a}_2,\ldots,{\bf a}_c\}$. For example, we might represent an ${\bf X}$ matrix for a regression model with an intercept and continuous predictor, latitude, as
+
+\begin{eqnarray*}
+{\bf X}&=&\{{\bf 1}, \textbf{latitude}\} \\
+&=& \begin{bmatrix} 1 & 32.61 \\
+1 & 34.17 \\
+1 & 34.75 \\
+\vdots & \vdots \\
+1 & 42.92 \\ \end{bmatrix}.
+\end{eqnarray*}
+
+## Square matrix
+
+A *square matrix* has the same number of rows as columns, so that $r=c$.
+
+For ${\bf A}_{r \times c}$ and $r \geq c$, the (main) *diagonal* of ${\bf A}$ is $\{a_{11}, a_{22}, \ldots, a_{cc}\}$.  We generally refer only to the diagonal that runs from the upper left to the lower right. 
+
+## Symmetric matrix
+
+A *symmetric matrix* is a square matrix with $a_{ij}=a_{ji}$ for all $i,j$.  That is, the entry in row $i$ and column $j$ is the same as the entry in row $j$ and column $i$.  Only square matrices can be symmetric.  The matrix
+
+\begin{equation*}
+\begin{bmatrix}
+a_{11} & a_{12} & a_{13} \\
+a_{12} & a_{22} & a_{23} \\
+a_{13} & a_{23} & a_{33}
+\end{bmatrix}
+\end{equation*}
+
+is symmetric (note that we refer to symmetry about the main diagonal, which runs from the upper left to the lower right).
+
+## Diagonal matrix
+
+A symmetric matrix is called a *diagonal matrix* if all elements off the main diagonal are zero; that is, if $i \neq j$, then $a_{ij}=0$.  We write $\text{Diag}({\bf b})$ for a square diagonal matrix created from a vector.  For example,
+
+\begin{equation*}
+\text{Diag } \left(
+\begin{bmatrix}
+b_1 \\
+b_2 \\
+b_3
+\end{bmatrix} \right) =
+\begin{bmatrix}
+b_1 & 0 & 0 \\
+0 & b_2 & 0 \\
+0 & 0 & b_3
+\end{bmatrix}.
+\end{equation*}
+
+## Identity matrix
+
+An *identity matrix*, denoted ${\bf I}={\bf I}_n={\bf I}_{n \times n}$, is a diagonal matrix with all 1's on the main diagonal and 0's elsewhere.  That is, $a_{ij}=1$ for $i=j$ and $a_{ij}=0$ for $i \ne j$.  Thus
+
+\begin{eqnarray*}
+{\bf I}_3=\begin{bmatrix}
+1 & 0 & 0\\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}. \end{eqnarray*}
+
+Denote an $(n \times 1)$ vector of 1's by 
+
+\begin{eqnarray*}
+{\bf 1}&=&{\bf 1}_n= \begin{bmatrix} 1 & 1 & \cdots & 1 \end{bmatrix}'_{n \times 1}={\bf J}_n.
+\end{eqnarray*}
+
+## Zero matrix
+
+A *zero matrix* or *null matrix*, denoted ${\bf 0}_{r \times c}$, has $a_{ij}=0$ for all $i,j$.  So
+
+\begin{equation*}
+{\bf 0}_{2 \times 2}=\begin{pmatrix} 0 & 0 \\ 0 & 0 \end{pmatrix}.
+\end{equation*}
+
+## Upper triangular matrix
+
+An *upper triangular matrix* ${\bf A}$ has $a_{ij}=0$ for $i>j$.  That is,
+
+\begin{equation*}
+{\bf A}=\begin{bmatrix}
+a_{11} & a_{12} & a_{13} \\
+0 & a_{22} & a_{23} \\
+0 & 0 & a_{33}
+\end{bmatrix}
+\end{equation*}
+is an upper triangular matrix.  A *lower triangular matrix* has $a_{ij}=0$ for $i<j$.
+
+## Partitioned matrix
+
+A *partitioned matrix* has elements grouped into submatrices by combinations of vertical and horizontal slicing.  For example,
+
+\begin{equation*}
+{\bf A} = \begin{bmatrix}
+a_{11} & a_{12} & \vdots & a_{13} \\
+a_{21} & a_{22} & \vdots & a_{23} \\
+\cdots & \cdots & \cdots & \cdots \\
+a_{31} & a_{32} & \vdots & a_{33}
+\end{bmatrix}_{3 \times 3}=\begin{bmatrix}
+{\bf A}_{11} & {\bf A}_{12} \\
+{\bf A}_{21} & {\bf A}_{22}
+\end{bmatrix}_{3 \times 3}, 
+\end{equation*}
+where
+${\bf A}_{11}=\begin{bmatrix} a_{11} & a_{12} \\
+a_{21} & a_{22} \end{bmatrix}_{2 \times 2}$ ${\bf A}_{12}=\begin{bmatrix}a_{13} \\ a_{23} \end{bmatrix}_{2 \times 1}$
+
+${\bf A}_{21}=\begin{bmatrix} a_{31} & a_{32} \end{bmatrix}_{1 \times 2}$ ${\bf A}_{22}=\begin{bmatrix} a_{33} \end{bmatrix}_{1 \times 1}$
+
+## Block diagonal matrix
+
+A *block diagonal matrix* has square diagonal submatrices with all off-diagonal submatrices equal to 0.  For example,
+
+\begin{equation*}
+{\bf A}=\begin{bmatrix}
+a_{11} & a_{12} & 0 & 0 \\
+a_{21} & a_{22} & 0 & 0 \\
+0 & 0 & a_{33} & a_{34} \\
+0 & 0 & a_{43} & a_{44}
+\end{bmatrix}=\begin{bmatrix} {\bf A}_{11} & \bf0 \\ \bf0 & {\bf A}_{22}
+\end{bmatrix}
+\end{equation*}
+is a block diagonal matrix.
+
+## Matrix operations
+
+The *trace* of a square matrix ${\bf A}_{n \times n}$ is the sum of the diagonal elements of ${\bf A}$.  That is, $\text{trace}({\bf A})=\sum_{i=1}^n a_{ii}$.
+
+\textbf{Exercise:}
+\begin{eqnarray*}
+\text{trace}\left( \begin{bmatrix} a_{11} & a_{12} & a_{13} \\ a_{21} & a_{22} & a_{23} \\ a_{31} & a_{32} & a_{33} \end{bmatrix} \right)= \hspace{2in}.
+\end{eqnarray*}
+
+## Transpose
+
+The *transpose* of a matrix ${\bf A}$, denoted ${\bf A}'$, changes the rows of ${\bf A}$ into the columns of a new matrix ${\bf A}'$.  If ${\bf A}$ is an $(r \times c)$ matrix, its transpose ${\bf A}'$ is a $(c \times r)$ matrix.  
+
+
+
+The transpose of a column vector is a row vector, i.e.
+
+\begin{equation*}
+\begin{bmatrix}
+1 \\
+2 \\
+3 \\
+4
+\end{bmatrix}_{4 \times 1}'=
+\begin{bmatrix}
+1 & 2 & 3 & 4\\
+\end{bmatrix}_{1 \times 4}.
+\end{equation*}
+
+A symmetric matrix has ${\bf A}'={\bf A}$.  
+
+## Adding matrices
+
+*Matrix addition* of two matrices ${\bf A}$ and ${\bf B}$ is defined only if these matrices conform for the operation of matrix addition.  The dimensions of two matrices must be the same in order for them to conform for matrix addition.  If the matrices ${\bf A}$ and ${\bf B}$ have the same number of rows and the same number of columns, \emph{matrix addition} yields ${\bf A}_{r \times c} + {\bf B}_{r \times c}=\{a_{ij}+b_{ij}\}_{r \times c}$.
+
+\textbf{Exercise:}
+\begin{eqnarray*}
+\begin{bmatrix}
+1 & 2\\
+3 & 4 
+\end{bmatrix}+
+\begin{bmatrix}
+5 & 6\\
+7 & 8
+\end{bmatrix}=
+\hspace{2in}.
+\end{eqnarray*}
+
+## Matrix multiplication
+
+There are several types of multiplication involving matrices.  We will discuss the following types:
+
+ - scalar multiplication, 
+
+ - matrix multiplication (the "standard"), and
+
+ - the *Kronecker product* or *direct product*.
+
+## Scalar multiplication of matrices
+
+Define *scalar* multiplication of any matrix ${\bf A}$ by a scalar $s$ as $s {\bf A}=\{sa_{ij}\}$.
+
+\textbf{Exercise:}
+\begin{eqnarray*}
+\sigma^2 \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}=\begin{bmatrix} \sigma^2 & 0 \\ 0 & \sigma^2 \end{bmatrix}.
+\end{eqnarray*}
+
+## Matrix multiplication
+
+Two matrices ${\bf A}$ and ${\bf B}$ conform for the *matrix multiplication* ${\bf A B}$ if the number of columns of ${\bf A}$ is equal to the number of rows of ${\bf B}$.  If the matrices ${\bf A}$ and ${\bf B}$ conform, matrix multiplication is defined as
+$${\bf A}_{r \times s} {\bf B}_{s \times t} = \left\{ \sum_{k=1}^s a_{ik} b_{kj} \right\}={\bf C}_{r \times t}.$$  
+
+## Matrix multiplication
+
+Multiplying the $i^{th}$ row of ${\bf A}$ with the $j^{th}$ column of ${\bf B}$ yields the scalar $c_{ij}=a_{i1}b_{1j}+a_{i2}b_{2j} + \ldots + a_{is}b_{sj}$:
+
+
+
+\emph{Calculation of $c_{11}$:}
+\begin{equation*}
+\text{row} \\
+\longrightarrow \\
+\begin{bmatrix}
+a_{11}& \rightarrow & \rightarrow & a_{1s} \\
+& & & \\
+& & & \\
+& & & 
+\end{bmatrix}_{r \times s} \begin{bmatrix}
+b_{11} & & & \\
+\downarrow & & & \\
+\downarrow & & & \\
+b_{s1} & & &
+\end{bmatrix}_{s \times t} \downarrow \text{column}
+\end{equation*}
+
+So $c_{11}=a_{11}b_{11} + a_{12}b_{21} + \ldots + a_{1s}b_{s1}.$
+
+##
+
+Note that ${\bf A I}={\bf A}$ and ${\bf I A}={\bf A}$.  In general, ${\bf AB} \neq {\bf B A}$.
+
+\textbf{Exercise:}
+Let ${\bf X}=\begin{bmatrix}
+x_{11} & x_{12} & x_{13} \\
+x_{21} & x_{22} & x_{23} \\
+x_{31} & x_{32} & x_{33} 
+\end{bmatrix}.$  
+
+\begin{eqnarray*} 
+{\bf X' X}=\hspace{3in}
+\end{eqnarray*}
+
+\vspace{2in}
+
+\begin{eqnarray*} 
+{\bf X X'}=\hspace{3in}
+\end{eqnarray*}
+
+An *inner product* matrix is given by ${\bf A' A}$, and an *outer product* matrix is given by ${\bf A A'}$.  Both are always symmetric.
+
+## Kronecker product
+
+Define the *Kronecker* (or *direct*) *product* as
+\begin{equation*}
+{\bf A}_{r \times c} \bigotimes {\bf B}_{r' \times c'} = \{a_{ij} {\bf B} \} =
+\begin{bmatrix}
+a_{11} {\bf B} & & \cdots & & a_{1c} {\bf B} \\
+a_{21} {\bf B} & & & & \vdots \\
+\vdots & & & & \vdots \\
+a_{r1} {\bf B} & & & & a_{rc} {\bf B}
+\end{bmatrix}_{(rr') \times (cc')}.
+\end{equation*}
+
+To compute the Kronecker product, multiply each element of the matrix ${\bf A}$ by the entire matrix ${\bf B}$.  Thus if ${\bf A}$ is a $(5 \times 5)$ matrix and ${\bf B}$ is a $(4 \times 2)$ matrix, the Kronecker product ${\bf A} \bigotimes {\bf B}$ has dimension $[(5)(4) \times (5)(2)]=(20 \times 10)$.
+
+##
+
+\textbf{Exercise:}
+
+Let $${\bf A}=\begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix} \text{ and } {\bf B}=\begin{bmatrix} b_{11} & b_{12} & b_{13} \\ b_{21} & b_{22} & b_{23} \\ b_{31} & b_{32} & b_{33} \end{bmatrix}.$$  Then ${\bf A} \bigotimes {\bf B}=$
+
+
+
