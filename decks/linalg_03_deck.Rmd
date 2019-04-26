@@ -17,7 +17,93 @@ output:
 
 ## Determinants
 
+The *determinant* is a single number summary of a square matrix that gives us information about the rank of the matrix.  The determinant of a square matrix ${\bf A}$ is denoted $\mid {\bf A} \mid$ or det(${\bf A}$).  
+
+The determinant of a diagonal or triangular matrix equals the product of the diagonal values.
 
 
+\begin{eqnarray*}
+\left| \begin{bmatrix}
+1 & 6 & 5 \\
+0 & 2 & 4 \\
+0 & 0 & 3
+\end{bmatrix} \right| =
+
+\end{eqnarray*}
+
+##
+
+For any $2 \times 2$ matrix,
+
+\begin{eqnarray*}
+\left| \begin{bmatrix} a & b\\ c & d \end{bmatrix} \right| = ad-bc.
+\end{eqnarray*}
+
+For any $3 \times 3$ matrix,
+
+\begin{eqnarray*}
+\left| \begin{bmatrix} a & b & c \\ d & e & f \\ g & h & i \end{bmatrix} \right|&=& a \left| \begin{bmatrix} e & f \\ h & i \end{bmatrix} \right| -
+d \left| \begin{bmatrix} b & c \\ h & i \end{bmatrix} \right| +
+g \left| \begin{bmatrix} b & c \\ e & f \end{bmatrix} \right| \\
+&=& a (ei-hf) - d (bi-hc) + g (bf-ec).
+\end{eqnarray*}
+
+This pattern (called Laplace expansion) continues for higher-order matrices, though there are other methods of calculating determinants, which are needed for larger matrices due to the computational inefficiency of Laplace expansion.
+
+## Useful properties of determinants
+
+\begin{eqnarray*}
+\mid {\bf A}_{n \times n} \mid =0 &\Leftrightarrow & \text{rank}({\bf A})<n \\
+& \Leftrightarrow & { \bf A} \text{ is less than full rank} \\ 
+& \Leftrightarrow & \text{the inverse of } {\bf A} \text{ does not exist} \\
+& \Leftrightarrow & \text{the columns of } {\bf A} \text{ are linearly dependent},
+\end{eqnarray*}
+while
+\begin{eqnarray*}
+\mid {\bf A}_{n \times n} \mid \ne 0 &\Leftrightarrow & \text{rank}({\bf A})=n \\
+& \Leftrightarrow & {\bf A} \text{ is full rank} \\
+& \Leftrightarrow & \text{the inverse of } {\bf A} \text{ exists} \\
+& \Leftrightarrow & \text{columns of } {\bf A} \text{ are linearly independent}.
+\end{eqnarray*}
+
+For full rank matrices that conform, $\mid {\bf A B} \mid=\mid {\bf A} \mid \mid {\bf B} \mid$.  In addition, $\mid {\bf A}' \mid=\mid {\bf A} \mid$.
+
+
+## Positive definite and semidefinite matrices
+
+Let ${\bf A}$ be an $n \times n$ symmetric matrix.  Let $a_{ii}$ denote the $i^{th}$ diagonal element of ${\bf A}$.  Then ${\bf A}$ is *positive definite* if and only if
+
+  - $a_{ii}>0$ for all $i=1,\ldots,n$
+  - the determinant of every submatrix is positive.  That is,
+\begin{eqnarray*}
+\left| \begin{bmatrix} a_{11} & a_{12} \\ a_{12} & a_{22} \end{bmatrix} \right| > 0, 
+\left| \begin{bmatrix} a_{11} & a_{12} & a_{13} \\ a_{12} & a_{22} & a_{23} \\ a_{13} & a_{23} & a_{33} \end{bmatrix} \right| > 0,
+\cdots , \mid {\bf A} \mid >0.
+\end{eqnarray*}
+
+
+The matrix ${\bf A}$ is *positive semidefinite* if we replace $>0$  above with $\geq 0$.
+
+## Nonnegative definite matrices
+
+A matrix is called *nonnegative definite* if it is positive definite or positive semidefinite.  
+
+Covariance matrices are nonnegative definite. 
+
+Inner and outer products are nonnegative definite.
+
+\textbf{Exercise:}
+
+Let 
+
+\begin{eqnarray*}
+{\bf A}=\begin{bmatrix}
+2 & -1 & 1 & 1 \\
+-1 & 4 & 0 & 2 \\
+1 & 0 & 1 & 3 \\
+1 & 2 & 3 & 2 \end{bmatrix}.
+\end{eqnarray*}
+
+Is $\bfA$ positive definite, positive semidefinite, or neither?
 
 
