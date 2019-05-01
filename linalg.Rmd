@@ -1,5 +1,5 @@
 ---
-title: "Linear Algebra Review"
+title: "Linear Algebra and Statistical Inerence Review"
 ---
 
 ```{r, echo=FALSE, include=FALSE}
@@ -9,11 +9,13 @@ library(tidyverse)
 ```
 
 
-# Learning Objectives
+# Topics of Interest
 
 - basic properties of vectors and matrices
 - linear independence, dependence, and rank of a matrix
 - inversion of full-rank and less than full-rank matrices
+- common distributions
+- maximum likelihood estimation
 
 
 # Resources
@@ -48,6 +50,8 @@ Penn State University maintains some very nice review materials online (these ar
 [Random Vectors and Matrices](decks/linalg_04_deck.html)
 
 [Important Distributions](decks/linalg_05_deck.html)
+
+[Maximum Likelihood](decks/linalg_06_deck.htmls)
 
 
 

@@ -33,8 +33,105 @@ The normal distribution is symmetric about its mean.
 
 ![Standard normal distribution](figures/stdnormal.jpg){width=50%}
 
+## Multivariate Gaussian distribution
 
+$\text{Suppose }X=(X_1,\ldots,X_n)'. X$ has an $n$ dimensional multivariate Gaussian (normal) distribution with $\text{mean } \mu \text{ and covariance } \Sigma, ~~ X \sim N_n(\mu,\Sigma)$,  if $X$ has density
+\begin{equation*}
+f(x)=\frac{1}{(2\pi)^{\frac{n}{2}} \mid \Sigma \mid^{\frac{1}{2}}} \exp\left\{-\frac{1}{2} (x-\mu)' \Sigma^{-1} (x-\mu)\right\}.
+\end{equation*}
+
+
+![](figures/mvnormal.jpg){width=40%}  
+
+## Helpful facts about the multivariate normal distribution
+
+  - A linear transformation of a multivariate normal distribution yields another multivariate normal distribution. Suppose $X \sim N_n(\mu,\Sigma)$.  For $A_{r \times n}$ a matrix of constants and $b_{r \times 1}$ a vector of constants, then $Y=AX+b$ has the multivariate normal distribution given by $Y \sim N_r(A \mu+b,A \Sigma A')$.  
   
+  - A linear combination of independent multivariate normal distributions is a multivariate normal distribution.  Suppose $X_1, \ldots, X_k$ are independent with $X_i \sim N_n(\mu_i,\Sigma_i)$, $i=1,\ldots,k$.  Suppose $a_1, \ldots, a_k$ are scalars and define $$Y=a_1 X
+_1 + \ldots + a_k X_k.$$  Then $Y \sim N(\mu^*,\Sigma^*)$, where $\mu^*=\sum_{i=1}^k a_i \mu_i$ and $\Sigma^*=\sum_{i=1}^k a_i^2 \Sigma_i$.
+
+##
+
+  - Marginal distributions of a multivariate normal distribution are multivariate normal distributions.  Suppose $X \sim N_n(\mu,\Sigma)$.  Partition $X \text{ into } X=\begin{pmatrix} X_1 \\ X_2 \end{pmatrix} \text{ where } X_1 \text{ is } r \times 1 \text{ and } X_2 \text{ is } (n-r) \times 1.$  Partition $\mu \text{ as } \mu=\begin{pmatrix} \mu_1 \\ \mu_2 \end{pmatrix} \text{ where } \mu_1 \text{ is } r \times 1 \text{ and } \mu_2 \text{ is } (n-r) \times 1.$  Similarly, partition $\Sigma \text{ as } \Sigma=\begin{pmatrix} \Sigma_{11} & \Sigma_{12} \\ \Sigma_{21} & \Sigma_{22} \end{pmatrix},$
+where $\Sigma_{11}$ is $r \times r$, $\Sigma_{12}$ is $r \times (n-r)$, $\Sigma_{21}=\Sigma_{12}'$ is $(n-r) \times r$, and $\Sigma_{22}$ is $(n-r) \times (n-r)$.  Then the marginal distribution of $X_1$ is given by $X_1 \sim N_r(\mu_1,\Sigma_{11})$, and the marginal distribution of $X_2$ is given by $X_2 \sim N_{(n-r)}(\mu_2,\Sigma_{22})$.
+
+##
+
+  - Conditional distributions of multivariate normal distributions are multivariate normal distributions.  Suppose that $X \sim N_n(\mu,\Sigma)$.  Using the same partition as above, then we have
+\begin{eqnarray*}
+X_1 \mid X_2&=& x_2 \\
+&\sim& N_r(\mu_1 + \Sigma_{12} \Sigma_{22}^{-1}(x_2-\mu_2),\Sigma^*),
+\end{eqnarray*}
+where $\Sigma^*= \Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}$.
+
+## Why do we care?
+
+We often make assumptions in hierarchical models that certain quantities follow normal distributions -- these could be univariate or multivariate responses, random effects, or prior parameters. Sometimes we might assume certain quantities follow conditional normal distributions as well. Stay tuned for more details!
+
+## Chi-squared distribution
+
+A random variable $X$ has a central chi-squared distribution with $n$ degrees of freedom, written $X \sim \chi^2(n), \text{ if the density of } X$ is given by
+\begin{equation*}
+f(x)=\left(\frac{1}{\Gamma(\frac{n}{2})}\right) \left(\frac{1}{2}\right)^{\frac{n}{2}} x^{\frac{n}{2}-1} \exp\left\{-\frac{x}{2}\right\},
+\end{equation*}
+where $\Gamma(a)$ is the complete gamma function, given by $\Gamma(a)=\int_0^\infty x^{a-1} e^{-x} dx$.  The chi-squared distribution is asymmetric and restricted to positive numbers.  Its degrees of freedom determine the mean and variance of the distribution.
+
+##
+
+![](figures/chisquared.jpg){width=40%}  
+
+The chi-squared distribution is related to the normal distribution.  If the random variable $Z \sim N(0,1)$, then $Z^2 \sim \chi^2(1)$.  In addition, if $Z_1, Z_2, \ldots, Z_n$ are independent, identically distributed $N(0,1)$ random variables, then $W=\sum_{i=1}^n Z_i^2$ has a chi-squared distribution with $n$ degrees of freedom; that is, $W \sim \chi^2(n)$.  The mean of a $\chi^2(n)$ distribution is $n$, and its variance is $2n$.
 
 
+## Why do we care?
+
+The chi-squared distribution comes up a lot in testing using frequentist hierarchical and multilevel models, and mixtures of chi-squared distributions are important in testing variance components in frequentist multilevel models. 
+
+## Student's t distribution
+
+This distribution has a [great story](https://priceonomics.com/the-guinness-brewer-who-revolutionized-statistics/)!  
+
+## 
+
+Suppose $X \sim N(0,1), Y \sim \chi^2(n) \text{ with } X \text{ and } Y$ independent.  The random variable
+\begin{equation*}
+T=\frac{X}{\sqrt{\frac{Y}{n}}}
+\end{equation*}
+has a $t$ distribution with $n$ degrees of freedom.  We write this as $T \sim t(n)$. Like the standard normal, the t distribution is symmetric about 0.
+
+![](figures/t.jpg){width=35%}
+
+##
+
+
+The degrees of freedom $n$ determines the amount of variability in the $t$ distribution.  As the number of degrees of freedom increases, the variability of the $t$ distribution decreases.  In fact, as the number of degrees of freedom gets large, the $t$ distribution approximates the standard normal distribution.  With smaller degrees of freedom, the t distribution resembles a normal distribution with fatter tails.
+
+
+A $t(1)$ distribution, which has 1 degree of freedom, is not well-behaved and is called a *Cauchy distribution*.
+
+##  Why do we care?
+
+Ahh, we see the t-distribution a lot -- it's a standard distribution in frequentist testing when we use 1 df tests in linear models and ANOVA.
+
+## Fisher's F distribution
+
+In case you're getting tired and feeling demoralized by this review of distributions, you might want to take a break and read about a [big mistake in Fisher's understanding](https://priceonomics.com/why-the-father-of-modern-statistics-didnt-believe/).  Even a brilliant scientist can make huge mistakes, so take heart!
+
+## Fisher's F distribution
+
+Suppose $X_1 \sim \chi^2(n_1) \text{ and } X_2 \sim \chi^2(n_2)$, and $X_1 \text{ and } X_2$ are independent.  The random variable 
+\begin{equation*}
+F=\frac{\left(\frac{X_1}{n_1}\right)}{\left(\frac{X_2}{n_2}\right)}
+\end{equation*}
+has a central $F$ distribution with $(n_1,n_2)$ degrees of freedom.  We write this $F \sim F(n_1,n_2)$.
+
+##
+
+![](figures/f.jpg){width=45%}
+
+We call $n_1$ the numerator degrees of freedom and $n_2$ the denominator degrees of freedom. If $T \sim t(\nu)$, then $T^2 \sim F_{1,\nu}$. The $F$ distribution is asymmetric and restricted to positive numbers.
+
+## Why do we care?
+
+The F distribution is the workhorse of testing hypotheses about the mean in linear models and ANOVA. 
 

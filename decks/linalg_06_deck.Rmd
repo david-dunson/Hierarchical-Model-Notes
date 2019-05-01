@@ -1,0 +1,36 @@
+---
+title: Maximum Likelihood Estimation
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: tango
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Maximum likelihood estimators
+
+*Maximum likelihood estimates* (MLE's) have excellent large-sample properties and are applicable in a wide variety of situations.  
+
+Examples of maximum likelihood estimates include the following:
+
+  - The sample average $\bar{X}$ of a group of independent and identically normally distributed observations $X_1, \ldots, X_n$ is a maximum likelihood estimate.
+
+  - Parameter estimates in a linear regression model fit to normally distributed data are maximum likelihood estimates.
+
+  - Parameter estimates in a logistic regression model are maximum likelihood estimates.
+
+##
+
+  - The estimate $s^2=\frac{\sum_{i=1}^n (x_i-\overline{x})^2}{n-1}$ of the variance of a group of independent and identically normally distributed observations is \emph{not} a maximum likelihood estimate.  (The MLE of the variance is $\left(\frac{n-1}{n}\right)s^2$.)
+
+
+
+
