@@ -1,0 +1,40 @@
+---
+title: Important Distributions
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: tango
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Gaussian (normal) distribution
+
+A random variable $X$ has a Gaussian (normal) distribution with mean $\mu$ and variance $\sigma^2$, written $X \sim N(\mu,\sigma^2)$, if $X$ has density
+
+\begin{equation*}
+f(x)=\frac{1}{\sqrt{2\pi}\sigma}\exp\left\{-\frac{1}{2 \sigma^2}(x-\mu)^2\right\}.
+\end{equation*}
+
+When $\mu=0$ and $\sigma=1$, then we say $X \sim N(0,1)$ has a *standard normal distribution*.  
+
+##
+
+If $X \sim N(\mu,\sigma^2)$, then $\frac{x-\mu}{\sigma} \sim N(0,1)$.  For the standard normal distribution, 95\% of the probability mass falls between -1.96 and 1.96 (roughly 2 standard deviations of the mean).  Much of hypothesis testing is based on this fact.
+
+The normal distribution is symmetric about its mean.
+
+![Standard normal distribution](figures/stdnormal.jpg){width=50%}
+
+
+  
+
+
+

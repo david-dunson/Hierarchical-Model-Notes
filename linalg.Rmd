@@ -45,5 +45,9 @@ Penn State University maintains some very nice review materials online (these ar
 
 [Determinants and Inverses](decks/linalg_03_deck.html)
 
+[Random Vectors and Matrices](decks/linalg_04_deck.html)
+
+[Important Distributions](decks/linalg_05_deck.html)
+
 
 

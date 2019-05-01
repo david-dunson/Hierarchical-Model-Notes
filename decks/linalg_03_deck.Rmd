@@ -104,6 +104,37 @@ Let
 1 & 2 & 3 & 2 \end{bmatrix}.
 \end{eqnarray*}
 
-Is $\bfA$ positive definite, positive semidefinite, or neither?
+Is ${\bf A}$ positive definite, positive semidefinite, or neither?
 
+## Inverse of a matrix
 
+Suppose we have a system of equations like
+
+\begin{equation*}
+({\bf X}_{n \times p})'({\bf X}_{n \times p})\widehat{\beta}=({\bf X}_{n \times p})'{\bf y}_{n \times 1},
+\end{equation*}
+
+which are the *normal equations* for the linear model.  In order to solve these equations and obtain our estimate, $\widehat{\beta}$, we would like to divide by ${\bf X}'{\bf X}$ in some sense.  Because ${\bf X}'{\bf X}$ is a matrix, this presents us some difficulty.  Thus we develop the idea of a matrix inverse.
+
+##
+
+Consider the $n \times n$ matrix ${\bf A}$.  If ${\bf A}$ has full rank $n$, then there exists a unique matrix, ${\bf A}^{-1}$, called the *inverse* of ${\bf A}$, such that $${\bf A}^{-1} {\bf A}={\bf A A}^{-1}={\bf I}.$$  
+
+## Some properties of inverses
+
+  - For a scalar, ${\bf A}_{1 \times 1}=a$,  ${\bf }A^{-1}=\frac{1}{a}$
+
+  - The inverse of a diagonal matrix is the diagonal matrix of reciprocals of the diagonal elements
+  
+  - For conforming full rank matrices, $({\bf A B})^{-1}={\bf B}^{-1} {\bf A}^{-1}$
+
+  - A symmetric matrix has a symmetric inverse
+
+  - The inverse of the transpose is the transpose of the inverse.  That is, $({\bf A}')^{-1}=({\bf A}^{-1})'$.  $({\bf A}')^{-1}$ is also sometimes denoted ${\bf A}^{-t}$  
+  - The determinant of the inverse is the inverse of the determinant.  That is, $\mid {\bf A}^{-1} \mid=\frac{1}{\mid {\bf A} \mid}$.
+
+##
+
+  - The inverse of the $2 \times 2$ matrix ${\bf A}=\begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}$ is given by ${\bf A}^{-1}=\frac{1}{|{\bf A}|} \begin{pmatrix} a_{22} & -a_{12} \\ -a_{21} & a_{11}\end{pmatrix}$.  The formula can be extended to matrices of larger dimension, but this is not practical due to the complexity of such formulae.
+
+  - For certain linear models (some ANOVA models for example), we will want to obtain inverses of matrices that are not full rank.  For any ${\bf A}_{r \times c}$, there exists a *generalized inverse*, denoted ${\bf A}^-_{c \times r}$, such that $${\bf A A}^- {\bf A}={\bf A}.$$  The generalized inverse is not unique.  (If we must use a generalized inverse to obtain parameter estimates, our parameter estimates are not unique, either.)
