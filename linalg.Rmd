@@ -41,17 +41,17 @@ Penn State University maintains some very nice review materials online (these ar
 # Slides
 
 
-[Basics: Vectors and Matrices](decks/linalg_01_deck.html)
+[Basics: Vectors and matrices](decks/linalg_01_deck.html)
 
-[Linear Dependence and Rank](decks/linalg_02_deck.html)
+[Linear dependence and rank](decks/linalg_02_deck.html)
 
-[Determinants and Inverses](decks/linalg_03_deck.html)
+[Determinants and inverses](decks/linalg_03_deck.html)
 
-[Random Vectors and Matrices](decks/linalg_04_deck.html)
+[Random vectors and matrices](decks/linalg_04_deck.html)
 
-[Important Distributions](decks/linalg_05_deck.html)
+[Important distributions](decks/linalg_05_deck.html)
 
-[Maximum Likelihood](decks/linalg_06_deck.htmls)
+[Maximum likelihood](decks/linalg_06_deck.html)
 
 
 
