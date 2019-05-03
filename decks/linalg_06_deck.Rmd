@@ -31,6 +31,60 @@ Examples of maximum likelihood estimates include the following:
 
   - The estimate $s^2=\frac{\sum_{i=1}^n (x_i-\overline{x})^2}{n-1}$ of the variance of a group of independent and identically normally distributed observations is \emph{not} a maximum likelihood estimate.  (The MLE of the variance is $\left(\frac{n-1}{n}\right)s^2$.)
 
+## Finding the MLE
+
+Let $L({\bf Y} \mid \theta)$ denote the likelihood function for data ${\bf Y}=(Y_1,Y_2,\ldots,Y_n)$ from some population described by the parameters $\theta=(\theta_1,\theta_2,\ldots,\theta_p)$.  
 
 
+
+The maximum likelihood estimate of $\theta$ is given by the estimator $\widehat{\theta}=(\widehat{\theta}_1,\widehat{\theta}_2,\ldots, \widehat{\theta}_p)$ for which
+$$L({\bf Y} \mid \widehat{\theta}) > L({\bf Y} \mid \theta^*),$$ where $\theta^*$ is any other estimate of $\theta$.  
+
+
+Thus the maximum likelihood estimate is the most "probable" or "likely" given the data.
+
+##
+
+Maximizing the likelihood $L({\bf Y} \mid \theta)$ is equivalent to maximizing the natural logarithm $\ln(L({\bf Y} \mid \theta))=\ell({\bf Y} \mid \theta)$, called the log-likelihood.  The maximum likelihood estimates are typically found as the solutions of the $p$ equations obtained by setting the $p$ partial derivatives of $\ell({\bf Y} \mid \theta)$ with respect to each $\theta_j$, $j=1,\ldots,p$, equal to zero.
+
+##
+
+Why do we solve the derivatives for zero?  The derivative gives us the slope of the likelihood (or log-likelihood), and when the slope is zero, we know that we are at either a local minimum or local maximum.  (The second derivative is negative for a maximum and positive for a minimum.)
+
+
+![](figures/loglike.jpg){width=45%}
+
+##
+
+When closed form expressions for maximum likelihood estimates do not exist, computer algorithms may be used to solve for the estimates.
+
+Example:  Let $Y_i$, $i=1, \ldots, n$ be iid normal random variables with mean $\mu$ and variance $\sigma^2$, so $Y_i \sim N(\mu,\sigma^2)$, $i=1,\ldots,n$.  
+
+$\text{The density of } Y_i \text{ is given by }$
+
+\begin{eqnarray*}
+f(Y_i \mid \mu, \sigma^2)=(2 \pi)^{-\frac{1}{2}}( \sigma^2)^{-\frac{1}{2}} \exp \left\{-\frac{1}{2 \sigma^2}(Y_i-\mu)^2 \right\}.
+\end{eqnarray*}
+
+Find the maximum likelihood estimates of $\mu$ and $\sigma^2$.
+
+## Hypothesis testing and interval estimation with MLE's
+
+It can be shown (based on large-sample properties of MLE's) that
+\begin{equation*}
+\frac{\widehat{\beta}_1 - \beta_1}{\sqrt{\widehat{\text{Var}}(\widehat{\beta}_1)}}
+\end{equation*}
+is approximately $N(0,1)$ when the sample size is large.
+
+A test of $H_0: \beta_1=0$ versus $H_A: \beta_1 \ne 0$ can be based on the $Z$ statistic $\frac{\widehat{\beta}_1}{\sqrt{\widehat{\text{Var}}(\widehat{\beta}_1)}}$, which has approximately a $N(0,1)$ distribution under $H_0$.  This test is called a *Wald test*.
+
+## 
+
+By a similar argument, an approximate $100(1-\alpha)\%$ large-sample confidence interval for $\beta_1$ takes the form
+\begin{equation*}
+\widehat{\beta}_1 \pm Z_{1-\frac{\alpha}{2}} \sqrt{\widehat{\text{Var}}(\widehat{\beta}_1)},
+\end{equation*}
+where $Pr(Z > Z_{1-\frac{\alpha}{2}})=\frac{\alpha}{2}$ when $Z \sim N(0,1)$.
+
+\emph{NOTE:}  Testing $\sigma^2$ is more complicated, and the Wald test for the hypothesis $\sigma^2=0$ is not recommended because the value $\sigma^2=0$ is on the boundary of the parameter space for $\sigma^2$.
 
