@@ -39,7 +39,13 @@ Note: office hours may vary due to travel and other commitments. Revisions to of
 
 ### Materials
 
-You should have access to a laptop and bring it to every class, fully charged. Texts and readings will be assigned as needed. Required software packages include R/RStudio (free) and Tableau (free for students).
+You should have access to a laptop and bring it to every class, fully charged. Texts and readings will be assigned as needed. The instructor and TA's will support computation in R/RStudio (free software). 
+
+Helpful resource materials for the course include the following.
+
+- Hoff, CSSS - Statistics 560 Lecture notes (ASK PETER IF OK ON GITHUB OR PUT ON SAKAI)
+
+- Gelman and Hill, CHECK TITLE AND LINK ON AMAZON OR ELSEWHERE
 
 
 ### Topics and Important Dates
@@ -48,35 +54,37 @@ STA 440 contains a mixture of lecture, lab, and combination sessions at the usua
 
 Note: this schedule is approximate and is likely to be modified as the course progresses. Readiness assessments will be given without advance notice. Assignments are due at the beginning of class unless otherwise specified. 
 
+AMY CHECK: Is there a separate lab on Mondays?  I don't remember!  Aiee!
+
 |Date           |Topic                      |Deliverables     |
 | ----------    | ---------------------------         | --------------- |
-| August 29     | Welcome and Groups        | Regression warm-up (in class)        |
-| August 31     | CS1: Birth Weight, Model Selection \& Validation    |   Getting to Know You Sheet              |
-| September 5   | CS1: Modeling in Class | Signed Team Expectations Agreement |
-| September 7   | CS1: Causal Inference | CS1 Interim Report: Model Development and Evaluation |
-| September 12  | CS2: Visualizing our World in Data | |
-| September 14  | CS2: Lab: Hands on for CS 1 \& 2| |
-| September 19  | CS2: Hands on with Tableau |  |
-| September 21  | CS3: Birth Weight Disparities \& Binomial regression | CS1 Final Report: Smoking and Birth Weight|
-| September 26  | CS3: Multilevel Models | |
-| September 28  | Group Presentations of CS2 | CS2 Final Report: Our World in Data  |
-| October 3     | CS3: Generalized Linear Multilevel Models | CS3 Interim Report 1: Infant Mortality Visualization| 
-| October 5     | CS4: Election Forecasting | Midsemester Grades Due (my deliverable)  |
-| October 10    | CS4: Election Forecasting with "Mr. P" | CS3 Interim Report 2: 2015 County-Specific Mortality by Race |
-| October 12    | Lab: Multilevel Models for CS3  | CS4 Election Predictions |
-| October 17    | Lab: Who Votes in NC? |  |
-| October 19    | CS4: Election Modeling Workshop | CS3 Final Report: Infant Mortality Trends and CS4 Election Predictions Update|
-| October 24    | CS4: Remodeling After Disaster Strikes! |  |
-| October 26    | CS4: Group Presentations: Who Votes in NC?  | CS4 Interim Report: Who Votes in NC? and CS4 Election Predictions Update| 
-| October 31    | Individual CS: Web Scraping |  CS4 Interim Report: Election Prediction Models |
-| November 2    | Individual CS: Web Scraping  | CS4 Election Predictions Update; CS4 Final Report Due by Midnight Nov 5|
-| November 7    | CS4: Presentations: Post Election Diagnostics |  |
-| November 9    | CS5: Missing Data |Individual CS Interim Report: Introduction and Analysis Plan  |
-| November 14   | CS5: Survival Analysis | |
-| November 16   | Hands on: Missing Data and Survival | CS5 Interim Report: Patterns of Missing Data |
-| November 28   | Lab: CS5 and Individual CS Help |  | 
-| November 30   | Lab: Individual CS Practice Presentations to Groups | CS5: Final Report |
-| December 5    | Individual Presentations | Individual Reports Due (Draft) |
-| December 7    | Individual Presentations | Individual Reports Due (Draft) |
-| December 13, 2-5pm   | Individual Presentations | Individual Reports Due (Final with any changes from draft highlighted) |
+| August 28     | Welcome and Introduction        | ANOVA warm-up (in class)        |
+| August 30     | One Way ANOVA: Matrix Formulation    |   Getting to Know You Sheet              |
+| September 4   | Contrasts, Coding Schemes, and Interaction |  |
+| September 6   | Random Effects ANOVA | Scientific Writing: ANOVA Results (in class) |
+| September 11  | Maximum Likelihood Estimation | Assignment 1 Due |
+| September 13  | REML and Empirical Bayes |  |
+| September 18  | REML and Empirical Bayes |   |
+| September 20  | Bayesian Estimation |  |
+| September 25  | Bayesian Estimation | Assignment 2 Due |
+| September 27  | Exam Review |  |
+| October 2     | Exam 1 (in class) |  Exam 1 (in class) | 
+| October 4     | Random Effects ANCOVA  | Midsemester Grades Due (my deliverable)  |
+| October 9    | Linear Mixed Effects Model |  |
+| October 11    | Linear Mixed Effects Model and Case Study 1 Introduction NOTE NEED TO COVER NONCONSTANT VARIANCES SOMEWHERE | Assignment 3 Due  |
+| October 16    | Linear Mixed Effects Model for Longitudinal Data |  |
+| October 18    | Linear Mixed Effects Model for Longitudinal Data |  |
+| October 23    | Generalized Linear Models | Case Study 1 Due |
+| October 25    | Bayesian Estimation of GLM  | | 
+| October 30    | Generalized Linear Mixed Effects Models |   |
+| November 1    | Bayesian Estimation of GLMM and Case Study 2 Introduction  |  |
+| November 6    | GLMM in Practice |  |
+| November 8    | Bayesian Estimation with Missing Data  | Assignment 4 Due |
+| November 13   | Bayesian Estimation with Missing Data | |
+| November 15   | Case Study Presentations | |
+| November 20   | Case Study Presentations |  | 
+| November 22   | Exam 2 | Exam 2 |
+| December 4    | Optional in-class assignment | Case Study Reports Due (OK to have due? if not have this late deadline and then no penalty for late) |
+| December 6    | Optional in-class assignment |  |
+
 

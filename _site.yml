@@ -10,8 +10,8 @@ navbar:
     href: policies.html
   - text: Linear Algebra Review
     href: linalg.html
-  - text: Case Study 1
-    href: cs01.html
+  - text: ANOVA
+    href: anova01.html
 
 output:
   html_document:

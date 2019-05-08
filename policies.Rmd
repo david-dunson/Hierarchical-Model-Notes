@@ -51,28 +51,38 @@ If you miss class or would like to review the material covered in class, you can
 
 #### Teams
 
-On the first day of class, we will develop teams of 5-7 students - these teams will stay consistent 
+On the first day of class, we will develop teams of around 5 students - these teams will stay consistent 
 throughout the semester (barring extraordinary circumstances). You will work in these teams during 
-class and on the five group case studies. The process of forming teams will be completely transparent 
+class and on the two group case studies. The process of forming teams will be completely transparent 
 and based on self-reported data. Groups should adhere to specified [group policies](grouppolicies.html).
 
 #### Case studies
 
-STA 440 involves detailed analysis of a series of case studies using current, relevant data. Each case study will involve a final submission and in some cases one or more interim submissions. Points will be allocated separately for each submission and case study based on the scope of work. Final case study submissions will involve a written report and possibly an oral presentation to be viewed by the other teams (in class or by video, as assigned). 
+STA 410/610 involves detailed analysis of two case studies using current, relevant data. Each case study will involve a final submission for the entire group. Final case study submissions will involve a written report and possibly an oral presentation to be viewed by the other teams (in class or by video, as assigned). 
 
 Additional details on the case studies will be provided as the course progresses.
 
-Individual contributions to each submission will be assessed using the fair division software [Spliddit](http://www.spliddit.org). Team members must provide Spliddit assessments in order to receive credit for an assignment.
-
-Each individual case study will be graded based on written reports (interim and final) and an oral presentation. Students may not collaborate with anyone on the individual case study, which should be treated like a take-home exam.
+Individual contributions to each submission will be assessed. Team members must provide these assessments in order to receive credit for an assignment. An individual team member's grade may be modified if assessments indicate this is appropriate.
 
 Each case study will have a page limit, and under no circumstances should font sizes less than 11 point be used, with the exception of labels in figures (and then only if they are still clearly legible to readers of all ages).
 
-#### Application exercises
+#### Homework assignments
 
-Short exercises will frequently be administered at the begininning of class to assess progress and identify areas for further development. Students will first complete these individually and hand them in; subsequently, the group will discuss the exercise and turn in a group solution. 
+Four homework assignments will be given throughout the semester. These homework assignments are to be completed independently without collaborating with other students.
 
-Students who miss individual and group submissions (due to late arrival or absence) will receive 0 points for those submissions. However, only the top 80% of submissions (separately for individual and group submissions) will count towards a student's point total.
+Students who miss homework or case study submissions will receive 0 points for those submissions. However, in December, there will be an opportunity to make up credit for missed assignments.
+
+#### Examinations
+
+Two in-class examinations will be given as specified on the syllabus. If you know in advance you must miss an in-class examination, please contact Prof. Herring as soon as possible. 
+
+#### Make-up Examinations and Substitute Credit
+
+During the last week of undergraduate classes, students will have the opportunity to earn credit towards a limited number of missed assignments (or assignments with grades a student would like to improve).  The optional in-class assignment on Wednesday, December 4 may be used to replace *either* one in-class examination grade *or* one homework grade.  The optional in-class assignment on Friday, December 6 may be used to replace *either* one group case study grade *or* one homework grade. 
+
+These assignments will be challenging and designed to evaluate mastery of the material. If the make-up grade is lower than the grade to be replaced, it will not be used (that is, completing these assignments will not lower a student's grade).
+
+
 
 
 ### Grading
@@ -81,20 +91,18 @@ Your final grade will be comprised of the following:
 
 |Component | % of Grade |
 | ----------    | -----------------  |     
-|Individual exercises      | 10% |
-|Group exercises       | 15% |
-|Group case studies            | 60% |
-|Individual case study        | 15% |
+|Homework assignments      | 20% |
+|Group case studies       | 20% |
+|Exam 1           | 30% |
+|Exam 2      | 30% |
 
 Class attendance is a firm expectation; frequent absences or late arrivals are a legitimate cause for grade reduction.
 
-Cumulative numerical averages of 90 - 100 are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-; however, the exact ranges for letter grades will be determined at the end of the semester. The more evidence there is that the class is performing at the highest level, the higher the grade distribution will be.
+Cumulative numerical averages of 90 - 100 are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-; however, the exact ranges for letter grades will be determined at the end of the semester. Because typical graduate school grading will be used, the grade ranges may need to be shifted to the left, and when appropriate, students will be given guidance on interpreting grades when assignments are returned. The more evidence there is that the class is performing at the highest level, the higher the grade distribution will be.
 
-The grade for each group case study submission will be based on two components: (1) an overall score, $s_{ik}$, assigned to the work for group $k$ on case study $i$ submitted out of 100 possible points, and (2) individual contribution to the work (as assessed by team members on Spliddit). Each team member's grade on each submission will be determined by taking the total number of team points available (points $s_i$ earned for the assignment multiplied by $N_k$, the number of team members) and assigning them proportionately to team members' assessments of the division of work.  
 
-Example:  Suppose a submission is worth 100 points, and the team has 5 members. If group k's score $s_k=90$, and all 5 team members contribute equally (20\% of the work each), then 450 points are available for allocation, and each team member receives 450/5=90 points for the submission.  If the contributions of the team members are (35\%, 30\%, 20\%, 10\%, 5\%), then their respective grades are 157.5, 135, 90, 45, and 22.5 (i.e., 7 times the work yields 7 times the points).
 
-The total number of group project points over the course of the semester for team $k$ is $T_k=N_k\sum_{i=1}^5 s_{ik}$, and the maximum number of points that will be awarded to any team member in total for group projects is 500. This ensures (1) team members are able to adjust their effort levels on projects according to their interests and other time commitments, (2) teams are encouraged to ensure contributions over the course of the semester are balanced across team members, and (3) individuals who do not make strong contributions to the team will receive clear feedback regarding the need for adjustments to their efforts. 
+
 
 ### Accommodations
 
@@ -125,7 +133,7 @@ Late work policy for case study reports:
 
 ### Regrade requests
 
-Regrade requests must be made within three days of when a report is returned. These will be honored if points were tallied incorrectly, or if you feel part of your report is correct, but it was marked wrong. No regrade will be made to alter the number of points deducted for an issue. There will be no grade changes after the individual project presentations.
+Regrade requests must be made within three days of when a report is returned. These will be honored if points were tallied incorrectly, or if you feel part of your report is correct, but it was marked wrong. No regrade will be made to alter the number of points deducted for an issue. There will be no grade changes after December 6.
 
 
 

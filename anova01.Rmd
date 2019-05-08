@@ -1,0 +1,49 @@
+---
+title: "ANOVA"
+---
+
+```{r, echo=FALSE, include=FALSE}
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+```
+
+
+# Topics of Interest
+
+- review of one-way analysis of variance (ANOVA)
+
+- matrix formulation of the ANOVA model
+
+- contrast estimation
+
+- coding schemes
+
+- interaction among variables
+
+
+# Resources
+
+- Hoff Chapter 2
+
+- Gelman and Hill Chapter 22
+
+Anything here?  Check Penn State?  Resources on matrix formulation of linear model?
+
+[Matrix definitions](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/definitions)
+
+
+# Slides
+
+
+[The ANOVA Model: Matrix Formulation](decks/anova_01_deck.html)
+
+[Contrast Estimation, Coding Schemes, and Interaction](decks/anova_02_deck.html)
+
+
+# Homework
+
+[Assignment 1](decks/homework/hw1.html)
+
+
+

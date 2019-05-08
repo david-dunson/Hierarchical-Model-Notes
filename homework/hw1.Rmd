@@ -1,0 +1,25 @@
+---
+title: "Homework 1"
+---
+
+```{r, echo=FALSE, include=FALSE}
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+```
+
+
+
+### 1. OLS Estimation
+
+  a. Using the scalar formulation of the ANOVA model $y_{ij} \sim N\left(\mu_j,\sigma^2 \right)$, show that $\widehat{\mu}_{OLS}=(\overline{y}_1,\cdots,\overline{y}_J)$, where $\overline{y}_j$ is the sample mean in group $j$.
+  
+  b. Using the scalar formulation of the ANOVA model $y_{ij} \sim N\left(\mu+\alpha_j,\sigma^2 \right)$ with the constraint $\sum_j \alpha_j=0$, show
+    
+    i. $\widehat{\mu}=\overline{y}_{\cdot \cdot}$, where $\overline{y}_{\cdot \cdot}$ is the grand mean over all observations
+    
+    ii. $\widehat{\mu}=\frac{1}{J}\sum_j \widehat{\mu}_j$ when the sample sizes in each group j $n_j=n$ for all groups
+    
+    iii. $\widehat{\alpha}_j=\widehat{\mu}_j-\widehat{\mu}=\overline{y}_{j}-\overline{y}_{\cdot \cdot}$
+
+

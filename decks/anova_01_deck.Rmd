@@ -1,0 +1,134 @@
+---
+title: Matrix Formulation of ANOVA
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: tango
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+
+## read in R data
+``` {r readdat }
+library(readxl)
+indivdat <- read_excel("~/Documents/TEACHING/STA410_610/DATA/jenny tung/rsbl20180643_si_002.xlsx", sheet = "TableS1", skip = 2)
+rnaseqdat <- read_excel("~/Documents/TEACHING/STA410_610/DATA/jenny tung/rsbl20180643_si_002.xlsx", sheet = "TableS2", skip = 2)
+fulldat=merge(x=indivdat,y=rnaseqdat,by='subject ID')
+```
+
+## Motivating example (CHANGE)
+
+Hoff presents a study designed to estimate wheat yields in which $n_j=5$ plots of land in each of $j=10$ regions was planted. The yield $y_{ij}$ of plot $i$ in region $j$ is presented below.  AMY DECIDE IF WANT INNER INDEX TO MOVE FASTEST OR NOT. IF GELMAN ALSO DOES THIS WAY PROBABLY WANT TO STICK WITH THIS BUT NOTE OTHER WAYS TO DO IT.
+
+![Crop yields](figures/hoff1.jpg){width=50%}
+
+## Use Hoff formulation of ANOVA pages 11-17
+
+## ANOVA Model
+
+Consider the model
+
+\begin{eqnarray*}
+y_{ij}&=&\mu+\alpha_j+\varepsilon_{ij} \text{ (treatment effects model)} \\
+&=& \mu_j + \varepsilon_{ij} ~~~~~~~\text{         (treatment means model)}
+\end{eqnarray*}
+where $\mu_{ij}=\mu+\alpha_j$. These two equations are simply alternate parameterizations of the same model.
+
+##
+
+\begin{eqnarray*}
+y_{ij}&=&\mu+\alpha_j+\varepsilon_{ij} \text{ (treatment effects model)} \\
+&=& \mu_j + \varepsilon_{ij} ~~~~~~~\text{         (treatment means model)}
+\end{eqnarray*}
+
+  - $\mu$: expected overall yield (grand mean)
+  
+  - $\mu_j$: expected yield in region $j$
+  
+  - $\alpha_j$: deviation between overall expected yield and expected yield in region $j$
+  
+  - $\varepsilon_{ij}$: deviations of observed plot yields from region-specific expectations
+  
+  - In the standard ANOVA model (treatment effects model) $\sum_j \alpha_j = 0$ is assumed so that $\mu$ represents an overall mean across groups.   
+  
+## 
+
+We also assume that $\varepsilon_{ij} \overset{iid}{\sim} f(\varepsilon)$ with $E(\varepsilon_{ij})=0$ within all groups $j$.
+
+The expected yield for plot $i$ in region $j$ is then
+
+$$E(y_{ij} \mid \mu, \alpha_1, \cdots, \alpha_J)=E(\mu+\alpha_j+\varepsilon_{ij} \mid \mu, \alpha_1, \cdots, \alpha_J)=\mu+\alpha_j=\mu_j$$
+
+\
+
+
+If we assume $f(\varepsilon)=N\left(0,\sigma^2\right)$, then our model is $y_{ij} \sim N\left(\mu+\alpha_j,\sigma^2\right)$ or equivalently $y_{ij} \sim N\left(\mu_j,\sigma^2\right)$.
+
+## Parameter estimation
+
+Let $\widehat{\mu}=\left(\widehat{\mu}_1,\cdots,\widehat{\mu}_J\right)$ be our estimates of the unknown parameters $\mu=(\mu_1,\cdots,\mu_J)$. The *residual* for $y_{ij}$ is the difference between the observed $y_{ij}$ and our fitted value $\widehat{y}_{ij}$ and is given by $\widehat{\varepsilon}_{ij}=y_{ij}-\widehat{y}_{ij}=y_{ij}-\widehat{\mu}_{j}$.  AMY CHECK RESIDUAL RIGHT TERM VERSUS ESTIMATED RESIDUAL
+
+The ordinary least squares (OLS) estimate of $\mu$, $\widehat{\mu}_{OLS}$, is the value that minimizes the sum of squared residuals (sum of squared errors) given by 
+
+$$SSE(\mu)=\sum_j \sum_i (y_{ij}-\mu_j)^2.$$
+
+## OLS Estimates
+
+You can show (homework 1!) that the OLS estimates are given by
+
+  - $\widehat{\mu}_{OLS}=(\widehat{\mu}_1,\cdots,\widehat{\mu}_J)=(\overline{y}_1,\cdots,\overline{y}_J)$, where $\overline{y}_j$ is the sample mean in group $j$.
+
+  - $\widehat{\mu}=\overline{y}$, where $\overline{y}$ is the grand mean over all observations
+    
+  - $\widehat{\mu}=\frac{1}{J}\sum_j \widehat{\mu}_j$ when the sample sizes in each group j, $n_j$, are equal for all groups
+    
+  - $\widehat{\alpha}_j=\widehat{\mu}_j-\widehat{\mu}=\overline{y}_{j}-\overline{y}$
+
+A helpful mnemonic may be the following "decomposition" of a single data point:
+
+\begin{eqnarray*}
+y_{ij}&=& \overline{y} + (\overline{y}_{j}-\overline{y}) + (y_{ij}-\overline{y}_{j}) \\
+&=& \widehat{\mu} ~~ + ~~~~~\widehat{\alpha}_j ~~~~~ + ~~~~~ \widehat{\varepsilon}_{ij}
+\end{eqnarray*}
+
+## Sums of Squares
+
+I WANT HERE A PICTURE SHOWING GRAND MEAN AND GROUP MEANS AND TALK ABOUT DECOMPOSING VARIANCE BEFORE I GET INTO HOFF STUFF. THIS COULD BE IN MY BIOS 600 NOTES. NEED TO DOWNLOAD THOSE as I just have regression ones on my laptop
+
+[Check out this Shiny ANOVA App](https://gallery.shinyapps.io/anova_shiny_rstudio/)
+
+[Another](https://rstudio.aws.science.psu.edu:3838/Boast/Multivariable_Topics/ANOVA/)
+
+## Sums of Squares
+
+Based on those ideas, let's decompose the variability of the data around the grand mean into variation within groups (error) and variation across groups (group effects). For simplicity, suppose we have $J$ groups with $n$ observations in each group. 
+
+Something like Hoff Table 2.1 goes here once i figure out table
+
+## ANOVA Table
+
+Then give the ANOVA table in scalar form showing the sums of squares
+
+## Motivate the F test now and also talk about the scaled chi-squared distributions perhaps?
+
+
+
+  
+## Then give in matrix formulation (nice way to review what I had there)
+
+## 
+
+The *general linear model* is written in matrix form as $y=X\beta+\varepsilon$. Consider the treatment means model $y_{ij}=\mu_j+\varepsilon_{ij}$. We can represent this model in matrix form as follows.
+
+\begin{eqnarray*}
+y &=& X \mu + \varepsilon \\
+\begin{bmatrix} y_{11} \\ y_{12} \\ \vdots \\ y_{1n_1} \\ y_{21} \\ \vdots \\ y_{Jn_J} \end{bmatrix} &=& \begin{bmatrix} 1 & 0 & \cdots & 0 \\ 1 & 0 & \cdots & 0 \\ \vdots & & & \\ 1 & 0 & \cdots & 0 \\ 0 & 1 & 0 & \cdots \\ \vdots & \ddots & & \vdots \\ 0 & \cdots & & 1 \end{bmatrix}_{(\sum_j n_j) \times J}  \begin{bmatrix} \mu_1 \\ \vdots \\ \mu_J \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \vdots \\ \varepsilon_{1n_1} \\ \varepsilon_{21} \\ \vdots \\ \varepsilon_{Jn_J} \end{bmatrix}
+\end{eqnarray*}
