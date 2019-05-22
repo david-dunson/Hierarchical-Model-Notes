@@ -18,15 +18,15 @@ markup: "mmark"
 
 ### Class Meetings
 
-<font color="#6CA0DC"><i class="fas fa-university fa-lg"></i></font> &nbsp; Perkins 071 
+<font color="#6CA0DC"><i class="fas fa-university fa-lg"></i></font> &nbsp; Old Chem 116
 
-<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; WF 11:45 - 1:00
+<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; MWF 11:45 - 1:00
 
 
 ### Teaching team and office hours 
 
 
-Note: office hours may vary due to travel and other commitments. Revisions to office hours will be noted in Sakai and on my office door.
+Note: office hours may vary due to travel and other commitments. Revisions to office hours will be noted in Sakai and on my office door. 
 
 | Team member | Office hours | Location |
 | ----------  | -------------------------------------         | ---- |
@@ -52,39 +52,54 @@ Helpful resource materials for the course include the following.
 
 STA 440 contains a mixture of lecture, lab, and combination sessions at the usual class times. The lecture topics include descriptions of case studies data and highlights of critical issues to consider in analysis of data. The lectures are not designed to dictate your analysis plans -- just to inform them. Sessions marked "lab" will be taught by TA's and involve hands-on analysis and/or consultation about case studies.
 
-Note: this schedule is approximate and is likely to be modified as the course progresses. Readiness assessments will be given without advance notice. Assignments are due at the beginning of class unless otherwise specified. 
+Note: this schedule is approximate and is likely to be modified as the course progresses. Some lab sessions will be swapped with lectures due to instructor travel or course timing. Assignments are due at the beginning of class unless otherwise specified. 
 
-AMY CHECK: Is there a separate lab on Mondays?  I don't remember!  Aiee!
+
 
 |Date           |Topic                      |Deliverables     |
 | ----------    | ---------------------------         | --------------- |
-| August 28     | Welcome and Introduction        | ANOVA warm-up (in class)        |
-| August 30     | One Way ANOVA: Matrix Formulation    |   Getting to Know You Sheet              |
-| September 4   | Contrasts, Coding Schemes, and Interaction |  |
-| September 6   | Random Effects ANOVA | Scientific Writing: ANOVA Results (in class) |
-| September 11  | Maximum Likelihood Estimation | Assignment 1 Due |
+| August 26     | Welcome and Introductions        | ANOVA warm-up (in class)        |
+| August 28     | One Way ANOVA: Scalar and Matrix Formulations    |   Getting to Know You Sheet              |
+| August 30     |  Contrasts, Coding Schemes, and Interaction      |        |
+| September 2    |  Lab: Hands-on with ANOVA     |  Group lab reports      |
+| September 4   | Random Effects ANOVA | Scientific Writing: ANOVA Results (in class)  |
+| September 6   | Maximum Likelihood Estimation | Assignment 1 Due |
+| September 9  | Lab: Visualizing Estimates |  |
+| September 11  | REML and Empirical Bayes |  |
 | September 13  | REML and Empirical Bayes |  |
-| September 18  | REML and Empirical Bayes |   |
-| September 20  | Bayesian Estimation |  |
-| September 25  | Bayesian Estimation | Assignment 2 Due |
+| September 16  | Lab: Empirical Bayes |   |
+| September 18  | Bayesian Estimation |   |
+| September 20  | Bayesian Estimation | Assignment 2 Due |
+| September 23  | Lab: Fitting Hierarchical Bayes Models |  |
+| September 25  | Random Effects ANCOVA |  |
 | September 27  | Exam Review |  |
-| October 2     | Exam 1 (in class) |  Exam 1 (in class) | 
-| October 4     | Random Effects ANCOVA  | Midsemester Grades Due (my deliverable)  |
-| October 9    | Linear Mixed Effects Model |  |
-| October 11    | Linear Mixed Effects Model and Case Study 1 Introduction NOTE NEED TO COVER NONCONSTANT VARIANCES SOMEWHERE | Assignment 3 Due  |
+| September 30  |  Exam 1 (in class)           | Exam 1 (in class) |
+| October 2     | Linear Mixed Effects Model and Case Study 1 Introduction | Exam 1 Returned (my deliverable)  | 
+| October 4     | Lab: Mixed Effects Models | Midsemester Grades Due (my deliverable)  |
+| October 7    | Fall break  |  |
+| October 9    | Linear Mixed Effects Model NOTE NEED TO COVER NONCONSTANT VARIANCES SOMEWHERE |  |
+| October 11    | Linear Mixed Effects Model for Longitudinal Data | Assignment 3 Due  |
+| October 14    | Lab: ??? |  |
 | October 16    | Linear Mixed Effects Model for Longitudinal Data |  |
-| October 18    | Linear Mixed Effects Model for Longitudinal Data |  |
-| October 23    | Generalized Linear Models | Case Study 1 Due |
-| October 25    | Bayesian Estimation of GLM  | | 
-| October 30    | Generalized Linear Mixed Effects Models |   |
-| November 1    | Bayesian Estimation of GLMM and Case Study 2 Introduction  |  |
-| November 6    | GLMM in Practice |  |
-| November 8    | Bayesian Estimation with Missing Data  | Assignment 4 Due |
-| November 13   | Bayesian Estimation with Missing Data | |
-| November 15   | Case Study Presentations | |
-| November 20   | Case Study Presentations |  | 
-| November 22   | Exam 2 | Exam 2 |
-| December 4    | Optional in-class assignment | Case Study Reports Due (OK to have due? if not have this late deadline and then no penalty for late) |
+| October 18    | Case Study Presentations |  Case Study 1 Due |
+| October 21    | Lab: Logistic Regression | | 
+| October 23    | Case Study Presentations | |
+| October 25    | Generalized Linear Models  | | 
+| October 28    | Lab: Mixed Effects  | | 
+| October 30    | Bayesian Estimation of GLM and Case Study 2 Introduction  | Assignment 4 Due   |
+| November 1    | Generalized Linear Mixed Effects Models |  |
+| November 4    | Lab: Hierarchical Logistic Regression | | 
+| November 6    | Bayesian Estimation of GLMM |  |
+| November 8    | GLMM in Practice  |  |
+| November 11   | Lab: Bayesian GLMM | |
+| November 13   | Bayesian Estimation with Missing Data | Assignment 5 Due |
+| November 15   | Bayesian Estimation with Missing Data |  |
+| November 18   | Lab: Missing Data |  |
+| November 20   | Exam 2 (in class) | Exam 2 (in class) | 
+| November 22   | Case Study 2 Presentations | Case Study 2 Due |
+| November 25   | Case Study 2 Presentations |  |
+| December 2    | No lab |  |
+| December 4    | Optional in-class assignment |  |
 | December 6    | Optional in-class assignment |  |
 
 

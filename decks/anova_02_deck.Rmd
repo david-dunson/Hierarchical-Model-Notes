@@ -1,0 +1,104 @@
+---
+title: More on ANOVA
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+
+## Motivating Example: Cycling Safety
+
+In the cycling safety study, after we found evidence that the rider's distance from the curb was related to passing distance (the overall F test), we wanted to learn what kind of relationship existed (pairwise comparisons). Each pairwise comparison is defined by a *linear combination* of the parameters in our model.
+
+Consider the treatment means model $y_{ij}=\mu_j+\varepsilon_{ij}$. We are interested in which $\mu_j\neq\mu_j'$.
+
+## Distribution of Least Squares Estimates
+
+Recall in the linear model, the least squares estimate $\widehat{\beta}=(X'X)^{-1}X'y$. 
+
+Its covariance is given by $\text{Cov}(\widehat{\beta})=\sigma^2(X'X)^{-1}$. 
+
+In large samples, or when our errors are exactly normal, $\widehat{\beta} \sim N\left(\beta,\sigma^2(X'X)^{-1}\right)$.
+
+## Linear Combinations
+
+In order to test whether the means in group 1 and 2 are the same, we need to test a hypothesis about a *linear combination* of parameters.  
+
+The quantity $\sum_j a_j \mu_j$ is a *linear combination*. It is called a *contrast* if $\sum_j a_j=0$. Using matrix notation, we often express a hypothesis regarding a linear combination of regression coefficients as
+
+\begin{eqnarray*}
+H_0: &\theta& = C\beta = \theta_0 \\
+H_a: &\theta& = C\beta \neq \theta_0,
+\end{eqnarray*}
+
+where often $\theta_0=0$.
+
+##
+
+For example, if we have three groups and want to test differences in all pairwise comparisons, we can use $\beta=\begin{pmatrix} \mu_1 \\ \mu_2 \\ \mu_3 \end{pmatrix}$, $C=\begin{pmatrix} 1 & -1 & 0 \\ 1 & 0 & -1 \\ 0 & 1 & -1 \end{pmatrix}$, $\theta_0=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}$ so that our hypothesis is that $\begin{pmatrix} \mu_1 - \mu_2 \\ \mu_1 - \mu_3 \\ \mu_2 - \mu_3 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}$.
+
+## Distributional Results for Linear Combinations
+
+Using basic properties of the multivariate normal distribution, $$C \widehat{\beta} \sim N\left(C\beta,\sigma^2 C(X'X)^{-1}C'\right).$$
+
+Using this result, you can derive the standard error for any linear combination of parameter estimates.
+
+## Multi-Way ANOVA and Interactions
+
+ANOVA is easily extended to accommodate any number of categorical variables. Variables may each contribute independently to a response, or they may work together to influence response values.
+
+*Interaction effects* are important when the association between one independent variable and the response may depend on the level of another independent variable. 
+[Click this link for nice insight on what interactions imply in terms of group means](https://courses.washington.edu/smartpsy/interactions.htm)
+
+## Interaction Example
+
+For example, suppose that we are interested in a two-way ANOVA model in which the response $y$ is a measure of headache pain, and the independent variables include the type of pill taken (placebo (j=1) or ibuprofen (j=2)) and the number of pills taken (k=1 or k=2). While we may expect lower pain if multiple ibuprofen pills are taken, we would not expect the same decrease in pain if multiple placebo pills were taken. 
+
+
+Consider the model $y_{ijk}=\mu + \alpha I(j=2) + \beta I(k=2) + \gamma I(j=k=2)+\varepsilon_{ijk}$.
+
+##
+
+$y_{ijk}=\mu + \alpha I(j=2) + \beta I(k=2) + \gamma I(j=k=2)+\varepsilon_{ijk}$
+
+In this model,
+
+  - the expected pain level for someone taking 1 placebo pill is $\mu$
+  - the expected pain level for someone taking 2 placebo pills is $\mu+\beta$
+  - the expected pain level for someone taking 1 ibuprofen pill is $\mu+\alpha$
+  - the expected pain level for someone taking 2 ibuprofen pills is $\mu+\alpha+\beta+\gamma$
+  
+##
+
+$y_{ijk}=\mu + \alpha I(j=2) + \beta I(k=2) + \gamma I(j=k=2)+\varepsilon_{ijk}$
+
+In this model,
+
+  - the expected difference in pain level moving from 1 to 2 ibuprofen pills is $\mu+\alpha - \mu - \alpha - \beta - \gamma$
+  - the expected difference in pain level moving from 1 to 2 placebo pills is $\mu - \mu - \beta$
+  - the expected drug effect for those taking one pill is $\mu+\alpha-\mu=\alpha$
+  - the expected drug effect for those taking two pills is $\mu+\alpha+\beta+\gamma - \mu - \beta=\alpha+\gamma$
+  
+  
+So no interaction ($\gamma=0$) means that the drug effect is the same regardless of the number of pills taken. For there to be no drug effect at all, we need $\gamma=0$ and $\alpha=0$.  
+  
+
+
+## In class activity with some ANOVA data
+
+GOT data?
+
+Y=screen time
+X1=gender
+X2=season
+

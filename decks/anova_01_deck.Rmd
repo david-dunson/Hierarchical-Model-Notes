@@ -1,9 +1,9 @@
 ---
-title: Matrix Formulation of ANOVA
+title: ANOVA
 output: 
   revealjs::revealjs_presentation:
     theme: night
-    highlight: tango
+    highlight: espresso
     center: true
     transition: none
     css: styles.css
@@ -16,21 +16,59 @@ output:
 ---
 
 
-## read in R data
-``` {r readdat }
-library(readxl)
-indivdat <- read_excel("~/Documents/TEACHING/STA410_610/DATA/jenny tung/rsbl20180643_si_002.xlsx", sheet = "TableS1", skip = 2)
-rnaseqdat <- read_excel("~/Documents/TEACHING/STA410_610/DATA/jenny tung/rsbl20180643_si_002.xlsx", sheet = "TableS2", skip = 2)
-fulldat=merge(x=indivdat,y=rnaseqdat,by='subject ID')
+## Motivating Example: Cycling Safety
+
+Dr. Ian Walker at University of Bath carried out a project to investigate how drivers overtake bicyclists. His team modified a bicycle subtly to carry both a video system and an accurate ultrasonic distance sensor that could record the proximities of each passing vehicle.
+
+The team then designed an experiment in which a cyclist (Dr. Walker) varied the distance he rode from the curb (the British spelling kerb is used in the dataset) from 0.25m to 1.25m in 0.25 m increments. 
+
+##
+
+We will consider the outcome of passing distance $y_{ij}$, which is the measured distance (in m) between the vehicle and the cyclist, as a function of the distance from the bike to the curb (indexed by $j$), as some cyclists have postulated that ["the more room you take up, the more room they give you."](https://www.hotels-in-netherlands.com/bikereadercom/contributors/misc/big.html)
+
+Our research question of interest is whether the distance from the bike to the curb is indeed related to the passing distance between the bike and a vehicle.
+
+## Exploring the data
+
+```{r descstat}
+load("~/Documents/GitHub/STA-410-610/PsychBikeData")
+summary(PsychBikeData)
+
 ```
 
-## Motivating example (CHANGE)
+##
 
-Hoff presents a study designed to estimate wheat yields in which $n_j=5$ plots of land in each of $j=10$ regions was planted. The yield $y_{ij}$ of plot $i$ in region $j$ is presented below.  AMY DECIDE IF WANT INNER INDEX TO MOVE FASTEST OR NOT. IF GELMAN ALSO DOES THIS WAY PROBABLY WANT TO STICK WITH THIS BUT NOTE OTHER WAYS TO DO IT.
 
-![Crop yields](figures/hoff1.jpg){width=50%}
+``` {r readdat, warning=FALSE, echo=FALSE, comment=FALSE}
+library(ggplot2)
+ggplot(PsychBikeData, aes(`passing distance`)) +
+  geom_histogram(binwidth=.1)
 
-## Use Hoff formulation of ANOVA pages 11-17
+#hist(PsychBikeData$`passing distance`)
+```
+
+##
+
+``` {r boxplot,echo=FALSE }
+
+ggplot(PsychBikeData, aes(factor(kerb), `passing distance`)) + geom_boxplot(outlier.colour = "red", outlier.shape = 1) + labs(x="Distance from Curb (m)", y = "Passing Distance (m)") 
+
+#paper says need sqrt transform so they could look at residuals
+```
+
+Research question: is distance from curb related to passing distance?
+
+##
+
+``` {r checkdist }
+table(PsychBikeData$kerb)
+tapply(PsychBikeData$`passing distance`,PsychBikeData$kerb,mean)
+
+```
+
+
+
+
 
 ## ANOVA Model
 
@@ -40,30 +78,31 @@ Consider the model
 y_{ij}&=&\mu+\alpha_j+\varepsilon_{ij} \text{ (treatment effects model)} \\
 &=& \mu_j + \varepsilon_{ij} ~~~~~~~\text{         (treatment means model)}
 \end{eqnarray*}
-where $\mu_{ij}=\mu+\alpha_j$. These two equations are simply alternate parameterizations of the same model.
+where $\mu_{j}=\mu+\alpha_j$. These two equations are simply alternate parameterizations of the same model. In each case, we estimate a separate mean passing distance $\mu_j$ as a function of each of the 5 curb distances tested.
 
 ##
 
 \begin{eqnarray*}
-y_{ij}&=&\mu+\alpha_j+\varepsilon_{ij} \text{ (treatment effects model)} \\
-&=& \mu_j + \varepsilon_{ij} ~~~~~~~\text{         (treatment means model)}
+y_{ij}&=&\mu+\alpha_j+\varepsilon_{ij}=\mu_j + \varepsilon_{ij}
 \end{eqnarray*}
 
-  - $\mu$: expected overall yield (grand mean)
+  - $\mu$: expected passing distance (grand mean)
   
-  - $\mu_j$: expected yield in region $j$
+  - $\mu_j$: expected passing distance for curb distance $j$
   
-  - $\alpha_j$: deviation between overall expected yield and expected yield in region $j$
+  - $\alpha_j$: deviation between overall expected passing distance and expected passing distance for curb distance $j$
   
-  - $\varepsilon_{ij}$: deviations of observed plot yields from region-specific expectations
+  - $\varepsilon_{ij}$: deviations of observed passing distance from curb-distance-specific expectations
   
-  - In the standard ANOVA model (treatment effects model) $\sum_j \alpha_j = 0$ is assumed so that $\mu$ represents an overall mean across groups.   
+  - In the standard ANOVA model  $\sum_j \alpha_j = 0$ is assumed so that $\mu$ represents an overall mean across groups.  
+  
+  - Another *coding scheme*: set one $\alpha_j=0$ so that $\mu$ represents the expected passing distance in that particular group, and remaining $\alpha_j$ measure differences from expected passing distance in that *reference group*
   
 ## 
 
 We also assume that $\varepsilon_{ij} \overset{iid}{\sim} f(\varepsilon)$ with $E(\varepsilon_{ij})=0$ within all groups $j$.
 
-The expected yield for plot $i$ in region $j$ is then
+The expected passing distance for occasion $i$ in with curb distance $j$ is then
 
 $$E(y_{ij} \mid \mu, \alpha_1, \cdots, \alpha_J)=E(\mu+\alpha_j+\varepsilon_{ij} \mid \mu, \alpha_1, \cdots, \alpha_J)=\mu+\alpha_j=\mu_j$$
 
@@ -74,7 +113,10 @@ If we assume $f(\varepsilon)=N\left(0,\sigma^2\right)$, then our model is $y_{ij
 
 ## Parameter estimation
 
-Let $\widehat{\mu}=\left(\widehat{\mu}_1,\cdots,\widehat{\mu}_J\right)$ be our estimates of the unknown parameters $\mu=(\mu_1,\cdots,\mu_J)$. The *residual* for $y_{ij}$ is the difference between the observed $y_{ij}$ and our fitted value $\widehat{y}_{ij}$ and is given by $\widehat{\varepsilon}_{ij}=y_{ij}-\widehat{y}_{ij}=y_{ij}-\widehat{\mu}_{j}$.  AMY CHECK RESIDUAL RIGHT TERM VERSUS ESTIMATED RESIDUAL
+Let $\widehat{\mu}=\left(\widehat{\mu}_1,\cdots,\widehat{\mu}_J\right)$ be our estimates of the unknown parameters $\mu=(\mu_1,\cdots,\mu_J)$. The *residual* for $y_{ij}$ is the difference between the observed $y_{ij}$ and our fitted value $\widehat{y}_{ij}$  and is given by
+
+$\widehat{\varepsilon}_{ij}=y_{ij}-\widehat{y}_{ij}=y_{ij}-\widehat{\mu}_{j}$. 
+
 
 The ordinary least squares (OLS) estimate of $\mu$, $\widehat{\mu}_{OLS}$, is the value that minimizes the sum of squared residuals (sum of squared errors) given by 
 
@@ -101,30 +143,115 @@ y_{ij}&=& \overline{y} + (\overline{y}_{j}-\overline{y}) + (y_{ij}-\overline{y}_
 
 ## Sums of Squares
 
-I WANT HERE A PICTURE SHOWING GRAND MEAN AND GROUP MEANS AND TALK ABOUT DECOMPOSING VARIANCE BEFORE I GET INTO HOFF STUFF. THIS COULD BE IN MY BIOS 600 NOTES. NEED TO DOWNLOAD THOSE as I just have regression ones on my laptop
+Based on those ideas, let's decompose the variability of the data around the grand mean into variation within groups (error) and variation between or across groups (group effects). For simplicity, suppose we have $J$ groups with $n_j$ observations in each group. 
 
-[Check out this Shiny ANOVA App](https://gallery.shinyapps.io/anova_shiny_rstudio/)
-
-[Another](https://rstudio.aws.science.psu.edu:3838/Boast/Multivariable_Topics/ANOVA/)
+We break down the total variation of the data around the overall mean as follows:  $$SST=SSG+SSE,$$ where SST is the total sum of squared deviations around the overall mean, SSG is the portion of the total sum of squares due to group differences, and SSE is the portion of the total sum of squares due to differences between the individual observations and their own group means.
 
 ## Sums of Squares
 
-Based on those ideas, let's decompose the variability of the data around the grand mean into variation within groups (error) and variation across groups (group effects). For simplicity, suppose we have $J$ groups with $n$ observations in each group. 
+We define the sums of squares as follows:
 
-Something like Hoff Table 2.1 goes here once i figure out table
+  - SST=$\sum_{j=1}^J \sum_{i=1}^{n_j} \left(y_{ij}-\overline{y}\right)^2$
+  
+  - SSG=$\sum_{j=1}^J \sum_{i=1}^{n_j} \left(\overline{y}_{\cdot j}-\overline{y}\right)^2$
+  
+  - SSE=$\sum_{j=1}^J \sum_{i=1}^{n_j} \left(y_{ij}-\overline{y}_{\cdot j}\right)^2$
 
 ## ANOVA Table
 
-Then give the ANOVA table in scalar form showing the sums of squares
+The main use of ANOVA is to evaluate the hypothesis that there are no differences across groups, e.g. $H_0: \mu_j=\mu_{j'}$ $\forall ~ j \neq j'$ against the alternative that at least one mean is different.
 
-## Motivate the F test now and also talk about the scaled chi-squared distributions perhaps?
+Testing in ANOVA involves comparison of the mean squares for groups and the mean squares for error (we'll come back to why this is sensible) and can be summarized in the ANOVA table. Let $N=\sum_j n_j$ be the overall sample size.
+
+
+|Source           | DF | SS | MS | F | p |
+| ----------  | --- | --- | --- | --- | --- | 
+| Groups | $J-1$ | SSG | $MSG=\frac{SSG}{J-1}$ | $\frac{MSG}{MSE}$ | from $F_{J-1,N-J}$ |
+| Error | $N-J$ | SSE | $MSE=\frac{SSE}{N-J}$ | |  
+| Total | $N-1$ | SST | | |
 
 
 
-  
-## Then give in matrix formulation (nice way to review what I had there)
+
+##
+
+[Using this Shiny app](https://gallery.shinyapps.io/anova_shiny_rstudio/) you can explore the roles of within-group and between-group variance in ANOVA.
+
+![Here you see a situation with large within-group variance relative to the between-group variance (e.g., not much of a group effect relative to the variability within groups)](figures/morewithin.png){width=50%}
+
+##
+
+![In this case, the means are further apart and the between-group variance is larger than in the prior figure, and differences among groups are more apparent.](figures/morebetween.png){width=50%}
+
+##
+
+The MSE can be written
+
+\begin{eqnarray*}
+MSE &=& \frac{SSE}{\sum_j (n_j-1)} \\
+&=& \frac{\sum_{j=1}^J \sum_{i=1}^{n_j} \left(y_{ij}-\overline{y}_{\cdot j}\right)^2}{\sum_j (n_j-1)} \\
+&=& \frac{\sum_{i=1}^{n_1} \left(y_{i1}-\overline{y}_{\cdot 1}\right)^2 + \cdots + \sum_{i=1}^{n_J} \left(y_{iJ}-\overline{y}_{\cdot J}\right)^2}{(n_1-1)+ \cdots + (n_J-1)} \\
+&=& \frac{(n_1-1)s_1^2 + \cdots+ (n_J-1)s_J^2}{(n_1-1)+ \cdots + (n_J-1)}
+\end{eqnarray*}
 
 ## 
+
+In ANOVA, we typically assume independence of observations and equal variances within all the groups. We see that the $MSE=\frac{(n_1-1)s_1^2 + \cdots+ (n_J-1)s_J^2}{(n_1-1)+ \cdots + (n_J-1)}$ is a pooled estimate of the within-group sample variance, and you can show that $E(MSE)=\sigma^2$ if our assumption of equal variances holds.
+
+<!-- KKMN chapter 16 page 683 -->
+
+Using algebra, you can show that $E(MSG)=\sigma^2 + \frac{\sum n_j (\mu_j-\mu)^2}{J-1}$. Under the null hypothesis that all the group means are 0, this expectation reduces to $\sigma^2$.
+
+
+
+Thus under $H_0$, $E\left(F=\frac{MSG}{MSE}\right)=1$, but if the group means are in fact different from each other, we expect MSG$>\sigma^2$ and $F>1$.
+
+##
+
+Under the assumption that $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$, if $H_0$ is also true, then 
+
+$$F=\frac{MSG}{MSE} \sim F_{J-1,N-J}.$$
+
+## Back to Passing Bikes
+
+```{r bikeanova}
+aov.res=aov(`passing distance`~factor(kerb),data=PsychBikeData)
+summary(aov.res)
+```
+
+This F test indicates that it is very unlikely we would see differences in passing distance as large as we did under the null hypothesis that all groups have the same mean. There is a difference in passing distance for at least one set of curb distances.
+
+##
+```{r bikepair}
+TukeyHSD(aov.res)
+```
+
+Because we're curious, we'll look for where the difference appears to be with [Tukey's HSD test](https://en.wikipedia.org/wiki/Tukey%27s_range_test). Looks like the passing distance is similar for curb distances of 0.75m and 1m but different for other combinations. Contrary to the hypothesis, the passing distance was greater when bikers rode closer to the curb.
+
+## Residual plot
+
+```{r diagnostics, echo=FALSE}
+plot(density(residuals(aov.res)),xlab="Residual",main="")
+```
+
+
+## Advantages and Drawbacks of Classical Approach
+
+  - This approach controls type I error rate (compared to testing group differences separately)
+  
+  - Easy implementation and reporting
+  
+  - Rejecting $H_0$ does not mean there are no *similarities* across groups; in fact, $\overline{y}_{\cdot j}$ can be a pretty inefficient estimate of $\mu_j$
+  
+
+
+
+
+## Matrix Formulation
+
+As we move towards more complex models, it will be a lot easier to work with the model in *matrix* form rather than in *scalar* form. 
+
+##
 
 The *general linear model* is written in matrix form as $y=X\beta+\varepsilon$. Consider the treatment means model $y_{ij}=\mu_j+\varepsilon_{ij}$. We can represent this model in matrix form as follows.
 
@@ -132,3 +259,56 @@ The *general linear model* is written in matrix form as $y=X\beta+\varepsilon$. 
 y &=& X \mu + \varepsilon \\
 \begin{bmatrix} y_{11} \\ y_{12} \\ \vdots \\ y_{1n_1} \\ y_{21} \\ \vdots \\ y_{Jn_J} \end{bmatrix} &=& \begin{bmatrix} 1 & 0 & \cdots & 0 \\ 1 & 0 & \cdots & 0 \\ \vdots & & & \\ 1 & 0 & \cdots & 0 \\ 0 & 1 & 0 & \cdots \\ \vdots & \ddots & & \vdots \\ 0 & \cdots & & 1 \end{bmatrix}_{(\sum_j n_j) \times J}  \begin{bmatrix} \mu_1 \\ \vdots \\ \mu_J \end{bmatrix} + \begin{bmatrix} \varepsilon_{11} \\ \varepsilon_{12} \\ \vdots \\ \varepsilon_{1n_1} \\ \varepsilon_{21} \\ \vdots \\ \varepsilon_{Jn_J} \end{bmatrix}
 \end{eqnarray*}
+
+## Aside: Essence Matrix
+
+In ANOVA, the $X$ matrix has a special form, which is sometimes summarized by the *essence matrix*, which shows  the unique rows of the matrix.
+
+  - The essence matrix of a treatment means formulation of ANOVA is the $J \times J$ identity matrix, with each row repeated $n_j$ times: if $j=3$ we have $\begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}$
+  
+##  
+  
+  - The essence matrix in the treatment effects model is a column of ones appended to the left of the identity matrix: $\begin{bmatrix} 1 & 1 & 0 & 0 \\ 1 & 0 & 1 & 0 \\ 1 & 0 & 0 & 1 \end{bmatrix}$
+  
+  - The essence matrix in reference cell coding is given by $\begin{bmatrix} 1 & 1 & 0  \\ 1 & 0 & 1  \\ 1 & 0 & 0  \end{bmatrix}$ (assuming without loss of generality that the last group is the reference)
+  
+  
+In each case, the row corresponding to group $j$ is repeated $n_j$ times so that the full $X$ matrix has $\sum_j n_j$ rows.
+
+
+## Least Squares Estimation
+
+The least squares estimate minimizes the sum of squared residuals given by 
+
+\begin{eqnarray*}
+SSE&=& (y-\widehat{y})'(y-\widehat{y}) \\
+&=& (y-X\widehat{\mu})'(y-X\widehat{\mu}) \\
+&=& y'y-2\widehat{\mu}'X'y+\widehat{\mu}'X'X\widehat{\mu}
+\end{eqnarray*}
+
+
+
+##
+
+To find $\mu$ that minimizes the SSE$=y'y-2\mu'X'y+\mu'X'X\mu$ take derivatives:
+
+$$\frac{\partial SSE}{\partial \mu}=0-2X'y+2X'X\mu$$ and then solve for 0:
+
+$$0=-2X'y+2X'X\widehat{\mu}$$ to get the *normal equations* $$(X'X)_{p \times p}\widehat{\mu}=X'y.$$
+
+[Read more here if you're rusty on matrix differentiation.](https://eli.thegreenplace.net/2015/the-normal-equation-and-matrix-calculus/)
+
+
+##
+
+When $X$ has rank $p$, we solve the normal equations
+
+\begin{eqnarray*}
+(X'X)\widehat{\mu}&=&X'y \\
+(X'X)^{-1}(X'X)\widehat{\mu}=(X'X)^{-1}X'y \\
+\widehat{\mu}=(X'X)^{-1}X'y
+\end{eqnarray*}
+
+Our least squares estimate in this case is unique, the best linear unbiased estimate, and if our errors are Gaussian, $\widehat{\mu}$ is the MLE and minimum variance unbiased estimator. 
+
+When $X$ has rank $<p$, we can use a generalized inverse, but $\widehat{\mu}$ is not unique, though the predicted values and residuals are unique.
