@@ -58,7 +58,9 @@ Important question: how do we define "sufficient" and "too high"?
 
 ## Random Effects ANOVA
 
-*Random effects* ANOVA is a special case of a *hierarchical* or *multilevel* linear model that provides a nice framework for borrowing information across groups when needed to stabilize estimates.  We can specify such a model as $y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$ and $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$. The model on $\alpha_j$ allows us to borrow information in order to obtain better group-specific estimates when needed.
+*Random effects* ANOVA is a special case of a *hierarchical* or *multilevel* linear model that provides a nice framework for borrowing information across groups when needed to stabilize estimates.  We can specify such a model as $y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$ and $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$. The model on $\alpha_j$ allows us to borrow information in order to obtain better group-specific estimates when needed; because $\alpha_j$ is now viewed as random, the model can be called a *random effects* model. 
+
+The model is sometimes called a *random intercept* model because each group has its own intercept, $\mu_j$, that follows a Gaussian distribution.
 
 ## Random Effects ANOVA for Radon Data
 
@@ -126,6 +128,8 @@ For two observations in different groups j and j',
 &=& E(y_{ij})E(y_{i'j'})-\mu^2=\mu^2-\mu^2=0
 \end{eqnarray*}
 
+
+
 For two observations in the same group j,
 \begin{eqnarray*}
 \text{Cov}(y_{ij},y_{i'j})&=& E[(y_{ij}-E(y_{ij}))(y_{i'j}-E(y_{i'j}))] \\
@@ -136,5 +140,38 @@ For two observations in the same group j,
 &=& \mu^2 + 0 + 0 + 0 + \tau^2 + 0 + 0 + 0 + 0 -\mu^2=\tau^2
 \end{eqnarray*}
 
+## Intraclass Correlation
+
+The correlation between two observations in the same group is then given by
+
+\begin{eqnarray*}
+\text{Corr}(y_{ij},y_{i'j})&=&\frac{\text{Cov}(y_{ij},y_{i'j})}{\sqrt(\text{Var}(y_{ij}))\sqrt(\text{Var}(y_{i'j}))} \\
+&=& \frac{\tau^2}{\sigma^2+\tau^2}
+\end{eqnarray*}
+
+This motivates the use of random effects ANOVA to handle cases in which we expect subgroups of observations to be correlated (e.g., repeated measures or family studies).
+
+## Estimation Methods
+
+We will consider the following estimation methods for random intercept models.
+
+  - Maximum likelihood (ML)
+  
+  - Restricted maximum likelihood (REML)
+  
+  - Bayesian estimation
+  
 
 
+## Go back and in deck 1 do ML and REML for a simple ANOVA model or do that in Deck 2 instead.
+
+## Maximum Likelihood Estimation
+
+
+Suppose we stack all the outcome variables in group j in  $y_j$ and assume $y_1,\cdots,y_J \overset{iid}{\sim}N(\theta,\Sigma)$, where $\theta$ contains the mean parameters $(\mu,\alpha_1,\cdots,\alpha_J)$ and $\Sigma=\begin{pmatrix} \sigma^2 + \tau^2 & \tau^2 & \cdots & \tau^2 \\
+\tau^2 & \sigma^2+\tau^2 & \cdots & \tau^2 \\
+\vdots & \vdots & & \vdots \\
+\tau^2 & \tau^2 & \cdots & \sigma^2+\tau^2 \end{pmatrix}$
+
+
+## AT SOME POINT FIT RADON DATA USING RANDOM EFFECTS ANOVA AND GIVE CODE
