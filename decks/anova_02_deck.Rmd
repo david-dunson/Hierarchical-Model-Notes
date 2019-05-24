@@ -71,12 +71,15 @@ Consider the model $y_{ijk}=\mu + \alpha I(j=2) + \beta I(k=2) + \gamma I(j=k=2)
 
 $y_{ijk}=\mu + \alpha I(j=2) + \beta I(k=2) + \gamma I(j=k=2)+\varepsilon_{ijk}$
 
-In this model,
+In this model, the mean is parameterized as follows.
 
-  - the expected pain level for someone taking 1 placebo pill is $\mu$
-  - the expected pain level for someone taking 2 placebo pills is $\mu+\beta$
-  - the expected pain level for someone taking 1 ibuprofen pill is $\mu+\alpha$
-  - the expected pain level for someone taking 2 ibuprofen pills is $\mu+\alpha+\beta+\gamma$
+| Drug | \# of Pills | Mean |
+| ---- | :-----------: | :----: |
+| Placebo | 1 | $\mu$ | 
+| Placebo | 2 | $\mu+\beta$ |
+| Ibuprofen | 1 | $\mu+\alpha$ |
+| Ibuprofen | 2 | $\mu +\alpha+\beta+\gamma$ |
+
   
 ##
 
@@ -94,7 +97,11 @@ So no interaction ($\gamma=0$) means that the drug effect is the same regardless
   
 
 
-## In class activity with some ANOVA data
+## In class activity 
+
+with some ANOVA data -- maybe some pharma data or the AB testing data that I used in STA 440 last fall?  Hmm. Use homework rubric to help them write up results.  USE THE BIOS600 PET FRIEND DATA EXAMPLE -- or is that only oneway?  ONLY ONEWAY IN DATA I HAVE
+
+ideally use data that would be better suited for random effects ANOVA so that is a nice segway into the next lecture
 
 GOT data?
 

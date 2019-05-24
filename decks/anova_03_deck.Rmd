@@ -1,0 +1,140 @@
+---
+title: Random Effects ANOVA
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+
+## Motivating Example: Radon Study
+
+Radon, a naturally-occurring radioactive gas, is a carcinogen known to cause lung cancer in high concentrations.  Several thousand lung cancer deaths in the US per year are attributable to radon exposure.
+
+Radon levels in US homes varies greatly, and some homes have dangerously high radon levels.  In order to identify areas of the US with high radon exposures, the US EPA conducted a study of radon levels in a random sample of more than 80,000 homes.
+
+[Click here](http://www.ncradon.org/ncradon/) to check highest recorded radon levels in your area. Note that these levels may come from short-term home test kits, which vary widely in accuracy.
+
+(This example is taken from the excellent book by Gelman and Hill.)
+
+## Radon study
+
+We wish to estimate the distribution of radon levels in houses $i$ within 85 counties $j$ in Minnesota. The outcome $y_i$ is the natural log of measured radon levels. 
+
+- One estimate would be the average of all radon levels in Minnesota (same estimate for all counties), $\overline{y}_{\cdot \cdot}$, but this ignores variation across counties, and some counties may have higher radon levels naturally than others (radon is more commonly found in soils with granite rock, as opposed to some other soil types).
+
+- Another estimate would be just to average the radon level in each
+  county, $\overline{y}_j$, which can over-fit the data within county (for example, Lac Qui Parle County, which has the highest radon level of all the 85 MN counties, has radon measures from only 2 homes). This is like using an ANOVA model with a *fixed effect* for county.
+
+## 
+![Estimates and SE's for log radon levels in MN counties versus the
+    (jittered) sample size. The horizontal line indicates the overall state mean (figure from Gelman and Hill).](figures/gelmannopool.jpg){width=50%}
+
+Note we get pretty good (low variance) estimates in counties where more samples were taken, while our estimates are not great in counties where just a few samples were obtained.
+
+##
+
+The figure contrasts two extreme approaches to obtaining estimates of group means $\mu_j$ in this type of setting.  A common procedure might be the following.  Fit the ANOVA model $y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \sim N(0,\sigma^2)$, testing the significance of the groups using an overall F test (here, an 84 degree of freedom test).
+
+  - If $p<0.05$, use the estimate $\widehat{\mu}_j=\overline{y}_j$ for the mean in each county
+  - If $p>0.05$, use the estimate $\widehat{\mu}_j=\overline{y}$ for the mean in each county
+  
+With either extreme, we will be using sub-optimal estimates for some counties. 
+
+## 
+
+Ideally, we could use the estimate $\overline{y}_j$ for counties with sufficient sample size and the estimate $\overline{y}$ for counties where the variability is too high.  
+
+Important question: how do we define "sufficient" and "too high"?
+
+## Random Effects ANOVA
+
+*Random effects* ANOVA is a special case of a *hierarchical* or *multilevel* linear model that provides a nice framework for borrowing information across groups when needed to stabilize estimates.  We can specify such a model as $y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$ and $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$. The model on $\alpha_j$ allows us to borrow information in order to obtain better group-specific estimates when needed.
+
+## Random Effects ANOVA for Radon Data
+
+
+![Estimates and SE's for log radon levels in MN versus the
+    (jittered) sample size. The horizontal line indicates the complete pooling estimate (Gelman and Hill). The circled data point had the highest estimated mean radon level in fixed effects ANOVA.](figures/gelman1.jpg){width=50%}
+    
+## Radon study
+
+The multilevel estimates in the previous slide represent a compromise between the two extremes.  In this simple setting (with no predictors), the multilevel estimate for county $j$ can be approximated as a weighted average of the mean of all observations in the county, weighting both the unpooled estimate $\overline{y}_j$ and the mean over all counties $\overline{y}$.
+
+## 
+
+How does random effects ANOVA borrow information?
+
+The multilevel estimate
+
+$$\widehat{\alpha}_j \approx
+\frac{\frac{n_j}{\sigma^2}\overline{y}_j+\frac{1}{\tau^2}\overline{y}}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}},$$
+   
+where 
+    
+- $n_j$ is the number of homes measured in county $j$
+
+- $\sigma^2$ is the within-county variance in the log radon
+  measurements
+  
+- $\tau^2$ is the variance across the average log radon
+  levels of different counties
+
+## 
+
+The weighted average reflects the relative amount of information available on each individual county, compared to that available across all counties.
+
+- Averages from counties with smaller sample sizes are less precise, so the weighting shrinks the multilevel estimates closer to the overall state average.  For example, if $n_j=0,$ the multilevel estimate is just $\overline{y}$.
+
+- Averages from counties with larger sample sizes are more precise, and the multilevel estimates are closer to the county averages.  As $n_j \rightarrow \infty$, the multilevel estimate is just the county average $\overline{y}_j$.
+
+- In intermediate cases, the multilevel estimate is in between the
+  extremes.
+  
+In practice, we carry out all estimation together (estimate variances along with the mean parameters), but we won't worry about this yet.
+
+## Random Intercept Model
+
+This model is a special case of a *random intercept* model in which covariates are categorical.  Note some consequences of this model.
+
+
+$y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$ and $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$
+
+$E[y_{ij}]=E[\mu+\alpha_j+\varepsilon_{ij}]=\mu+0+0=\mu$
+\begin{eqnarray*}
+\text{Var}[(y_{ij}]&=&E[(y_{ij}-E(y_{ij}))^2] \\
+&=& E[(\mu+\alpha_j+\varepsilon_{ij}-\mu)^2] \\
+&=& E[(\alpha_j+\varepsilon_{ij})^2] \\
+&=& E[\alpha_j^2+2\alpha_j\varepsilon_{ij}+\varepsilon_{ij}^2] \\
+&=& \tau^2+0+\sigma^2=\sigma^2+\tau^2
+\end{eqnarray*}
+
+##
+For two observations in different groups j and j',
+\begin{eqnarray*}
+\text{Cov}(y_{ij},y_{i'j'})&=& E[(y_{ij}-E(y_{ij}))(y_{i'j'}-E(y_{i'j'}))] \\
+&=& E(y_{ij}y_{i'j'})-\mu^2-\mu^2+\mu^2 \\
+&=& E(y_{ij})E(y_{i'j'})-\mu^2=\mu^2-\mu^2=0
+\end{eqnarray*}
+
+For two observations in the same group j,
+\begin{eqnarray*}
+\text{Cov}(y_{ij},y_{i'j})&=& E[(y_{ij}-E(y_{ij}))(y_{i'j}-E(y_{i'j}))] \\
+&=& E(y_{ij}y_{i'j})-\mu^2-\mu^2+\mu^2 \\
+&=& E[(\mu+\alpha_j+\varepsilon_{ij})(\mu+\alpha_j + \varepsilon_{i'j})] \\
+&=& E[\mu^2+\mu\alpha_j+\mu\varepsilon_{i'j}+\alpha_j\mu+\alpha_j^2+\alpha_j\varepsilon_{i'j}+ \\
+& & ~~~~~\varepsilon_{ij}\mu+\varepsilon_{ij}\alpha_j+\varepsilon_{ij}\varepsilon_{i'j}] \\ 
+&=& \mu^2 + 0 + 0 + 0 + \tau^2 + 0 + 0 + 0 + 0 -\mu^2=\tau^2
+\end{eqnarray*}
+
+
+
