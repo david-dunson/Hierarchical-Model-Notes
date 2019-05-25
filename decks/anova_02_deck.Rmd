@@ -15,6 +15,62 @@ output:
   
 ---
 
+## Linear Model Estimates
+
+Consider a very simple one-sample linear model given by $y_i=\mu+\varepsilon_i$, $\varepsilon_i \sim N(0,\sigma^2)$ in matrix notation, given by $$\begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix}=\begin{pmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{pmatrix} \begin{pmatrix} \mu \end{pmatrix} + \begin{pmatrix} \varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n \end{pmatrix}$$ with the vector $\varepsilon \sim N(0_{n \times 1},\sigma^2I_{n \times n})$.
+
+##
+
+Recalling that the normal distribution for one observation is given by $$\frac{1}{\sqrt{2 \pi}\sigma}\exp{-\frac{1}{2}(y_i-\mu)^2}$$ we can obtain the likelihood by taking the product over all $n$ independent observations:  \begin{eqnarray*}
+L(y,\mu,\sigma)&=&\prod_{i=1}^n \frac{1}{\sqrt{2\pi}\sigma}\exp\left\{-\frac{1}{2}\frac{(y_i-\mu)^2}{\sigma^2}\right\} \\
+&=& \left(\frac{1}{\sqrt{2\pi}\sigma}\right)^n\exp\left\{-\frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2\right\}
+\end{eqnarray*}
+
+To find the MLE [solve for the parameter values that make the first derivative equal to 0](https://www.mathsisfun.com/calculus/maxima-minima.html) (often we work with the log-likelihood as it is more convenient).
+
+##
+
+The log-likelihood is given by
+
+\begin{eqnarray*}
+\ell(y,\mu,\sigma^2)&=& n \log \frac{1}{\sqrt(2\pi\sigma^2)} - \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2 \\
+&=& -\frac{n}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2
+\end{eqnarray*}
+
+##
+
+To find the MLE of $\mu$, take the derivative
+
+\begin{eqnarray*}
+\frac{\partial \ell(\mu,\sigma^2)}{\partial \mu} &=& 0 -\frac{1}{2\sigma^2} \sum_{i=1}^n 2(y_i-\mu)(-1) \\
+&=& \frac{1}{\sigma^2}\left(\sum_{i=1}^n y_i - n\mu \right)
+\end{eqnarray*}
+
+Setting this equal to zero, we obtain the MLE
+
+\begin{eqnarray*}
+n\widehat{\mu}&=&\sum_{i=1}^n y_i \\
+\widehat{\mu}&=& \frac{\sum_{i=1}^n y_i}{n}=\overline{y}
+\end{eqnarray*}
+
+## 
+
+To find the MLE of $\sigma^2$ take the derivative of $-\frac{n}{2}[\log(2\pi)+\log(\sigma^2)]- \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i-\mu)^2$
+
+\begin{eqnarray*}
+\frac{\partial \ell(\mu,\sigma^2)}{\partial \sigma^2} &=& 0-\frac{n}{2}\frac{1}{\sigma^2} - \frac{1}{2(-1)\left(\sigma^2\right)^2}\sum_{i=1}^n (y_i-\mu)^2 \\
+&=& -\frac{n}{2\sigma^2} + \frac{1}{2\left(\sigma^2\right)^2}\sum_{i=1}^n (y_i-\mu)^2 
+\end{eqnarray*}
+
+Setting to 0 and solving for the MLE, using the MLE of $\mu$ we just found, we obtain 
+
+$\widehat{\sigma}^2=\frac{1}{n}\sum_{i=1}^n (y_i-\overline{y})^2$.
+
+Note this MLE of $\sigma^2$ is *not* the sample variance $s^2$. We will return to this point later in the course.
+
+
+
+
 
 ## Motivating Example: Cycling Safety
 

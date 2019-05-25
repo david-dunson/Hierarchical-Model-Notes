@@ -162,9 +162,6 @@ We will consider the following estimation methods for random intercept models.
   - Bayesian estimation
   
 
-
-## Go back and in deck 1 do ML and REML for a simple ANOVA model or do that in Deck 2 instead.
-
 ## Maximum Likelihood Estimation
 
 
@@ -173,5 +170,34 @@ Suppose we stack all the outcome variables in group j in  $y_j$ and assume $y_1,
 \vdots & \vdots & & \vdots \\
 \tau^2 & \tau^2 & \cdots & \sigma^2+\tau^2 \end{pmatrix}$
 
+##
+
+We can also think of this formulation in the framework of the general linear mixed effects model, where $$y=X\beta+Zb+\varepsilon.$$ In the random effects ANOVA case, 
+
+  - $X$ is just a column of 1's specifying the intercept $\beta=\mu$ 
+  - $Z$ is a matrix of indicator variables indicating group membership 
+  - Assume the random effects $b \sim N(0,G)$ where $G=\tau^2I$ and the errors $\varepsilon \sim N(0,R)$ where $R=\sigma^2I$
+  
+  The covariance matrix $\Sigma$ is then given by 
+\begin{eqnarray*}
+\Sigma&=&\text{Var}(y)=\text{Var}(X\beta+Zb+\varepsilon) \\
+&=& \text{Var}(X\beta)+\text{Var}(Zb)+\text{Var}(\varepsilon)  \\
+&=& Z\text{Var}(b)Z' + \text{Var}(\varepsilon) = ZGZ'+R =\tau^2ZZ'+\sigma^2I
+\end{eqnarray*}
+
+##
+
+Assuming our $N$ outcomes follow the multivariate Gaussian distribution, our likelihood is given by $$\frac{1}{(2\pi)^\frac{N}{2}|\Sigma|^\frac{1}{2}}\exp\left(-\frac{1}{2}(y-X\beta)'\Sigma^{-1}(y-X\beta)\right),$$
+
+and we often work with the log-likelihood, given by
+
+\begin{eqnarray*}
+\ell(y,\beta,\Sigma)&=&-\frac{1}{2}\left\{N\log(2\pi) + \log |\Sigma| + (y-X\beta)'\Sigma^{-1}(y-X\beta)   \right\} \\
+&\propto& \log |\Sigma| + (y-X\beta)'\Sigma^{-1}(y-X\beta),
+\end{eqnarray*}
+
+which we then minimize (as I took the negative) in order to find the MLE.
+
+## Give the form of the MLE here or in the case of linear mixed effects models?
 
 ## AT SOME POINT FIT RADON DATA USING RANDOM EFFECTS ANOVA AND GIVE CODE
