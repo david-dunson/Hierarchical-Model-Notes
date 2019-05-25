@@ -60,10 +60,10 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | ----------    | ---------------------------         | --------------- |
 | August 26     | Welcome and Introductions        | ANOVA warm-up (in class)        |
 | August 28     | One Way ANOVA: Scalar and Matrix Formulations    |   Getting to Know You Sheet              |
-| August 30     |  Contrasts, Coding Schemes, and Interaction      |    Scientific Writing: ANOVA Results (in class)     |
+| August 30     |  MLE's, Contrasts, Coding Schemes, and Interaction      |    Scientific Writing: ANOVA Results (in class)     |
 | September 2    |  Lab: Hands-on with ANOVA     |  Group lab reports      |
 | September 4   | Random Effects ANOVA |  |
-| September 6   | Maximum Likelihood Estimation | Assignment 1 Due |
+| September 6   | Maximum Likelihood Estimation (Drop? add to 9/4?) | Assignment 1 Due |
 | September 9  | Lab: Visualizing Estimates |  |
 | September 11  | REML  |  |
 | September 13  | REML and Empirical Bayes |  |

@@ -68,9 +68,22 @@ $\widehat{\sigma}^2=\frac{1}{n}\sum_{i=1}^n (y_i-\overline{y})^2$.
 
 Note this MLE of $\sigma^2$ is *not* the sample variance $s^2$. We will return to this point later in the course.
 
+## Properties of MLE's
 
+For any MLE $\widehat{\theta}$,
 
+  - $\widehat{\theta} \rightarrow \theta$ as $n \rightarrow \infty$ (if the model is correct)
+  - $\widehat{\theta} \sim N\left(\theta, \text{Var}(\widehat{\theta})\right)$, where $\text{Var}(\widehat{\theta}) \approx \left[ \frac{d^2l(\theta \mid y)}{d\theta^2}\right]^{-1}$ in large samples
+  
+For the hierarchical model, this gives us a method for getting approximate 95\% confidence intervals for mean parameters (and functions of them).
 
+## Information
+
+The *observed information matrix* is the matrix of second derivatives of the negative log-likelihood function at the MLE (*Hessian* matrix):  $$J(\widehat{\theta})=\left\{ -\frac{\partial^2 \ell(\theta \mid y)}{\partial \theta_j \partial \theta_k}\right\}|_{\theta=\widehat{\theta}}$$
+
+The inverse of the information matrix gives us an estimate of the variance/covariance of MLE's:  $$\widehat{\text{Var}}(\widehat{\theta})\approx J^{-1}(\widehat{\theta})$$
+
+The square roots of the diagonal elements of this matrix give approximate SE's for the coefficients, and the MLE $\pm$ 2 SE gives a rough 95\% confidence interval for the parameters.
 
 ## Motivating Example: Cycling Safety
 
