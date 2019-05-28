@@ -198,6 +198,12 @@ and we often work with the log-likelihood, given by
 
 which we then minimize (as I took the negative) in order to find the MLE.
 
-## Give the form of the MLE here or in the case of linear mixed effects models?
+## MLE in ANOVA with random effects?
+
+Add jonathan taylor notation to notes for RE anova special case at
+http://statweb.stanford.edu/~jtaylo/courses/stats203/notes/mixed.pdf
+
+
+
 
 ## AT SOME POINT FIT RADON DATA USING RANDOM EFFECTS ANOVA AND GIVE CODE

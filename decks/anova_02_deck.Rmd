@@ -120,7 +120,11 @@ For example, if we have three groups and want to test differences in all pairwis
 
 Using basic properties of the multivariate normal distribution, $$C \widehat{\beta} \sim N\left(C\beta,\sigma^2 C(X'X)^{-1}C'\right).$$
 
-Using this result, you can derive the standard error for any linear combination of parameter estimates.
+Using this result, you can derive the standard error for any linear combination of parameter estimates, which can be used in constructing confidence intervals.
+
+\vspace{.1in}
+
+You could also fit a reduced model subject to the constraint you wish to test (e.g., same mean for groups 1 and 2), and then use either a partial F test or a likelihood-ratio test (F is special case of LRT) to evaluate the hypothesis that the reduced model is adequate.
 
 ## Multi-Way ANOVA and Interactions
 
@@ -163,7 +167,8 @@ In this model,
   
   
 So no interaction ($\gamma=0$) means that the drug effect is the same regardless of the number of pills taken. For there to be no drug effect at all, we need $\gamma=0$ and $\alpha=0$.  
-  
+
+
 
 
 ## In class activity 
