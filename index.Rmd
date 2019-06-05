@@ -63,21 +63,21 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | August 30     |  MLE's, Contrasts, Coding Schemes, and Interaction      |    Scientific Writing: ANOVA Results (in class)     |
 | September 2    |  Lab: Hands-on with ANOVA     |  Group lab reports      |
 | September 4   | Random Effects ANOVA |  |
-| September 6   | Maximum Likelihood Estimation (Drop? add to 9/4?) | Assignment 1 Due |
+| September 6   | Random Effects ANOVA| Assignment 1 Due |
 | September 9  | Lab: Visualizing Estimates |  |
-| September 11  | REML  |  |
-| September 13  | REML and Empirical Bayes |  |
-| September 16  | Lab: Empirical Bayes |   |
-| September 18  | Bayesian Estimation |   |
-| September 20  | Bayesian Estimation | Assignment 2 Due |
+| September 11  | Bayesian Estimation  |  |
+| September 13  |Bayesian Estimation |  |
+| September 16  | Lab: Empirical Bayes \& Bayesian Estimation |   |
+| September 18  | Random Effects ANCOVA |   |
+| September 20  | Exam Review | Assignment 2 Due |
 | September 23  | Lab: Fitting Hierarchical Bayes Models |  |
-| September 25  | Random Effects ANCOVA |  |
-| September 27  | Exam Review |  |
-| September 30  |  Exam 1 (in class)           | Exam 1 (in class) |
-| October 2     | Linear Mixed Effects Model and Case Study 1 Introduction | Exam 1 Returned (my deliverable)  | 
-| October 4     | Lab: Mixed Effects Models | Midsemester Grades Due (my deliverable)  |
+| September 25  | Exam 1 (in class)  | Exam 1 (in class) |
+| September 27  | Linear Mixed Effects Model and Case Study 1 Introduction |  Exam 1 Returned (my deliverable) |
+| September 30  |  Lab: Linear Mixed Effects Models I         |  |
+| October 2     | Estimation in LME |   | 
+| October 4     | Lab: Help, I'm Behind! Hands-on analysis and Q&A | Midsemester Grades Due (my deliverable)  |
 | October 7    | Fall break  |  |
-| October 9    | Linear Mixed Effects Model NOTE NEED TO COVER NONCONSTANT VARIANCES SOMEWHERE |  |
+| October 9    |  Hierarchical Models with Nonconstant Variance |  |
 | October 11    | Linear Mixed Effects Model for Longitudinal Data | Assignment 3 Due  |
 | October 14    | Lab: ??? |  |
 | October 16    | Linear Mixed Effects Model for Longitudinal Data |  |

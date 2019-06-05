@@ -1,0 +1,126 @@
+---
+title: Bayesian Inference for the Hierarchical Normal Model
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Hierarchical Normal Model
+
+Recall our data model:
+
+\begin{eqnarray*}
+y_{ij}&=&\mu_j+\varepsilon_{ij}=\mu_j + \varepsilon_{ij}
+\end{eqnarray*}
+where $\mu_j=\mu +\alpha_j$, $\alpha_j \overset{iid}{\sim} N\left(0,\tau^2\right) \perp \varepsilon_{ij} \overset{iid}{\sim} N\left(0,\sigma^2\right)$
+
+In addition to the data model we specified previously, we will specify a prior distribution for $(\mu,\tau^2,\sigma^2)$, denoted  $p(\theta)=p(\mu,\tau^2,\sigma^2)$.
+
+## Bayesian Specification of the Model
+
+
+
+We will start with a "default" prior specification given by $$p(\mu,\tau^2,\sigma^2)=p(\mu|\tau^2)p(\tau^2)p(\sigma^2),$$
+where
+
+  - $p(\mu | \tau^2)$ is $N\left(\mu_0,\frac{\tau^2}{m_0}\right)$
+  - $p(\tau^2)$ is inverse-gamma$\left(\frac{\eta_0}{2},\frac{\eta_0\tau_0^2}{2}\right)$
+  - $p(\sigma^2)$ is inverse-gamma$\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$
+
+##
+
+With this default prior specification, we have nice interpretations of the prior parameters.
+
+  - For $p(\mu | \tau^2) = N\left(\mu_0,\frac{\tau^2}{m_0}\right)$, $\mu_0$ is a prior guess at $\mu$, and $m_0$ describes our certainty in this guess (you can think of it as a prior sample size)
+  
+  - For $p(\tau^2) = IG\left(\frac{\eta_0}{2},\frac{\eta_0\tau_0^2}{2}\right)$, $\tau_0^2$ is a prior guess at the across-group variance $\tau^2$, and $\eta_0$ describes our confidence in this guess
+  
+  - For $p(\sigma^2)=IG\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$, $\sigma_0^2$ is a prior guess at the within-group variance $\sigma^2$, and $\nu_0$ describes our certainty in this guess
+  
+## Fully-Specified Model
+
+We have now fully-specified our model with the following components.
+
+1. Unknown parameters $(\mu,\tau^2,\sigma^2,\alpha_1,\cdots,\alpha_J)$
+
+2. Prior distributions, specified in terms of prior guesses at parameters $(\mu_0,\tau_0^2,\sigma_0^2)$ and certainty/prior sample sizes $(m_0,\eta_0,\nu_0)$
+
+3. Don't forget the data $y,x$ from our groups!
+
+## Posterior distributions
+
+We can interrogate the posterior distribution of the parameters using Gibbs sampling, as the full conditional distributions have closed forms. We'll next examine the full conditional distributions of each of our parameters $(\mu_0, \tau_0^2, \sigma_0^2, \mu_1, \cdots, \mu_J)$ in turn.
+
+##
+
+\begin{eqnarray*}
+p(\mu &\mid& \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
+&\propto & p(\mu \mid \tau^2) p(\tau^2)p(\sigma^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2)\prod_{i=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
+&\propto & p(\mu \mid \tau^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2) \\
+&\propto & \exp \left\{-\frac{m_0(\mu-\mu_0)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (\mu-\mu_j)^2}{2\tau^2}\right\}
+\end{eqnarray*}
+
+
+##
+ 
+You can show then that $(\mu \mid \tau^2, \mu_1, \cdots, \mu_J)=N(e,v)$ where $e=\frac{J}{m_0+J}\frac{1}{J}\sum \mu_j + \frac{m_0}{J+m_0}\mu_0$ and $v=\frac{\tau^2}{J+m_0}$, and here we can think of $m_0$ as the number of "prior observations" and $\mu_0$ as the sample mean of those prior observations.  In practice, people take $\mu_0$ to be a reasonable prior guess, and if they're really unsure they take $m_0$ as the degree of certainly, implying that this is equivalent roughly to the certainty you would have from only one sampled value from the population (so not very much information).
+
+##
+
+How do you show that?
+
+It helps if you remember how to [complete the square](https://davidrosenberg.github.io/mlcourse/Notes/completing-the-square.pdf).
+
+##
+<small>
+\begin{eqnarray*}
+& & \exp\left\{ \frac{-m_0(\mu-\mu_0)^2}{2\tau^2}-\frac{\sum(\mu-\mu_j)^2}{2\tau^2}\right\} \\
+&=&\exp\left\{\frac{-m_0\mu_0^2+2\mu m_0 \mu_0 -m_0\mu_0^2 - J\mu^2+2\mu\sum \mu_j -\sum \mu_j^2}{2\tau^2}\right\} \\
+&\propto& \exp\left\{\frac{-m_0\mu^2+2\mu m_0 \mu_0 -J\mu^2+2\mu\sum \mu_j}{2\tau^2}\right\} \\
+&=&\exp\left\{\frac{\mu^2(-m_0-J)+\mu(2m_0\mu_0+2\sum \mu_j)}{2\tau^2}\right\} \\
+&=&\exp\left\{ \frac{-m_0-J}{2\tau^2}\left[\mu^2 + \mu \left( \frac{2m_0\mu_0+2\sum \mu_j}{-m_0-J}\right)  \right]\right\} \\
+&\propto& \exp\left\{ \left(\frac{-(m_0+J)}{2\tau^2}\right)\left[\mu - \frac{m_0\mu_0 + \sum \mu_j}{m_0+J} \right]^2   \right\}
+\end{eqnarray*}
+
+</small>
+
+Ahh, this is the kernel of a normal distribution for $\mu$!
+
+##
+
+We recognize this conditional posterior distribution of $\{\mu \mid \tau^2, \mu_1, \cdots, \mu_J\}$ as the kernel of a normal distribution with mean $\frac{m_0\mu_0+\sum \mu_j}{\mu_0+J}$ and variance $\frac{\tau^2}{\mu_0+J}$.
+
+To motivate interpretation of the prior parameters, express the mean $\frac{m_0\mu_0+\sum \mu_j}{\mu_0+J}=\frac{J}{m_0+J}\frac{1}{J}\sum \mu_j + \frac{m_0}{J+m_0}\mu_0$.
+
+We can think of 
+
+  - $m_0$ as the number of prior observations with sample mean $\mu_0$
+  - the conditional mean as the average of all the observations (prior and current)
+  - the conditional variance as the population variance divided by the "total" sample size $J+m_0$
+
+##
+
+Using similar algebra, we can show the full conditional distribution of $\mu_j$ is given by 
+
+<small>
+
+\begin{eqnarray*}
+p(\mu_j &\mid& \mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
+&\propto & p(\mu \mid \tau^2) p(\tau^2)p(\sigma^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2)\prod_{i=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
+&\propto & p(\mu_j \mid \mu, \tau^2) \prod_{j=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
+&\propto & \exp \left\{-\frac{(\mu_j-\mu)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (y_{ij}-\mu)^2}{2\sigma^2}\right\}
+\end{eqnarray*}
+
+
+
+</small>

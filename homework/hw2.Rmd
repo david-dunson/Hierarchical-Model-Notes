@@ -1,0 +1,43 @@
+---
+title: "Homework 2"
+---
+
+```{r, echo=FALSE, include=FALSE}
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+```
+
+
+
+### 1. Hierarchical Normal Model
+
+a. Derive the full conditional posterior distribution of $\mu_j$ using the specification provided in the notes, showing all intermediate steps to verify its conditional mean is X and cond var is Y.
+
+b. Derive the full conditional posterior distribution of $\sigma^2$ blah blah.
+
+
+
+``` {r gotimport}
+library(readxl)
+gameofthronesseason1234567 <- read_excel("~/Documents/TEACHING/STA410_610/DATA/gameofthronesseason1234567.xlsx")
+View(gameofthronesseason1234567)
+
+library(dplyr)
+gotscreen=gameofthronesseason1234567 %>%
+    group_by(Episode, Gender, Season) %>%
+    summarize(seccount = sum(screensec))
+
+gameofthronesseason1234567 %>%
+    group_by(Gender, Season) %>%
+    summarize(secmean = mean(screensec))
+
+
+aov.got=aov(seccount~factor(Season)*factor(Gender),data=gotscreen)
+save(gotscreen, file = "~/Documents/TEACHING/STA410_610/DATA/gotscreen.RData")
+
+```
+    
+    HAVE THEM DO REFERENCE CELL CODING AND ALSO ESTIMATE CONTRASTS ON THIS HOMEWORK TOO GOING BACK AND FORTH BETWEEN CODING SCHEMES
+
+

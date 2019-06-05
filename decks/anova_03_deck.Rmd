@@ -104,16 +104,22 @@ The weighted average reflects the relative amount of information available on ea
   
 In practice, we carry out all estimation together (estimate variances along with the mean parameters), but we won't worry about this yet.
 
+## Understanding the Model
+
+These estimates are often called *shrinkage estimates*, as they "shrink" the no pooling estimates back towards the complete pooling mean, to an extent determined by the information in the data.
+
+Next we formalize the model and consider some of its features and implications.
+
 ## Random Intercept Model
 
 This model is a special case of a *random intercept* model in which covariates are categorical.  Note some consequences of this model.
 
 
-$y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$ and $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$
+$y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$ $\perp$ $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$
 
 $E[y_{ij}]=E[\mu+\alpha_j+\varepsilon_{ij}]=\mu+0+0=\mu$
 \begin{eqnarray*}
-\text{Var}[(y_{ij}]&=&E[(y_{ij}-E(y_{ij}))^2] \\
+\text{Var}[y_{ij}]&=&E[(y_{ij}-E(y_{ij}))^2] \\
 &=& E[(\mu+\alpha_j+\varepsilon_{ij}-\mu)^2] \\
 &=& E[(\alpha_j+\varepsilon_{ij})^2] \\
 &=& E[\alpha_j^2+2\alpha_j\varepsilon_{ij}+\varepsilon_{ij}^2] \\
@@ -151,26 +157,30 @@ The correlation between two observations in the same group is then given by
 
 This motivates the use of random effects ANOVA to handle cases in which we expect subgroups of observations to be correlated (e.g., repeated measures or family studies).
 
+##
+
+It is often convenient to stack our observations into a long vector $Y_{N \times 1}$ organized by groups.  For simplicity in exposition, assume $n_j=n$ and the total sample size $N=nJ$. Then assuming $Y$ follows a multivariate normal distribution (which follows from our specification previously), we can express $$\text{Cov}(Y)=\sigma^2I_{N\times N} + \tau^2 \begin{pmatrix} J_n & 0 & \cdots & 0 \\ 0 & J_n & \cdots & 0 \\
+\vdots & \vdots & \vdots & \vdots \\ 0 & 0 & \cdots & J_n \end{pmatrix}=I_J \otimes V,$$ where $V=\sigma^2I_n+\tau^2J_n$ and $J_n$ is an $n \times n$ matrix of 1's.
+
+## Kronecker product
+
+The *Kronecker product* is a convenient way to express patterned covariance matrices (among other things).  For matrices $A_{m \times n}$ and $B_{p \times q}$, the *Kronecker product* $A \otimes B=\begin{bmatrix}a_{11}B & \cdots & a_{1n}B \\ \vdots & \ddots & \vdots \\ a_{m1}B & \cdots & a_{mn}B \end{bmatrix}$.
+
+Using a Kronecker product, we can succinctly express the block diagonal covariance matrix of all our observations when we have equal numbers of observations in each group.
+
+
 ## Estimation Methods
 
-We will consider the following estimation methods for random intercept models.
+We briefly consider the following estimation methods for random intercept models.
 
   - Maximum likelihood (ML)
   
   - Restricted maximum likelihood (REML)
   
-  - Bayesian estimation
+  - Empirical Bayes estimation
   
 
 ## Maximum Likelihood Estimation
-
-
-Suppose we stack all the outcome variables in group j in  $y_j$ and assume $y_1,\cdots,y_J \overset{iid}{\sim}N(\theta,\Sigma)$, where $\theta$ contains the mean parameters $(\mu,\alpha_1,\cdots,\alpha_J)$ and $\Sigma=\begin{pmatrix} \sigma^2 + \tau^2 & \tau^2 & \cdots & \tau^2 \\
-\tau^2 & \sigma^2+\tau^2 & \cdots & \tau^2 \\
-\vdots & \vdots & & \vdots \\
-\tau^2 & \tau^2 & \cdots & \sigma^2+\tau^2 \end{pmatrix}$
-
-##
 
 We can also think of this formulation in the framework of the general linear mixed effects model, where $$y=X\beta+Zb+\varepsilon.$$ In the random effects ANOVA case, 
 
@@ -198,12 +208,247 @@ and we often work with the log-likelihood, given by
 
 which we then minimize (as I took the negative) in order to find the MLE.
 
-## MLE in ANOVA with random effects?
+## MLE for Bike Data
+ Recall our model
+ 
+$y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$ $\perp$ $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$, where $y_{ij}$ indicates the passing distance between the car and the bike, and $\alpha_j$ represent effects of different distances between the bike and the curb. 
 
-Add jonathan taylor notation to notes for RE anova special case at
-http://statweb.stanford.edu/~jtaylo/courses/stats203/notes/mixed.pdf
+##
+
+Instead of directly maximizing the log-likelihood in R, we can use the lme4 library to do the work for us.
+
+```{r findmle}
+load("~/Documents/GitHub/STA-410-610/PsychBikeData")
+library(lme4)
+fit.ml=lmer(`passing distance` ~ (1 | kerb), REML=FALSE, data = PsychBikeData)
+summary(fit.ml)
+```
+
+Our ML estimates of $(\mu,\tau^2,\sigma^2)$ for the bike data are $(\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.009, 0.137)$
+
+## REML
+
+Previously, we examined an ANOVA table in which group $j$ had $n_j$ members. For simplicity now assume $n_j=n ~\forall ~ j$ so that N=Jn. Then our ANOVA table can be written
+
+
+|Source           | DF | SS | MS | F | p |
+| ----------  | --- | --- | --- | --- | --- | 
+| Groups | $J-1$ | SSG | $MSG=\frac{SSG}{J-1}$ | $\frac{MSG}{MSE}$ | from $F_{J-1,J(n-1)}$ |
+| Error | $J(n-1)$ | SSE | $MSE=\frac{SSE}{J(n-1)}$ | |  
+| Total | $Jn-1$ | SST | | |
+
+Our justification for the F ratio measuring evidence against $H_0$ was that
+  -$E[MSE \mid \mu, \alpha_j,\sigma^2]=\sigma^2$
+  -$E[MSG \mid \mu, \alpha_j, \sigma^2]=\sigma^2+\frac{n\sum (\mu_j-\mu)^2}{J-1}$ (assuming equal group sizes)
+
+##
+  
+If we now treat $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$ as random, then
+
+\begin{eqnarray*}
+E[MSG \mid \mu, \sigma^2, \tau^2]&=&E\left[E[MSG \mid \mu, \alpha_j, \sigma^2]\mid \mu, \sigma^2, \tau^2 \right] \\
+&=& E[\sigma^2+\frac{n\sum (\mu_j-\mu)^2}{J-1}\mid \mu, \sigma^2, \tau^2]$ \\
+&=& \sigma^2+n\tau^2
+\end{eqnarray*}
+
+because $\frac{\sum (\mu_j-\mu)^2}{J-1}$ is an unbiased estimate of $\tau^2$. Thus 
+$E[\frac{MSG-MSE}{n}]=(\sigma^2+n\tau^2-\sigma^2)/n=\tau^2$ and thus an *unbiased* estimate of $\tau^2$ is given by $\widehat{\tau}^2=(MSG-MSE)/n$. This estimator has many names, including 
+
+  - ANOVA estimator (comes from ANOVA table)
+  - method of moments estimator (based on expectations/moments)
+  - restricted maximum likelihood (REML) estimator
+  
+## REML
+
+REML estimation is quite popular for variance component estimation. Features of REML estimation include the following
+
+  - it is based on a likelihood function of residuals and therefore only uses information that does not depend on fixed effects
+  - when all groups have the same sample size $n_j=n$, it is the same as the ANOVA estimator
+  
+  
+We'll get into more detail on REML estimation methods later in the course -- it turns out our old friend $s^2$ for the variance of a normal distribution is a REML estimator.
+  
+## REML Estimates for the Bike Data
+
+
+```{r findreml}
+
+fit.reml=lmer(`passing distance` ~ (1 | kerb), REML=TRUE, data = PsychBikeData)
+summary(fit.reml)
+```
+
+Our REML estimates of $(\mu,\tau^2,\sigma^2)$ for the bike data are $(\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.012, 0.137)$
+
+## Empirical Bayes
+
+Recall our group means formulation:
+
+\begin{eqnarray*}
+y_{ij}&=&\mu_j+\varepsilon_{ij}\\
+\mu_1,\cdots,\mu_J &\overset{iid}{\sim}& N(\mu, \tau^2) \\
+\varepsilon_{ij} &\overset{iid}{\sim} & N(0,\sigma^2).
+\end{eqnarray*}
+
+Suppose $(\mu, \tau^2, \sigma^2)$ are known exactly and consider estimating $\mu_j$ with an estimator that is a linear function of the group sample mean $\widehat{\mu}_j=a\overline{y}_j+b$. Then one can show that the MSE $E[(\mu_j-\widehat{\mu}_j)^2]$ is minimized if $a=\frac{\frac{n_j}{\sigma^2}}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}}$ and $b=(1-a)\mu$, so that $\widehat{\mu}_j=w_j \overline{y}_j+(1-w_j)\mu$, where $w_j=\frac{\frac{n_j}{\sigma^2}}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}}$
+  
+##
+
+If we knew $(\mu, \tau^2,\sigma^2)$ this estimate would be the *Bayes estimate*; however, we do not know these parameters and are instead estimating them from the data, so that 
+
+$\widehat{\mu}_j=\widehat{w}_j \overline{y}_j+(1-\widehat{w}_j)\widehat{\mu}$, where $\widehat{w}_j=\frac{\frac{n_j}{\widehat{\sigma}^2}}{\frac{n_j}{\widehat{\sigma}^2}+\frac{1}{\widehat{\tau}^2}}$
+
+is called an *empirical Bayes estimate* because our unknown parameters have been replaced by "empirical" estimates from the data.
+  
+
+
+## EB Estimates of Group Means for Bike Data
+
+```{r ebest}
+tapply(PsychBikeData$`passing distance`,PsychBikeData$kerb,mean)
+coef(fit.ml)
+coef(fit.reml)
+
+```
 
 
 
 
-## AT SOME POINT FIT RADON DATA USING RANDOM EFFECTS ANOVA AND GIVE CODE
+
+
+
+## Data exploration in Radon Study
+![Estimates and SE's for log radon levels in MN versus the
+    (jittered) sample size. The horizontal line indicates the complete pooling estimate (Gelman and Hill).](figures/gelman1.jpg){width=70%}
+    
+## Radon study
+
+The multilevel estimates in the previous slide represent a compromise between the two extremes.  In this simple setting (with no predictors), the multilevel estimate for county $j$ can be approximated as a weighted average of the mean of all observations in the county, weighting both the unpooled estimate $\overline{y}_j$ and the mean over all counties $\overline{y}_{\cdot \cdot}$.
+
+## Radon study
+
+$$\widehat{\alpha}_j \approx
+\frac{\frac{n_j}{\sigma^2_y}\overline{y}_j+\frac{1}{\sigma^2_{\alpha}}\overline{y}_{\cdot\cdot}}{\frac{n_j}{\sigma^2_y}+\frac{1}{\sigma^2_{\alpha}}},$$
+    where 
+    
+- $n_j$ is the number of homes measured in county $j$
+
+- $\sigma^2_y$ is the within-county variance in the log radon
+  measurements
+  
+- $\sigma^2_{\alpha}$ is the variance across the average log radon
+  levels of different counties
+
+## Radon study
+
+The weighted average reflects the relative amount of information available on each individual county, compared to that available across all counties.
+
+- Averages from counties with smaller sample sizes are less precise, so the weighting shrinks the multilevel estimates closer to the overall state average.  For example, if $n_j=0,$ the multilevel estimate is just $\overline{y}_{\cdot \cdot}$.
+
+- Averages from counties with larger sample sizes are more precise, and the multilevel estimates are closer to the county averages.  As $n_j \rightarrow \infty$, the multilevel estimate is just the county average $\overline{y}_j$.
+
+- In intermediate cases, the multilevel estimate is in between the
+  extremes.
+
+## Radon study
+
+In practice, we carry out all estimation together (estimate variances along with the $\alpha$ parameters), but we won't worry about this yet.
+
+Code for the radon analysis as presented in Gelman and Hill [is available at this link](http://www.stat.columbia.edu/~gelman/arm/examples/radon/radon_chap12.R)  .
+
+
+## Location of measurement in radon study
+
+One important predictor of radon levels is the floor on which the measurement is taken:  basement ($x_i=0$) or first floor ($x_i=1$); radon comes from underground and can enter more easily when the house is built into the ground.
+
+First, we examine the complete-pooling regression, $y_i=\alpha+\beta x_i + \varepsilon_i$, and the no-pooling regression $y_i=\alpha_{j[i]}+\beta x_i + \varepsilon_i$, where $\alpha_{j[i]}$ is the mean log radon level from basement
+measures of homes (indexed by i) in county $j$. 
+
+The following plot shows the dashed lines $\widehat{y}=\widehat{\alpha}+\widehat{\beta} x$ for eight selected counties from the complete pooling model, and the solid lines
+$\widehat{y}=\widehat{\alpha}_j+\widehat{\beta}x$ from no pooling model.
+
+## No pooling and pooling
+
+![Complete-pooling (dashed) and no-pooling (solid) regression fits to radon
+data (Gelman and Hill)](figures/gelman2.jpg){width=70%}
+  
+## Interpretation
+
+The estimates of $\beta$ (the association between floor of home and radon level) differ slightly for the two regressions, with $\widehat{\beta}=-0.61$ for the pooling model, and $\widehat{\beta}=-0.72$ for the no-pooling model. As we might expect, we tend to have higher radon levels in the basement (p<0.0001).  (Note: the models differ a LOT in adjusted $R^2$:  0.07 in the complete pooling model, and 0.74 in the no pooling model.)
+
+Neither analysis is perfect.  The complete-pooling analysis ignores variation in radon levels between counties, which is undesirable because our goal is to identify counties with high-radon homes -- we can't pool away the main
+research question!  The no-pooling analysis is also problematic -- for example the Lac Qui Parle County line is estimated based on just two data points.
+
+## Multilevel model
+
+We will start with a simple multilevel model, $y_i=\gamma_0 +
+\alpha_{j[i]}+\beta x_i + \varepsilon_i$, where now $\alpha_{j} \sim N(0,\sigma^2_\alpha)$ and $\varepsilon_i \sim N(0, \sigma^2_y)$.  We fit this model using the lmer() function in the lme4 package.
+
+This model can also be written $y_i \sim N(\alpha_{j[i]}+\beta x_i, \sigma_y^2),$ 
+
+$\alpha_j \sim N\left(\gamma_0,\sigma_\alpha^2 \right)$
+
+## Code to fit models
+
+```{r readsetup}
+srrs2 <- read.table ("data/srrs2.dat", header=T, sep=",")
+mn <- srrs2$state=="MN"
+radon <- srrs2$activity[mn]
+log.radon <- log (ifelse (radon==0, .1, radon))
+floor <- srrs2$floor[mn]   # 0 for basement, 1 for first floor
+n <- length(radon)
+y <- log.radon
+x <- floor
+
+county.name <- as.vector(srrs2$county[mn])
+uniq <- unique(county.name)
+J <- length(uniq)
+county <- rep (NA, J)
+for (i in 1:J){
+  county[county.name==uniq[i]] <- i
+}
+
+```
+
+```{r fitsimplemodels}
+###pooled model
+lm.pooled<-lm(formula=y~x)
+summary(lm.pooled)
+###unpooled  model
+lm.unpooled<-lm(formula=y~x+factor(county)-1)
+summary(lm.unpooled)
+```
+
+```{r lmer}
+#basic MLM with just random intercept for county
+M1<-lmer(y~x+(1|county),REML=FALSE)
+summary(M1)
+coef(M1)
+```
+
+
+```{r M1}
+library(lme4)
+#basic MLM with just random intercept for county
+M1<-lmer(y~x+(1|county))
+```
+
+## Output from MLM
+```{r M1out}
+summary(M1)
+```
+
+<small> The ratio of county-level variance to total variance is an estimate of the correlation of within-county measures. Here $\hat{\rho}=\frac{.1077}{.1077+.5709}=0.16$. </small>
+
+## County-level estimates
+```{r M1colevel}
+coef(M1)
+```
+
+The first column gives estimates of $\alpha_j$, and the second column gives the estimate of $\beta$ (does not vary over county $j$ according to the model we specified), for the first 19 of 85 counties.
+
+## Your Job!
+
+Examine estimates from complete pooling, no pooling, and the multilevel model for counties in North Dakota (ND), with a focus on how the shrinkage varies according to sample size.
+
+
+

@@ -48,6 +48,9 @@ The handling of female characters in the American series Game of Thrones, and in
   3. Clear specification of any hypothesis tests or other inferential techniques used to evaluate the questions posed above.
   4. Evidence of adequacy of model fit and evaluation of suitability of any assumptions.
   5. Clear description of results in language accessible to the average fan of the show, including graphical displays as appropriate.
+  
+  
+### 4. Prove or disprove. Suppose $X$ and $Y$ each follow *univariate* normal distributions and that $\text{Cov}(X,Y)=0$. Then $X$ is independent of $Y$.
 
 
 
