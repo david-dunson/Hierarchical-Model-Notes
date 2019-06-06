@@ -124,3 +124,36 @@ p(\mu_j &\mid& \mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \t
 
 
 </small>
+
+For homework you will show this is a normal distribution with variance $v_j=\frac{1}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}}$ and mean $v_j\left[\frac{n_j}{\sigma^2}\overline{y}_j+\frac{1}{\tau^2}\mu\right]$.
+
+##
+
+The full conditional posterior distribution of $\mu_j$ has a nice form, and we can see that the conditional mean is a compromise between the sample mean (weighted by the data precision) and the overall mean (weighted by the prior precision), while the conditional precision (inverse variance) can be thought of as the sum of data precision and prior precision.
+
+## Inverse Gamma Distribution
+
+The inverse gamma (IG) distribution is a popular choice for modeling variance components given its support on the positive real numbers. If the random variable $\frac{1}{X}$ has a gamma distribution, we say $X$ has an inverse gamma distribution, given by $$p(x \mid \alpha, \beta)=\frac{\beta^\alpha}{\Gamma(\alpha)}x^{-\alpha-1}e^{-\frac{\beta}{x}} \text{ for } x>0.$$ This distribution has mean $\frac{\beta}{\alpha-1}$, mode $\frac{\beta}{\alpha+1}$, and variance $\frac{\beta^2}{(\alpha-1)^2(\alpha-2)}$.
+
+##
+
+Using an IG$\left(\frac{m_0}{2},\frac{m_0\tau_0^2}{2}\right)$ distribution for $\tau^2$, we can now see that $\tau_0^2$ is somewhere in the "center" of the distribution (between the mode $\frac{m_0\tau_0^2}{m_0+2}$ and the mean $\frac{m_0\tau_0^2}{m_0-2}$). As the "prior sample size" $m_0$ increases, the difference between these quantities goes to 0.
+
+##
+
+The full conditional posterior for $\tau^2$ in our hierarchical normal model is given by
+
+<small>
+
+\begin{eqnarray*}
+p(\tau^2 &\mid& \mu, \sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
+&\propto& p(\tau^2) p(\mu \mid \tau^2) \prod p(\mu_1, \cdots, \mu_J \mid \mu, \tau^2) \\
+&\propto& \left(\tau^2\right)^{-\frac{m_0}{2}-1}e^{-\frac{m_0\tau_0^2}{2\tau^2}} \left(\tau^2\right)^{-\frac{1}{2}}e^{-\frac{m_0(\mu-\mu_0)^2}{2\tau^2}}\prod_{j=1}^J \left(\tau^2\right)^{-\frac{1}{2}}e^{-\frac{(\mu_j-\mu)^2}{2\tau^2}} \\
+&\propto& (\tau^2)^{-\frac{m_0+J+1}{2}-1}e^{-\frac{m_0\tau_0^2+m_0(\mu-\mu_0)^2+\sum (\mu_j-\mu)^2}{2\tau^2}}
+\end{eqnarray*}
+
+</small>
+
+Which is another inverse gamma distribution
+
+## now program data example
