@@ -154,6 +154,12 @@ p(\tau^2 &\mid& \mu, \sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\
 
 </small>
 
-Which is another inverse gamma distribution
+so that the full conditional posterior is also IG.
+
+##
+
+You can also show the full conditional posterior of $\sigma^2$ is $IG\left(\frac{\nu_0+\sum n_j}{2},\frac{\nu_0\sigma_0^2+\sum \sum (y_{ij}-\mu_j)^2}{2}\right)$ under our prior specification of $\sigma^2 \sim IG\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$ (homework). Again, $\sigma_0^2$ and $\nu_0$ can be interpreted as a prior guess at $\sigma^2$ associated with a given prior sample size (level of confidence).
+
+##
 
 ## now program data example

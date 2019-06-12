@@ -68,8 +68,8 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | September 11  | Bayesian Estimation  |  |
 | September 13  |Bayesian Estimation |  |
 | September 16  | Lab: Empirical Bayes \& Bayesian Estimation |   |
-| September 18  | Random Effects ANCOVA |   |
-| September 20  | Exam Review | Assignment 2 Due |
+| September 18  | Random Effects ANCOVA | Assignment 2 Due  |
+| September 20  | Exam Review |  |
 | September 23  | Lab: Fitting Hierarchical Bayes Models |  |
 | September 25  | Exam 1 (in class)  | Exam 1 (in class) |
 | September 27  | Linear Mixed Effects Model and Case Study 1 Introduction |  Exam 1 Returned (my deliverable) |

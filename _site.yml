@@ -8,7 +8,7 @@ navbar:
     href: index.html
   - text: Policies
     href: policies.html
-  - text: Linear Algebra Review
+  - text: Review and Introduction
     href: linalg.html
   - text: ANOVA
     href: anova01.html

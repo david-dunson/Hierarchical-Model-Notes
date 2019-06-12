@@ -1,0 +1,29 @@
+---
+title: Introduction and Overview
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Hoff lecture notes
+
+## draw also from red state blue state notes
+
+
+## Motivating Example: Cycling Safety
+
+Dr. Ian Walker at University of Bath carried out a project to investigate how drivers overtake bicyclists. His team modified a bicycle subtly to carry both a video system and an accurate ultrasonic distance sensor that could record the proximities of each passing vehicle.
+
+The team then designed an experiment in which a cyclist (Dr. Walker) varied the distance he rode from the curb (the British spelling kerb is used in the dataset) from 0.25m to 1.25m in 0.25 m increments. 
+
+

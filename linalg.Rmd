@@ -1,5 +1,5 @@
 ---
-title: "Linear Algebra and Statistical Inerence Review"
+title: "Review and Introduction"
 ---
 
 ```{r, echo=FALSE, include=FALSE}
@@ -9,7 +9,8 @@ library(tidyverse)
 ```
 
 
-# Topics of Interest
+
+# Review Materials (on your own, as needed)
 
 - basic properties of vectors and matrices
 - linear independence, dependence, and rank of a matrix
@@ -18,7 +19,7 @@ library(tidyverse)
 - maximum likelihood estimation
 
 
-# Resources
+# Review Resources
 
 Penn State University maintains some very nice review materials online (these are shorter in length than the slides below.)
 
@@ -40,6 +41,9 @@ Penn State University maintains some very nice review materials online (these ar
 
 # Slides
 
+[Hierarchical Models: Overview](decks/overview_deck.html)
+
+## Review Materials
 
 [Basics: Vectors and matrices](decks/linalg_01_deck.html)
 
