@@ -42,9 +42,13 @@ Anything here?  Check Penn State?  Resources on matrix formulation of linear mod
 
 [Random Effects ANOVA](decks/anova_03_deck.html)
 
+[Bayesian Inference for the Hierarchical Normal Model](decks/anova_04_deck.html)
+
 # Homework
 
 [Assignment 1](decks/homework/hw1.html)
+
+[Assignment 2](decks/homework/hw2.html)
 
 
 

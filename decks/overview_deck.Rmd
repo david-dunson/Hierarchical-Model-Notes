@@ -15,7 +15,7 @@ output:
   
 ---
 
-## Hoff lecture notes
+## Hoff lecture notes 
 
 ## draw also from red state blue state notes
 
