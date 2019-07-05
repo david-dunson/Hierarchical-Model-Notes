@@ -54,5 +54,7 @@ check [data](http://www.stat.washington.edu/~hoff/Book/Data/data/chapter11.r) --
 
 ## hmm
 not liking peter's notes really here. just move straight to lme?
-notes8 in my longitudinal class has the MLM formulation of the linear mixed effects model. Maybe pull my 440 notes in here?
+notes8 in my longitudinal class has the MLM formulation of the linear mixed effects model. Maybe pull my 440 notes in here? Not great binary.
+
+Notes6.pdf from my 767 class has the general theoretical framework. Combine with Hoff for motivation?  Hoff is better but not perfect either. so ha.
 

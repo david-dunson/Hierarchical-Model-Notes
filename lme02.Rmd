@@ -1,5 +1,5 @@
 ---
-title: "ANOVA"
+title: "Linear Mixed Effects Model"
 ---
 
 ```{r, echo=FALSE, include=FALSE}
@@ -11,24 +11,19 @@ library(tidyverse)
 
 # Topics of Interest
 
-- review of one-way analysis of variance (ANOVA)
+- ANCOVA
 
-- matrix formulation of the ANOVA model
+- general framework of the linear mixed effects model
 
-- contrast estimation
-
-- coding schemes
-
-- interaction among variables
+- 
 
 
 # Resources
 
-- Hoff Chapters 2-4
+- Hoff Chapters 5-x
 
-- Gelman and Hill Chapter 22
+- Gelman and Hill Chapter X
 
-Anything here?  Check Penn State?  Resources on matrix formulation of linear model?
 
 [POINT TO RSTANARM DOCUMENTATION]
 (https://mc-stan.org/users/documentation/case-studies/tutorial_rstanarm.html)
@@ -37,23 +32,21 @@ Anything here?  Check Penn State?  Resources on matrix formulation of linear mod
 
 [Matrix definitions](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/definitions)
 
+[George et al paper](https://arxiv.org/pdf/1510.00842v2.pdf)
+
 
 # Slides
 
 
-[The ANOVA Model: Matrix Formulation](decks/anova_01_deck.html)
+[ANCOVA](decks/lme_01_deck.html)
 
-[Contrast Estimation and Interaction](decks/anova_02_deck.html)
 
-[Random Effects ANOVA](decks/anova_03_deck.html)
-
-[Bayesian Inference for the Hierarchical Normal Model](decks/anova_04_deck.html)
 
 # Homework
 
-[Assignment 1](decks/homework/hw1.html)
+[Assignment 3]
 
-[Assignment 2](decks/homework/hw2.html)
+[Assignment 4]
 
 
 
