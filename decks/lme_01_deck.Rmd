@@ -1,0 +1,58 @@
+---
+title: ANCOVA
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## ANCOVA
+
+
+```{r setup, echo=FALSE, warnings=FALSE}
+options(warn=-1)
+library(tufte)
+options(warn=0)
+```
+
+> "What's in a name? That which we call a rose  
+> By any other name would smell as sweet."
+> 
+> `r tufte::quote_footer('--- Romeo and Juliet II, ii, 1-2')`
+
+![Ancova moth, or snout moth](figures/ancovamoth.jpg){width=40%}
+
+ANOVA, ANCOVA, MANOVA -- what's the difference?
+
+##
+
+- ANOVA (Analysis of Variance): continuous outcome, categorical predictor(s)
+    - one-way ANOVA: one categorical predictor
+    - two-way ANOVA: two categorical predictors
+    - two-way ANOVA with interaction: you get the picture!
+  
+- ANCOVA (Analysis of Covariance): continuous outcome, categorical predictor(s), at least one continuous predictor that is generally considered a nuisance (not unlike the snout moths, which are often considered pests because they share our tastes in grains)
+
+- MANOVA (Multivariate ANOVA): multiple continuous outcomes, categorical predictor(s)
+
+Historically these names had implications regarding the estimation methods used, but that is no longer always the case.
+
+## data
+
+also we could maybe get the george and rockova data here?
+
+check [data](http://www.stat.washington.edu/~hoff/Book/Data/data/chapter11.r) -- what is kristian pulling from there -- rmvnorm is it.
+
+## hmm
+not liking peter's notes really here. just move straight to lme?
+notes8 in my longitudinal class has the MLM formulation of the linear mixed effects model. Maybe pull my 440 notes in here?
+

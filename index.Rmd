@@ -99,7 +99,7 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | November 22   | Case Study 2 Presentations | Case Study 2 Due |
 | November 25   | Case Study 2 Presentations |  |
 | December 2    | No lab |  |
-| December 4    | Optional in-class assignment |  |
-| December 6    | Optional in-class assignment |  |
+| December 4    | Statistical Writing Workshop |  |
+| December 6    | Statistical Writing Workshop |  |
 
 

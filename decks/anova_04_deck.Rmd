@@ -98,7 +98,7 @@ Ahh, this is the kernel of a normal distribution for $\mu$!
 
 ##
 
-We recognize this conditional posterior distribution of $\{\mu \mid \tau^2, \mu_1, \cdots, \mu_J\}$ as the kernel of a normal distribution with mean $\frac{m_0\mu_0+\sum \mu_j}{\mu_0+J}$ and variance $\frac{\tau^2}{\mu_0+J}$.
+We recognize this conditional posterior distribution of $\{\mu \mid \tau^2, \mu_1, \cdots, \mu_J\}$ as the kernel of a normal distribution with mean $\frac{m_0\mu_0+\sum \mu_j}{\mu_0+J}$ and variance $\frac{\tau^2}{m_0+J}$.
 
 To motivate interpretation of the prior parameters, express the mean $\frac{m_0\mu_0+\sum \mu_j}{\mu_0+J}=\frac{J}{m_0+J}\frac{1}{J}\sum \mu_j + \frac{m_0}{J+m_0}\mu_0$.
 
@@ -165,3 +165,26 @@ You can also show the full conditional posterior of $\sigma^2$ is $IG\left(\frac
 We can use Gibbs sampling to make inference about the posterior distribution.
 
 ## now program data example
+
+```{r standefault, cache=TRUE, warning=FALSE, echo=FALSE}
+load("~/Documents/GitHub/STA-410-610/PsychBikeData")
+library(rstanarm)
+M1_stanlmer=stan_lmer(`passing distance` ~ (1 | kerb),  data = PsychBikeData)
+
+```
+
+## print output
+```{r standefaultprior, cache=TRUE}
+prior_summary(object=M1_stanlmer)
+
+```
+
+## print output
+```{r standefaultoutput, cache=TRUE}
+print(M1_stanlmer,digits=2)
+```
+
+## need to do more on example!  code, interp, etc
+Maybe do simple hospital ranking (or hw?). Then pose question -- is hospital mortality high because they're bad, or because sicker people are going there, or both?
+
+Use that old example from Kristian and James?  I think I used it at UNC in my bayes class there last.
