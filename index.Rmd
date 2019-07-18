@@ -96,10 +96,10 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | November 15   | Bayesian Estimation with Missing Data |  |
 | November 18   | Lab: Missing Data |  |
 | November 20   | Exam 2 (in class) | Exam 2 (in class) | 
-| November 22   | Case Study 2 Presentations | Case Study 2 Due |
+| November 22   | Case Study 2 Presentations |  |
 | November 25   | Case Study 2 Presentations |  |
 | December 2    | No lab |  |
-| December 4    | Statistical Writing Workshop |  |
-| December 6    | Statistical Writing Workshop |  |
+| December 4    | Case Study 2 Presentations |  |
+| December 6    | Case Study 2 Presentations | Case Study 2 Due |
 
 

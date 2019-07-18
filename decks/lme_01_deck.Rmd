@@ -1,5 +1,5 @@
 ---
-title: ANCOVA
+title: Random Effects ANCOVA
 output: 
   revealjs::revealjs_presentation:
     theme: night
@@ -45,6 +45,171 @@ ANOVA, ANCOVA, MANOVA -- what's the difference?
 - MANOVA (Multivariate ANOVA): multiple continuous outcomes, categorical predictor(s)
 
 Historically these names had implications regarding the estimation methods used, but that is no longer always the case.
+
+## Motivating Example: National Educational Longitudinal Study of Education (NELS)
+
+Hoff considers a subset of the NELS data that contains information on math scores of a random sample of 10th graders selected from a national sample of 100 large urban public schools. We plot the math scores $y_{ij}$ of the $n_j$ students in each school $j$, ranked by the average score.
+
+##
+
+```{r nelsplot1,echo=FALSE}
+load('data/nels.Rdata')
+avmscore.schools<-tapply(nels$mathscore,nels$school,mean,na.rm=TRUE)
+id.schools<-names(avmscore.schools)
+m<-length(id.schools)
+
+plot(c(1,m),range(nels$mathscore), type="n",ylab="math score", xlab="rank of  school-specific math score  average",cex=.7)
+
+for(school in id.schools[order( avmscore.schools )[seq(1,length(avmscore.schools),by=1)]])
+{
+  y<-nels$mathscore[nels$school==school]
+  x<-rank(avmscore.schools)[ id.schools==school]
+  points( rep(x,length(y)), y,pch=16,cex=.6 ) 
+  points(x, mean(y),col="blue",pch=16,cex=.8) 
+  segments( x,min(y),x,max(y))
+}
+
+abline(h=mean(avmscore.schools))
+
+```
+
+##
+
+- The school-specific averages range from 36.58 to 65.02, with 48.13 the average of all 100 school averages (weighting each school equally).
+
+- The school-specific variances range from 21.81 to 179.69 -- quite a wide range!
+
+- The school with the highest average only contains 4 observations.
+
+
+## Which school is best?
+
+```{r nelsplot2,echo=FALSE,fig.height=4}
+g<-match(nels$school , sort(unique(nels$school))) 
+
+# school specific sample sizes
+n.g<-c(table(g) )
+
+names(g)<-NULL
+names(n.g)<-NULL
+
+## ----fig.height=3,fig.width=8--------------------------------------------
+# school specific mscore means
+ybar.g<-c(tapply(nels$mathscore,g,"mean"))
+
+plot(ybar.g~n.g,ylab="school average",xlab="sample size")
+abline(h=mean(ybar.g)) 
+
+```
+
+Note that the school with the highest average has the smallest sample size ($n_j=4$). Do we have strong evidence that the true mean in this school is substantially larger than that in other schools in the sample?  How might we answer this question?
+
+## ANOVA
+
+One approach would be to fit a fixed effects ANOVA model:
+
+```{r anova}
+m1=lm(nels$mathscore~as.factor(nels$school)-1)
+anova(m1)
+```
+
+Here we see clear evidence of heterogeneity in math scores across schools.
+
+## ANOVA results
+
+```{r catplot,echo=FALSE}
+library(sjPlot)
+plot_model(m1,sort.est=TRUE)
+```
+
+## Random effects ANOVA
+
+Note in the prior plot that the highest estimated mean also has a very large variance. We may wish to use shrinkage estimation in order to stabilize that and other estimates for schools in which few students provide data.
+
+```{r ranef}
+library(lme4)
+m2=lmer(mathscore~(1|school),data=nels)
+summary(m2)
+library(sjstats)
+icc(m2)
+
+
+```
+
+##
+
+How do we conduct a formal test of heterogeneity in this random effects setting?  Well, this is a bit more complicated than in the fixed effects setting, and we'll return to the issue in a couple of lectures. For now just note that the school-level estimated variance seems pretty large.
+
+
+## Bringing SES into the mix
+
+NELS contains a measure of socioeconomic status (SES) for each student. We generally expect some degree of correlation between SES and math score (people who are good at math often can get good jobs, and then have kids who may inherit math talents; rich parents may have more time and resources to devote to their kids), though of course the relationship is not deterministic (there are plenty of math whizzes who did not have rich parents, and there are plenty of rich parents who have kids who do not make good math scores).
+
+##
+
+One way to assess how SES is related to math score is to examine this association in an ANCOVA model, allowing school-specific intercepts while including SES as a covariate $x_{ij}$:
+
+$$y_{ij}=\beta_{0j}+\beta_1x_{ij} + \varepsilon_{ij}.$$
+
+In this model, we estimate the same effect of SES for each school.
+
+INCLUDE HERE PLOT SHOWING VARYING INTERCEPTS AND SAME SLOPE
+
+##
+
+One concern is whether SES has the same relationship with math scores in all schools. For example, some schools may have less of a disparity in scores across levels of SES than others.
+
+As an initial step, we look at variation in slopes across 100 separate regression models fit separately in each school:
+
+PUT HOFF FIGURE 1.5 HERE
+
+##
+
+Repeat figure HERE
+
+Of the 100 schools, 81 slopes are positive and 19 are negative.
+
+The steepest slopes (positive and negative) tend to occur in the schools with smaller sample sizes.
+
+How do we get good estimates of the school-specific slopes?
+
+## School-specific slopes
+
+Building on our knowledge of random intercept models, we could consider the following estimates.
+
+- $\widehat{\beta}_j=\widehat{\beta}_j^{OLS}=(X_j'X_j)^{-1}X_j'y_j$, relying only on the data from school $j$
+
+- $\widehat{\beta}_j=\widehat{\beta}^{POOL}=(X'X)^{-1}X'y$, using all the data and pooling across schools
+
+- $\widehat{\beta}_j=w_j\widehat{\beta}_j^{OLS} + (1-w_j)\widehat{\beta}^{POOL}$, doing something in between
+
+
+## School-specific slopes
+
+One alternative to separate linear regression models for each school is fitting a single model with school-specific slopes and intercepts. These factors could be fixed or random effects. First, let's consider the fixed effects approach.
+
+$$y_{ij}=\beta_{0,j}+\beta_{1,j}x_{ij}+\varepsilon_{ij}$$
+
+If we wish to evaluate whether there is heterogeneity across schools, an easy approach is to fit the model as a linear regression using indicator variables as follows.
+
+##
+
+$$y_{ij}=\beta_0+\alpha_j + \beta_1x_{ij} \gamma_jx_{ij} + \varepsilon_{ij},$$ where we assume $\alpha_J=\gamma_J=0$ (reference cell coding).
+
+In this case, a (J-1) df test can be used to evaluate the hypothesis $H_0: \gamma_j=0$, which corresponds to a constant effect of SES across groups (given by $\beta_1$).
+
+SHOW OUTPUT HERE
+
+
+
+
+
+
+
+
+## 
+
+ANOVA, ANCOVA, and regression models with correlated errors can be considered in the framework of the *linear mixed effects model*. This modeling framework is convenient for consideration of many hierarchical models with continuous outcomes and can be extended to outcomes following distributions in the exponential family.
 
 ## data
 

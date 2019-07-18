@@ -11,11 +11,16 @@ library(tidyverse)
 
 # Topics of Interest
 
-- ANCOVA
+- General framework of the linear mixed effects model
 
-- general framework of the linear mixed effects model
+- Hierarchical models with random intercepts and slopes
 
-- 
+- Relaxing assumptions: nonconstant variance
+
+- Need to do better job here on the motivation and list of topics!
+
+- Would be good to have an elections case study here too -- pull in Mr. P?  So two case studies for the course -- one on election predictions, and one on hospital rankings?  Maybe election pred is case study but hospital rankings needs to be a series of homework assignments....
+
 
 
 # Resources
@@ -38,7 +43,7 @@ library(tidyverse)
 # Slides
 
 
-[ANCOVA](decks/lme_01_deck.html)
+[Linear Mixed Effects Model](decks/lme_01_deck.html)
 
 
 
