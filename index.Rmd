@@ -20,37 +20,37 @@ markup: "mmark"
 
 <font color="#6CA0DC"><i class="fas fa-university fa-lg"></i></font> &nbsp; Old Chem 116
 
-<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; MWF 11:45 - 1:00
+<font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font> &nbsp; MWF 11:45 - 1:00 (usually Mondays will be labs, but sometimes lab and lecture will be swapped)
 
 
 ### Teaching team and office hours 
 
 
-Note: office hours may vary due to travel and other commitments. Revisions to office hours will be noted in Sakai and on my office door. 
+Note: office hours may vary due to travel and other commitments. Revisions to office hours will be noted via e-mail and on my office door. 
 
 | Team member | Office hours | Location |
 | ----------  | -------------------------------------         | ---- |
-| [Professor Amy Herring](https://stat.duke.edu/people/amy-h-herring)  <a href="mailto:amy.herring@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp;  | Wednesday and Thursday 1:30-2:30pm | 208 Old Chemistry |
- [TA Michael Akande](https://www2.stat.duke.edu/~oma9/)  <a href="mailto:olanrewaju.akande@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp;  | Tuesday 5-6pm and Friday 2:25-3:25pm | 203B Old Chemistry
- [TA Henry Kirveslahti](https://stat.duke.edu/people/henry-kirveslahti-1)  <a href="mailto:henry.kirveslahti@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | Monday and Wednesday 5-6pm | 203B Old Chemistry
+| [Professor Amy Herring](https://stat.duke.edu/people/amy-h-herring)  <a href="mailto:amy.herring@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp;  | Wednesday and Thursday 1:45-2:45pm | 208 Old Chemistry |
+ [TA Xu Chen](https://stat.duke.edu/people/xu-chen)  <a href="mailto:xu.chen2@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp;  | TBD | 211 Old Chemistry
+ [TA Isaac Lavine](https://stat.duke.edu/people/isaac-lavine)  <a href="mailto:isaac.lavinei@duke.edu" title="email"><i class="fa fa-envelope"></i></a> &nbsp; | TBD | 211 Old Chemistry
  
                   
 
 
 ### Materials
 
-You should have access to a laptop and bring it to every class, fully charged. Texts and readings will be assigned as needed. The instructor and TA's will support computation in R/RStudio (free software). 
+You should have access to a laptop and bring it to every class, fully charged. Texts and readings will be assigned as needed. The instructor and TA's will support computation in R/RStudio. 
 
 Helpful resource materials for the course include the following.
 
-- Hoff, CSSS - Statistics 560 Lecture notes (ASK PETER IF OK ON GITHUB OR PUT ON SAKAI)
+- Hoff, CSSS - Statistics 560 Lecture notes (Sakai)
 
-- Gelman and Hill, CHECK TITLE AND LINK ON AMAZON OR ELSEWHERE
+- [Gelman and Hill, Data Analysis Using Regression and Multilevel/Hierarchical Models](https://www.amazon.com/Analysis-Regression-Multilevel-Hierarchical-Models/dp/052168689X)
 
 
 ### Topics and Important Dates
 
-STA 440 contains a mixture of lecture, lab, and combination sessions at the usual class times. The lecture topics include descriptions of case studies data and highlights of critical issues to consider in analysis of data. The lectures are not designed to dictate your analysis plans -- just to inform them. Sessions marked "lab" will be taught by TA's and involve hands-on analysis and/or consultation about case studies.
+STA 410/610 contain a mixture of lecture, lab, and combination sessions at the usual class and lab times. Frequent mini-assessments will be provided in class and lab to check mastery and identify areas for additional focus.
 
 Note: this schedule is approximate and is likely to be modified as the course progresses. Some lab sessions will be swapped with lectures due to instructor travel or course timing. Assignments are due at the beginning of class unless otherwise specified. 
 
@@ -61,40 +61,40 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | August 26     | Welcome and Introductions        | ANOVA warm-up (in class)        |
 | August 28     | One Way ANOVA: Scalar and Matrix Formulations    |   Getting to Know You Sheet              |
 | August 30     |  MLE's, Contrasts, Coding Schemes, and Interaction      |    Scientific Writing: ANOVA Results (in class)     |
-| September 2    |  Lab: Hands-on with ANOVA     |  Group lab reports      |
-| September 4   | Random Effects ANOVA |  |
-| September 6   | Random Effects ANOVA| Assignment 1 Due |
-| September 9  | Lab: Visualizing Estimates |  |
+| September 2    |  Lab: Hands-on with ANOVA     |  Group Lab Reports      |
+| September 4   | Random Effects ANOVA | Group Policies Document Due |
+| September 6   | Random Effects ANOVA|  |
+| September 9  | Lab: Visualizing Estimates | Assignment 1 Due  |
 | September 11  | Bayesian Estimation  |  |
 | September 13  |Bayesian Estimation |  |
 | September 16  | Lab: Empirical Bayes \& Bayesian Estimation |   |
-| September 18  | Random Effects ANCOVA | Assignment 2 Due  |
-| September 20  | Exam Review |  |
+| September 18  | Random Effects ANCOVA |   |
+| September 20  | Linear Mixed Effects Model and Case Study 1 Introduction | Assignment 2 Due  |
 | September 23  | Lab: Fitting Hierarchical Bayes Models |  |
-| September 25  | Exam 1 (in class)  | Exam 1 (in class) |
-| September 27  | Linear Mixed Effects Model and Case Study 1 Introduction |  Exam 1 Returned (my deliverable) |
+| September 25  | Exam Review |  |
+| September 27  | Exam 1 (in class)  | Exam 1 (in class) |
 | September 30  |  Lab: Linear Mixed Effects Models I         |  |
-| October 2     | Estimation in LME |   | 
-| October 4     | Lab: Help, I'm Behind! Hands-on analysis and Q&A | Midsemester Grades Due (my deliverable)  |
+| October 2     | Estimation in LME | Exam 1 Returned (my deliverable)  | 
+| October 4     | Lab: Help, I'm Behind! Hands-on Analysis and Q&A | Midsemester Grades Due (my deliverable)  |
 | October 7    | Fall break  |  |
 | October 9    |  Hierarchical Models with Nonconstant Variance |  |
-| October 11    | Linear Mixed Effects Model for Longitudinal Data | Assignment 3 Due  |
+| October 11    | Linear Mixed Effects Model for Longitudinal Data |   |
 | October 14    | Lab: ??? |  |
 | October 16    | Linear Mixed Effects Model for Longitudinal Data |  |
 | October 18    | Case Study Presentations |  Case Study 1 Due |
 | October 21    | Lab: Logistic Regression | | 
 | October 23    | Case Study Presentations | |
-| October 25    | Generalized Linear Models  | | 
-| October 28    | Lab: Mixed Effects  | | 
-| October 30    | Bayesian Estimation of GLM and Case Study 2 Introduction  | Assignment 4 Due   |
+| October 25    | Generalized Linear Models  |  | 
+| October 28    | Lab: Mixed Effects  | Assignment 3 Due | 
+| October 30    | Bayesian Estimation of GLM and Case Study 2 Introduction  |    |
 | November 1    | Generalized Linear Mixed Effects Models |  |
 | November 4    | Lab: Hierarchical Logistic Regression | | 
 | November 6    | Bayesian Estimation of GLMM |  |
 | November 8    | GLMM in Practice  |  |
 | November 11   | Lab: Bayesian GLMM | |
-| November 13   | Bayesian Estimation with Missing Data | Assignment 5 Due |
-| November 15   | Bayesian Estimation with Missing Data |  |
-| November 18   | Lab: Missing Data |  |
+| November 13   | Bayesian Estimation with Missing Data |  |
+| November 15   | Bayesian Estimation with Missing Data | Assignment 4 Due |
+| November 18   | Lab: Exam Review |  |
 | November 20   | Exam 2 (in class) | Exam 2 (in class) | 
 | November 22   | Case Study 2 Presentations |  |
 | November 25   | Case Study 2 Presentations |  |

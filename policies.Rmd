@@ -92,9 +92,10 @@ Your final grade will be comprised of the following:
 |Component | % of Grade |
 | ----------    | -----------------  |     
 |Homework assignments      | 20% |
-|Group case studies       | 20% |
-|Exam 1           | 30% |
-|Exam 2      | 30% |
+|Group case study 1       | 15% |
+|Group case study 2   | 15%   |
+|Exam 1           | 25% |
+|Exam 2      | 25% |
 
 Class attendance is a firm expectation; frequent absences or late arrivals are a legitimate cause for grade reduction.
 

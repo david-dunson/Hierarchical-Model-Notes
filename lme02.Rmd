@@ -39,13 +39,19 @@ library(tidyverse)
 
 [George et al paper](https://arxiv.org/pdf/1510.00842v2.pdf)
 
+[Hospital data](https://github.com/donnemartin/hospital-quality)
+
+[More on hospital compare data](https://rpubs.com/D_Cypher/BestHospitals)
 
 # Slides
 
 
-[Linear Mixed Effects Model](decks/lme_01_deck.html)
 
+[Random Effects ANCOVA](decks/lme_01_deck.html)
 
+[Introduce Random slopes?]
+
+[Linear Mixed Effects Model]
 
 # Homework
 
