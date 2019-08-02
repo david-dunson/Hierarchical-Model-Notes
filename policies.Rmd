@@ -74,13 +74,13 @@ Students who miss homework or case study submissions will receive 0 points for t
 
 #### Examinations
 
-Two in-class examinations will be given as specified on the syllabus. If you know in advance you must miss an in-class examination, please contact Prof. Herring as soon as possible. 
+Two in-class examinations will be given as specified on the syllabus. If you know in advance you must miss an in-class examination, please contact Prof. Herring as soon as possible and in the meantime plan to be present on December 2 for a make-up assignment.
 
 #### Make-up Examinations and Substitute Credit
 
-During the last week of undergraduate classes, students will have the opportunity to earn credit towards a limited number of missed assignments (or assignments with grades a student would like to improve).  The optional in-class assignment on Wednesday, December 4 may be used to replace *either* one in-class examination grade *or* one homework grade.  The optional in-class assignment on Friday, December 6 may be used to replace *either* one group case study grade *or* one homework grade. 
+During the last week of undergraduate classes, students will have the opportunity to earn credit for one missed assignment (or one assignment a grade a student would like to improve).  The optional in-class assignment on Monday, December 2 may be used to replace one in-class examination grade *or* one homework grade *or* one case study grade (if you miss two things, you're going to have a 0 somewhere, so please avoid that).
 
-These assignments will be challenging and designed to evaluate mastery of the material. If the make-up grade is lower than the grade to be replaced, it will not be used (that is, completing these assignments will not lower a student's grade).
+This assignment will be challenging and designed to evaluate mastery of the material. If the make-up grade is lower than the grade to be replaced, the higher grade will be retained (that is, completing this assignment will not lower a student's grade).
 
 
 
@@ -99,7 +99,9 @@ Your final grade will be comprised of the following:
 
 Class attendance is a firm expectation; frequent absences or late arrivals are a legitimate cause for grade reduction.
 
-Cumulative numerical averages of 90 - 100 are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-; however, the exact ranges for letter grades will be determined at the end of the semester. Because typical graduate school grading will be used, the grade ranges may need to be shifted to the left, and when appropriate, students will be given guidance on interpreting grades when assignments are returned. The more evidence there is that the class is performing at the highest level, the higher the grade distribution will be.
+Cumulative numerical averages of 90 - 100 are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-; however, the exact ranges for letter grades will be determined at the end of the semester. Because typical graduate school grading will be used, the grade ranges may need to be shifted to the left, and when appropriate, students will be given guidance on interpreting grades when assignments are returned. The more evidence there is that the class is performing at the highest level, the higher the grade distribution will be. 
+
+The grading scale used at the end of the semester for STA 610 will reflect the higher level of mastery expected of graduate students than the grading scale for STA 410.
 
 
 
@@ -128,13 +130,12 @@ Late work policy for case study reports:
 
 - late, but within 24 hours of due date/time: -20%
 - any later: no credit
-- Late work will not be accepted for the election case study November 5 submission or the individual case study
-- Missed application exercises cannot be made up (the bottom 20% will be dropped anyway)
-- You must complete the individual case study and be in class to present it in order to pass this course.
+
+All group members are expected to be present when the group presents its case study to the class.
 
 ### Regrade requests
 
-Regrade requests must be made within three days of when a report is returned. These will be honored if points were tallied incorrectly, or if you feel part of your report is correct, but it was marked wrong. No regrade will be made to alter the number of points deducted for an issue. There will be no grade changes after December 6.
+Regrade requests must be made within three days of when a report is returned. These will be honored if points were tallied incorrectly, or if you feel part of your report is correct, but it was marked wrong. No regrade will be made to alter the number of points deducted for an issue. The last day to file a grade change request is December 2.
 
 
 
