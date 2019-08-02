@@ -171,15 +171,48 @@ So no interaction ($\gamma=0$) means that the drug effect is the same regardless
 
 
 
-## In class activity 
+## R's Most Exciting Data
 
-with some ANOVA data -- maybe some pharma data or the AB testing data that I used in STA 440 last fall?  Hmm. Use homework rubric to help them write up results.  USE THE BIOS600 PET FRIEND DATA EXAMPLE -- or is that only oneway?  ONLY ONEWAY IN DATA I HAVE
+Get ready -- we are going to explore R's most thrilling data -- the famous tooth growth in Guinea pigs data!
 
-ideally use data that would be better suited for random effects ANOVA so that is a nice segway into the next lecture
+![](figures/olivertwist.jpg)
 
-GOT data?
+Ahh, how cute!  Our Dickensian guinea pig has a mystery to solve -- which type of Vitamin C supplement is best for tooth growth!
 
-Y=screen time
-X1=gender
-X2=season
+##
+
+
+<img src="figures/teeth1.jpg" , width = "20%">
+
+
+Guinea pig dental problems are NOT fun. Our dataset (Crampton, 1947) contains as a response the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs, each of which receives one dose of vitamin C (0.5, 1, or 2 mg/day) via one of two delivery methods (orange juice (OJ) or ascorbic acid (VC)). Researchers wanted to know if the odontoblast length could be used as a marker of Vitamin C uptake, for the purposes of providing better nutritional supplementation to members of the Canadian armed forces.
+
+##
+
+```{r guineadescriptives,echo=FALSE, warning=FALSE, out.width="50%"}
+library(ggplot2)
+gp=ToothGrowth
+gp$dose=as.factor(gp$dose)
+# Default bar plot
+p<- ggplot(gp, aes(x=dose, y=len, fill=supp)) + 
+  geom_bar(stat="identity", position=position_dodge()) 
+# Finished bar plot
+p+labs(title="Odontoblast length by dose", x="Dose (mg)", y = "Length")+
+   theme_classic() +
+   scale_fill_manual(values=c('#999999','#E69F00'))
+
+```
+
+Looking at the boxplot of the growth data, what type of ANOVA model may be most appropriate?  Take a moment to write a model in mathematical notation -- then we will confer with the group possible choices.
+
+## Your task!
+
+1. Under your model, write out (in terms of parameters) the means for each combination of supplement type and dose.
+2. Fit your model and provide a one-page summary of the analysis in language accessible to the general public.
+3. Suppose that greater lengths are indicative of better absorption. Make a recommendation for the dose(s) and supplement type(s) to be used to deliver vitamin C to armed forces members, assuming that the goal is to maximize absorption of vitamin C. Use statistical evidence to support your recommendation.
+
+## 
+
+
+
 
