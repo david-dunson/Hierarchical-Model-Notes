@@ -66,6 +66,10 @@ Individual contributions to each submission will be assessed. Team members must 
 
 Each case study will have a page limit, and under no circumstances should font sizes less than 11 point be used, with the exception of labels in figures (and then only if they are still clearly legible to readers of all ages).
 
+#### Lab reports
+
+Reports from lab will be turned in (group work) and graded after most labs.
+
 #### Homework assignments
 
 Four homework assignments will be given throughout the semester. These homework assignments are to be completed independently without collaborating with other students.
@@ -92,7 +96,8 @@ Your final grade will be comprised of the following:
 |Component | % of Grade |
 | ----------    | -----------------  |     
 |Homework assignments      | 20% |
-|Group case study 1       | 15% |
+|Lab reports     | 5% |
+|Group case study 1       | 10% |
 |Group case study 2   | 15%   |
 |Exam 1           | 25% |
 |Exam 2      | 25% |
