@@ -57,7 +57,7 @@ A $(1 \times r)$ matrix is called a *row vector*.
 We can represent the matrix ${\bf A}_{r \times c}$ in terms of its columns $({\bf a}_1,{\bf a}_2,\ldots,{\bf a}_c)$. For example, we might represent an ${\bf X}$ matrix for a regression model with an intercept and continuous predictor, latitude, as
 
 \begin{eqnarray*}
-{\bf X}&=&\{{\bf 1}, \textbf{latitude}\} \\
+{\bf X}&=&({\bf 1}, \textbf{latitude}) \\
 &=& \begin{bmatrix} 1 & 32.61 \\
 1 & 34.17 \\
 1 & 34.75 \\
@@ -69,7 +69,7 @@ We can represent the matrix ${\bf A}_{r \times c}$ in terms of its columns $({\b
 
 A *square matrix* has the same number of rows as columns, so that $r=c$.
 
-For ${\bf A}_{r \times c}$ and $r \geq c$, the (main) *diagonal* of ${\bf A}$ is $\{a_{11}, a_{22}, \ldots, a_{cc}\}$.  We generally refer only to the diagonal that runs from the upper left to the lower right. 
+For ${\bf A}_{r \times c}$ and $r \geq c$, the (main) *diagonal* of ${\bf A}$ is $(a_{11}, a_{22}, \ldots, a_{cc})$.  We generally refer only to the diagonal that runs from the upper left to the lower right. 
 
 ## Symmetric matrix
 
