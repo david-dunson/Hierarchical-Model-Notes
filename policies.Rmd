@@ -96,7 +96,7 @@ Your final grade will be comprised of the following:
 |Component | % of Grade |
 | ----------    | -----------------  |     
 |Homework assignments      | 20% |
-|Lab reports     | 5% |
+|Lab reports and class activities     | 5% |
 |Group case study 1       | 10% |
 |Group case study 2   | 15%   |
 |Exam 1           | 25% |

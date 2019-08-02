@@ -43,22 +43,19 @@ Anything here?  Check Penn State?  Resources on matrix formulation of linear mod
 
 [The ANOVA Model: Matrix Formulation](decks/anova_01_deck.html)
 
-[Contrast Estimation and Interaction](decks/anova_02_deck.html)
+<!-- [Contrast Estimation and Interaction](decks/anova_02_deck.html)
 
 [Random Effects ANOVA](decks/anova_03_deck.html)
 
-[Bayesian Inference for the Hierarchical Normal Model](decks/anova_04_deck.html)
+[Bayesian Inference for the Hierarchical Normal Model](decks/anova_04_deck.html) --->
 
 
-# Data
-
-[gotscreen.Rdata](~/Documents/TEACHING/STA410_610/DATA/gotscreen.RData)
 
 # Homework
 
 [Assignment 1](decks/homework/hw1.html)
 
-[Assignment 2](decks/homework/hw2.html)
+<!-- [Assignment 2](decks/homework/hw2.html)  --->
 
 
 

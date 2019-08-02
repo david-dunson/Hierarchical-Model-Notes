@@ -64,8 +64,8 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | September 2    |  Lab: Hands-on with ANOVA     |  Group Lab Reports      |
 | September 4   | Random Effects ANOVA | Group Policies Document Due |
 | September 6   | Random Effects ANOVA|  |
-| September 9  | Lab: Visualizing Estimates | Assignment 1 Due  |
-| September 11  | Bayesian Estimation  |  |
+| September 9  | Bayesian Estimation | Assignment 1 Due  |
+| September 11  | Lab: Visualizing Estimates  |  |
 | September 13  |Bayesian Estimation |  |
 | September 16  | Lab: Empirical Bayes \& Bayesian Estimation |   |
 | September 18  | Random Effects ANCOVA |   |
@@ -79,7 +79,7 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | October 7    | Fall break  |  |
 | October 9    |  Hierarchical Models with Nonconstant Variance |  |
 | October 11    | Linear Mixed Effects Model for Longitudinal Data |   |
-| October 14    | Lab: ??? |  |
+| October 14    | Lab: Longitudinal Data Analysis |  |
 | October 16    | Linear Mixed Effects Model for Longitudinal Data |  |
 | October 18    | Case Study Presentations |  Case Study 1 Due |
 | October 21    | Lab: Logistic Regression | | 
