@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Policies</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hierarchical Models</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="policies.html">Policies</a>
+</li>
+<li>
+  <a href="linalg.html">Review and Introduction</a>
+</li>
+<li>
+  <a href="anova01.html">ANOVA</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Policies</h1>
+
+</div>
+
+
+<div id="diversity-inclusiveness" class="section level3">
+<h3>Diversity &amp; inclusiveness</h3>
+<p>The Duke University Community Commitment states: “Because diversity is essential to fulfilling the university’s mission, Duke is committed to building an inclusive and diverse university community. Every student, faculty, and staff member —whatever their race, gender, age, ethnicity, cultural heritage or nationality; religious or political beliefs; sexual orientation or gender identity; or socioeconomic, veteran or ability status—has the right to inclusion, respect, agency and voice in the Duke community. Further, all members of the University community have a responsibility to uphold these values and actively foster full participation in university life.”</p>
+<p>It is my goal for our learning environment to facilitate learning and intellectual development for everyone. To help accomplish this:</p>
+<ul>
+<li>If you have a name and/or set of pronouns that differ from those that appear in your official Duke records, please let me know.</li>
+<li>We are constantly learning more about diverse perspectives and identities. If something was said in class (by anyone) that made you feel uncomfortable, please talk to me about it.</li>
+</ul>
+</div>
+<div id="academic-integrity" class="section level3">
+<h3>Academic integrity</h3>
+<p>Duke University is a community dedicated to scholarship, leadership, and service and to the principles of honesty, fairness, respect, and accountability. Citizens of this community commit to reflect upon and uphold these principles in all academic and nonacademic endeavors, and to protect and promote a culture of integrity.</p>
+<p>Remember the Duke Community Standard that you have agreed to abide by:</p>
+<p>To uphold the Duke Community Standard:</p>
+<ul>
+<li>I will not lie, cheat, or steal in my academic endeavors;</li>
+<li>I will conduct myself honorably in all my endeavors; and</li>
+<li>I will act if the Standard is compromised.</li>
+</ul>
+<p>Cheating or plagiarism on assignments, lying about an illness or absence and other forms of academic dishonesty are a breach of trust with classmates and faculty, violate the <a href="http://www.studentaffairs.duke.edu/conduct/resources/dcs">Duke Community Standard</a>, and will not be tolerated. Such incidences will result in a 0 grade. Additionally, there may be penalties to your final class grade along with being reported to the <a href="http://www.studentaffairs.duke.edu/conduct/about/ucbhearings">Undergraduate Conduct Board</a> (undergraduates) or relevant Director of Graduate Studies (graduate students).</p>
+<p>Please review the Academic Dishonesty policies <a href="https://studentaffairs.duke.edu/conduct">here</a>.</p>
+<ul>
+<li><p>Several datasets we are privileged to use in class are confidential and cannot be distributed more broadly. Further dissemination of such datasets, made available on Sakai, will be considered a violation of the Duke Community Standard. If you are unsure whether you can use a dataset for purposes beyond class, please ask me.</p></li>
+<li><p>Much of the work assigned in class is collaborative. The individual case study must be completed independently. In addition, regular assessments must be completed individually before they are tackled by the group.</p></li>
+</ul>
+<p><strong>Referencing code:</strong> The web contains an enormous volume of code that you may find useful. You are welcome to make use of any online resources (e.g. StackOverflow), but you must explicitly cite your sources. Any recycled code that is discovered and is not explicitly cited will be treated as plagiarism. On the individual case study you may not directly share code with another student in this class, and on team assignments you may not share code with another team in this class (you are welcome to discuss the problems together and ask for advice, but you may not send or make use of code from another team).</p>
+</div>
+<div id="course-components" class="section level3">
+<h3>Course components</h3>
+<div id="class-sessions" class="section level4">
+<h4>Class sessions</h4>
+<p>If you miss class or would like to review the material covered in class, you can <a href="https://trinity.capture.duke.edu/Panopto/Pages/Sessions/List.aspx?folderID=735bff35-7bfa-4d15-a407-a94a00e1ff40">view the recordings</a>. Note that you will need to log in with your Net ID.</p>
+</div>
+<div id="teams" class="section level4">
+<h4>Teams</h4>
+<p>On the first day of class, we will develop teams of around 5 students - these teams will stay consistent throughout the semester (barring extraordinary circumstances). You will work in these teams during class and on the two group case studies. The process of forming teams will be completely transparent and based on self-reported data. Groups should adhere to specified <a href="grouppolicies.html">group policies</a>.</p>
+</div>
+<div id="case-studies" class="section level4">
+<h4>Case studies</h4>
+<p>STA 410/610 involves detailed analysis of two case studies using current, relevant data. Each case study will involve a final submission for the entire group. Final case study submissions will involve a written report and possibly an oral presentation to be viewed by the other teams (in class or by video, as assigned).</p>
+<p>Additional details on the case studies will be provided as the course progresses.</p>
+<p>Individual contributions to each submission will be assessed. Team members must provide these assessments in order to receive credit for an assignment. An individual team member’s grade may be modified if assessments indicate this is appropriate.</p>
+<p>Each case study will have a page limit, and under no circumstances should font sizes less than 11 point be used, with the exception of labels in figures (and then only if they are still clearly legible to readers of all ages).</p>
+</div>
+<div id="homework-assignments" class="section level4">
+<h4>Homework assignments</h4>
+<p>Four homework assignments will be given throughout the semester. These homework assignments are to be completed independently without collaborating with other students.</p>
+<p>Students who miss homework or case study submissions will receive 0 points for those submissions. However, in December, there will be an opportunity to make up credit for missed assignments.</p>
+</div>
+<div id="examinations" class="section level4">
+<h4>Examinations</h4>
+<p>Two in-class examinations will be given as specified on the syllabus. If you know in advance you must miss an in-class examination, please contact Prof. Herring as soon as possible and in the meantime plan to be present on December 2 for a make-up assignment.</p>
+</div>
+<div id="make-up-examinations-and-substitute-credit" class="section level4">
+<h4>Make-up Examinations and Substitute Credit</h4>
+<p>During the last week of undergraduate classes, students will have the opportunity to earn credit for one missed assignment (or one assignment a grade a student would like to improve). The optional in-class assignment on Monday, December 2 may be used to replace <em>either</em> one in-class examination grade <em>or</em> one homework grade <em>or</em> one case study grade.</p>
+<p>This assignment will be challenging and designed to evaluate mastery of the material. If the make-up grade is lower than the grade to be replaced, the higher grade will be retained (that is, completing this assignment will not lower a student’s grade).</p>
+</div>
+</div>
+<div id="grading" class="section level3">
+<h3>Grading</h3>
+<p>Your final grade will be comprised of the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>% of Grade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Homework assignments</td>
+<td>20%</td>
+</tr>
+<tr class="even">
+<td>Group case study 1</td>
+<td>15%</td>
+</tr>
+<tr class="odd">
+<td>Group case study 2</td>
+<td>15%</td>
+</tr>
+<tr class="even">
+<td>Exam 1</td>
+<td>25%</td>
+</tr>
+<tr class="odd">
+<td>Exam 2</td>
+<td>25%</td>
+</tr>
+</tbody>
+</table>
+<p>Class attendance is a firm expectation; frequent absences or late arrivals are a legitimate cause for grade reduction.</p>
+<p>Cumulative numerical averages of 90 - 100 are guaranteed at least an A-, 80 - 89 at least a B-, and 70 - 79 at least a C-; however, the exact ranges for letter grades will be determined at the end of the semester. Because typical graduate school grading will be used, the grade ranges may need to be shifted to the left, and when appropriate, students will be given guidance on interpreting grades when assignments are returned. The more evidence there is that the class is performing at the highest level, the higher the grade distribution will be.</p>
+<p>The grading scale used at the end of the semester for STA 610 will reflect the higher level of mastery expected of graduate students than the grading scale for STA 410.</p>
+</div>
+<div id="accommodations" class="section level3">
+<h3>Accommodations</h3>
+<ul>
+<li>Students who need accommodations in this class should contact the <a href="http://access.duke.edu/students/">Student Disability Access Office</a> as soon as possible to ensure appropriate accommodations can be made.</li>
+</ul>
+</div>
+<div id="excused-absences" class="section level3">
+<h3>Excused absences</h3>
+<p>Students who miss a class due to a scheduled varsity trip, religious holiday, or short-term illness should fill out an online <a href="https://trinity.duke.edu/undergraduate/academic-policies/athletic-varsity-participation">NOVAP</a>, <a href="https://trinity.duke.edu/undergraduate/academic-policies/religious-holidays">RHoliday</a> or <a href="http://trinity.duke.edu/academic-requirements?p=policy-short-term-illness-notification">short-term illness</a> form respectively. Note that these excused absences do not excuse you from assigned case studies; it is your responsibility to make alternative arrangements with your team to participate.</p>
+<p>If you are faced with a personal or family emergency or a chronic health condition that interferes with your ability to attend or complete classes, you should contact your academic dean’s office (undergraduate) or the Director of Graduate Studies in your department (graduate). See more information on policies surrounding these conditions at <a href="https://trinity.duke.edu/undergraduate/academic-policies/personal-emergencies" class="uri">https://trinity.duke.edu/undergraduate/academic-policies/personal-emergencies</a>.</p>
+</div>
+<div id="late-missed-work" class="section level3">
+<h3>Late / missed work</h3>
+<p>Late work policy for case study reports:</p>
+<ul>
+<li>late, but within 24 hours of due date/time: -20%</li>
+<li>any later: no credit</li>
+</ul>
+<p>All group members are expected to be present when the group presents its case study to the class.</p>
+</div>
+<div id="regrade-requests" class="section level3">
+<h3>Regrade requests</h3>
+<p>Regrade requests must be made within three days of when a report is returned. These will be honored if points were tallied incorrectly, or if you feel part of your report is correct, but it was marked wrong. No regrade will be made to alter the number of points deducted for an issue. The last day to file a grade change request is December 2.</p>
+</div>
+<div id="professionalism" class="section level3">
+<h3>Professionalism</h3>
+<ul>
+<li>Please refrain from texting or using your computer for anything other than coursework during class.</li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

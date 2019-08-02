@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title></title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Hierarchical Models</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="policies.html">Policies</a>
+</li>
+<li>
+  <a href="linalg.html">Review and Introduction</a>
+</li>
+<li>
+  <a href="anova01.html">ANOVA</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<div id="welcome-to-sta410610" class="section level1">
+<h1>Welcome to STA410/610!</h1>
+<div id="class-meetings" class="section level3">
+<h3>Class Meetings</h3>
+<p><font color="#6CA0DC"><i class="fas fa-university fa-lg"></i></font>   Old Chem 116</p>
+<p><font color="#6CA0DC"><i class="fas fa-calendar-alt fa-lg"></i></font>   MWF 11:45 - 1:00 (usually Mondays will be labs, but sometimes lab and lecture will be swapped)</p>
+</div>
+<div id="teaching-team-and-office-hours" class="section level3">
+<h3>Teaching team and office hours</h3>
+<p>Note: office hours may vary due to travel and other commitments. Revisions to office hours will be noted via e-mail and on my office door.</p>
+<table style="width:75%;">
+<colgroup>
+<col width="15%" />
+<col width="52%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Team member</th>
+<th>Office hours</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://stat.duke.edu/people/amy-h-herring">Professor Amy Herring</a> <a href="mailto:amy.herring@duke.edu" title="email"><i class="fa fa-envelope"></i></a>  </td>
+<td>Wednesday and Thursday 1:45-2:45pm</td>
+<td>208 Old Chemistry</td>
+</tr>
+<tr class="even">
+<td><a href="https://stat.duke.edu/people/xu-chen">TA Xu Chen</a> <a href="mailto:xu.chen2@duke.edu" title="email"><i class="fa fa-envelope"></i></a>  </td>
+<td>TBD</td>
+<td>211 Old Chemistry</td>
+</tr>
+<tr class="odd">
+<td><a href="https://stat.duke.edu/people/isaac-lavine">TA Isaac Lavine</a> <a href="mailto:isaac.lavinei@duke.edu" title="email"><i class="fa fa-envelope"></i></a>  </td>
+<td>TBD</td>
+<td>211 Old Chemistry</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="materials" class="section level3">
+<h3>Materials</h3>
+<p>You should have access to a laptop and bring it to every class, fully charged. Texts and readings will be assigned as needed. The instructor and TA’s will support computation in R/RStudio.</p>
+<p>Helpful resource materials for the course include the following.</p>
+<ul>
+<li><p>Hoff, CSSS - Statistics 560 Lecture notes (Sakai)</p></li>
+<li><p><a href="https://www.amazon.com/Analysis-Regression-Multilevel-Hierarchical-Models/dp/052168689X">Gelman and Hill, Data Analysis Using Regression and Multilevel/Hierarchical Models</a></p></li>
+</ul>
+</div>
+<div id="topics-and-important-dates" class="section level3">
+<h3>Topics and Important Dates</h3>
+<p>STA 410/610 contain a mixture of lecture, lab, and combination sessions at the usual class and lab times. Frequent mini-assessments will be provided in class and lab to check mastery and identify areas for additional focus.</p>
+<p>Note: this schedule is approximate and is likely to be modified as the course progresses. Some lab sessions will be swapped with lectures due to instructor travel or course timing. Assignments are due at the beginning of class unless otherwise specified.</p>
+<table style="width:76%;">
+<colgroup>
+<col width="15%" />
+<col width="38%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Date</th>
+<th>Topic</th>
+<th>Deliverables</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>August 26</td>
+<td>Welcome and Introductions</td>
+<td>ANOVA warm-up (in class)</td>
+</tr>
+<tr class="even">
+<td>August 28</td>
+<td>One Way ANOVA: Scalar and Matrix Formulations</td>
+<td>Getting to Know You Sheet</td>
+</tr>
+<tr class="odd">
+<td>August 30</td>
+<td>MLE’s, Contrasts, Coding Schemes, and Interaction</td>
+<td>Scientific Writing: ANOVA Results (in class)</td>
+</tr>
+<tr class="even">
+<td>September 2</td>
+<td>Lab: Hands-on with ANOVA</td>
+<td>Group Lab Reports</td>
+</tr>
+<tr class="odd">
+<td>September 4</td>
+<td>Random Effects ANOVA</td>
+<td>Group Policies Document Due</td>
+</tr>
+<tr class="even">
+<td>September 6</td>
+<td>Random Effects ANOVA</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>September 9</td>
+<td>Lab: Visualizing Estimates</td>
+<td>Assignment 1 Due</td>
+</tr>
+<tr class="even">
+<td>September 11</td>
+<td>Bayesian Estimation</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>September 13</td>
+<td>Bayesian Estimation</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>September 16</td>
+<td>Lab: Empirical Bayes &amp; Bayesian Estimation</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>September 18</td>
+<td>Random Effects ANCOVA</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>September 20</td>
+<td>Linear Mixed Effects Model and Case Study 1 Introduction</td>
+<td>Assignment 2 Due</td>
+</tr>
+<tr class="odd">
+<td>September 23</td>
+<td>Lab: Fitting Hierarchical Bayes Models</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>September 25</td>
+<td>Exam Review</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>September 27</td>
+<td>Exam 1 (in class)</td>
+<td>Exam 1 (in class)</td>
+</tr>
+<tr class="even">
+<td>September 30</td>
+<td>Lab: Linear Mixed Effects Models I</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>October 2</td>
+<td>Estimation in LME</td>
+<td>Exam 1 Returned (my deliverable)</td>
+</tr>
+<tr class="even">
+<td>October 4</td>
+<td>Lab: Help, I’m Behind! Hands-on Analysis and Q&amp;A</td>
+<td>Midsemester Grades Due (my deliverable)</td>
+</tr>
+<tr class="odd">
+<td>October 7</td>
+<td>Fall break</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>October 9</td>
+<td>Hierarchical Models with Nonconstant Variance</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>October 11</td>
+<td>Linear Mixed Effects Model for Longitudinal Data</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>October 14</td>
+<td>Lab: ???</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>October 16</td>
+<td>Linear Mixed Effects Model for Longitudinal Data</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>October 18</td>
+<td>Case Study Presentations</td>
+<td>Case Study 1 Due</td>
+</tr>
+<tr class="odd">
+<td>October 21</td>
+<td>Lab: Logistic Regression</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>October 23</td>
+<td>Case Study Presentations</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>October 25</td>
+<td>Generalized Linear Models</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>October 28</td>
+<td>Lab: Mixed Effects</td>
+<td>Assignment 3 Due</td>
+</tr>
+<tr class="odd">
+<td>October 30</td>
+<td>Bayesian Estimation of GLM and Case Study 2 Introduction</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>November 1</td>
+<td>Generalized Linear Mixed Effects Models</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>November 4</td>
+<td>Lab: Hierarchical Logistic Regression</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>November 6</td>
+<td>Bayesian Estimation of GLMM</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>November 8</td>
+<td>GLMM in Practice</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>November 11</td>
+<td>Lab: Bayesian GLMM</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>November 13</td>
+<td>Bayesian Estimation with Missing Data</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>November 15</td>
+<td>Bayesian Estimation with Missing Data</td>
+<td>Assignment 4 Due</td>
+</tr>
+<tr class="odd">
+<td>November 18</td>
+<td>Lab: Exam Review</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>November 20</td>
+<td>Exam 2 (in class)</td>
+<td>Exam 2 (in class)</td>
+</tr>
+<tr class="odd">
+<td>November 22</td>
+<td>Case Study 2 Presentations</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>November 25</td>
+<td>Case Study 2 Presentations</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>December 2</td>
+<td>Make-Up Exams (if needed)</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>December 4</td>
+<td>Case Study 2 Presentations</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>December 6</td>
+<td>Case Study 2 Presentations</td>
+<td>Case Study 2 Due</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
