@@ -8,7 +8,7 @@ library(knitr)
 library(tidyverse)
 ```
 
-
+This homework should be turned in as a .pdf of the output along with an .Rmd file via uploading under assignments on Sakai. Be sure your .Rmd code is fully reproducible (if not, points may be deducted).
 
 ### 1. OLS Estimation
 
@@ -25,7 +25,21 @@ library(tidyverse)
     iii. $\widehat{\alpha}_j=\widehat{\mu}_j-\widehat{\mu}=\overline{y}_{j}-\overline{y}_{\cdot \cdot}$
     
     
-### 2. Contrasts
+
+  
+  
+### 2. Game of Thrones
+
+The handling of female characters in the American series Game of Thrones, and indeed whether it is feminist or mysogynistic, has been hotly debated. The dataset gotscreen.Rdata contains information on the number of seconds of screentime for members of each gender in each episode of 7 seasons of Game of Thrones. Using a two-way ANOVA model with interaction, explore whether an actor's screentime differs by gender (male, female, or unspecified) and whether there are any differences in potential gender effects across the 7 seasons of the show. Your answer should include the following details.
+
+  1. Exploratory data analysis of screentime, including average screentime per actor as well as total screentime for all actors of a given gender. 
+  2. A clear specification of the model using an equation, including clear specification of any modeling assumptions.
+  3. Point and interval estimates for each parameter in the linear predictor of your model.
+  4. Clear specification of any hypothesis tests or other inferential techniques used to evaluate the questions posed above.
+  5. Evidence of adequacy of model fit and evaluation of suitability of any assumptions.
+  6. Clear description of results in language accessible to the average fan of the show, including graphical displays as appropriate.
+  
+### 3. Contrasts
 
 Suppose you fit an ANOVA model to responses collected from J=3 groups, each of sample size $n$. You consider the following two ANOVA models.
 
@@ -36,44 +50,8 @@ y_{ij}&=& \mu + \alpha_1I(j=1)+\alpha_2I(j=2)+\varepsilon_{ij} ~~~~ (2)
 
   a. Find the linear combinations of parameters in model (2) that are equivalent to $\mu_1-\mu_2$, $\mu_1-\mu_3$, and $\mu_2-\mu_3$ in model (1).
   
-  b. Show that the estimates of these mean differences are identical regardless of the coding scheme used.
-  
-  
-### 3. Game of Thrones
-
-The handling of female characters in the American series Game of Thrones, and indeed whether it is feminist or mysogynistic, has been hotly debated. The dataset gotscreen.Rdata contains information on the number of seconds of screentime for members of each gender in each episode of 7 seasons of Game of Thrones. Using a two-way ANOVA model with interaction, explore whether screentime differs by gender (male, female, or unspecified) and whether there are any differences in potential gender effects across the 7 seasons of the show. Your answer should include the following details.
-
-  1. A clear specification of the model using an equation, including clear specification of any modeling assumptions.
-  2. Point and interval estimates for each parameter in the linear predictor of your model.
-  3. Clear specification of any hypothesis tests or other inferential techniques used to evaluate the questions posed above.
-  4. Evidence of adequacy of model fit and evaluation of suitability of any assumptions.
-  5. Clear description of results in language accessible to the average fan of the show, including graphical displays as appropriate.
+  b. Show that the estimates of these mean differences are identical regardless of the coding scheme used, either theoretically or by analyzing the Game of Thrones data using a one-way ANOVA model with gender as the only predictor.
   
   
 ### 4. (Required for 601, extra credit for 401.) Prove or disprove. Suppose $X$ and $Y$ each follow *univariate* normal distributions and that $\text{Cov}(X,Y)=0$. Then $X$ is independent of $Y$.
-
-
-
-``` {r gotimport}
-library(readxl)
-gameofthronesseason1234567 <- read_excel("~/Documents/TEACHING/STA410_610/DATA/gameofthronesseason1234567.xlsx")
-View(gameofthronesseason1234567)
-
-library(dplyr)
-gotscreen=gameofthronesseason1234567 %>%
-    group_by(Episode, Gender, Season) %>%
-    summarize(seccount = sum(screensec))
-
-gameofthronesseason1234567 %>%
-    group_by(Gender, Season) %>%
-    summarize(secmean = mean(screensec))
-
-
-aov.got=aov(seccount~factor(Season)*factor(Gender),data=gotscreen)
-save(gotscreen, file = "~/Documents/TEACHING/STA410_610/DATA/gotscreen.RData")
-
-```
-    
-    HAVE THEM DO REFERENCE CELL CODING AND ALSO ESTIMATE CONTRASTS ON THIS HOMEWORK TOO GOING BACK AND FORTH BETWEEN CODING SCHEMES
-
 
