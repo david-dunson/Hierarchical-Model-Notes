@@ -54,7 +54,7 @@ A $(1 \times r)$ matrix is called a *row vector*.
 
 ## 
 
-We can represent the matrix ${\bf A}_{r \times c}$ in terms of its columns $\{{\bf a}_1,{\bf a}_2,\ldots,{\bf a}_c\}$. For example, we might represent an ${\bf X}$ matrix for a regression model with an intercept and continuous predictor, latitude, as
+We can represent the matrix ${\bf A}_{r \times c}$ in terms of its columns $({\bf a}_1,{\bf a}_2,\ldots,{\bf a}_c)$. For example, we might represent an ${\bf X}$ matrix for a regression model with an intercept and continuous predictor, latitude, as
 
 \begin{eqnarray*}
 {\bf X}&=&\{{\bf 1}, \textbf{latitude}\} \\
