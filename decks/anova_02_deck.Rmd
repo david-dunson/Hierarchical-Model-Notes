@@ -106,8 +106,8 @@ In order to test whether the means in group 1 and 2 are the same, we need to tes
 The quantity $\sum_j a_j \mu_j$ is a *linear combination*. It is called a *contrast* if $\sum_j a_j=0$. Using matrix notation, we often express a hypothesis regarding a linear combination of regression coefficients as
 
 \begin{eqnarray*}
-H_0: &\theta& = C\beta = \theta_0 \\
-H_a: &\theta& = C\beta \neq \theta_0,
+H_0: ~~~~&\theta& = C\beta = \theta_0 \\
+H_a: ~~~~&\theta& = C\beta \neq \theta_0,
 \end{eqnarray*}
 
 where often $\theta_0=0$.
@@ -153,6 +153,9 @@ In this model, the mean is parameterized as follows.
 | Ibuprofen | 1 | $\mu+\alpha$ |
 | Ibuprofen | 2 | $\mu +\alpha+\beta+\gamma$ |
 
+
+What types of parameter values would we expect to see if there is an interaction in which there is a dose effect for Ibuprofen but not for placebo?
+
   
 ##
 
@@ -185,7 +188,7 @@ Ahh, how cute!  Our Dickensian guinea pig has a mystery to solve -- which type o
 <img src="figures/teeth1.jpg" , width = "20%">
 
 
-Guinea pig dental problems are NOT fun. Our dataset (Crampton, 1947) contains as a response the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs, each of which receives one dose of vitamin C (0.5, 1, or 2 mg/day) via one of two delivery methods (orange juice (OJ) or ascorbic acid (VC)). Researchers wanted to know if the odontoblast length could be used as a marker of Vitamin C uptake, for the purposes of providing better nutritional supplementation to members of the Canadian armed forces.
+Guinea pig dental problems are NOT fun. Our dataset (Crampton, 1947) contains as a response the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs, each of which receives one dose of vitamin C (0.5, 1, or 2 mg/day) via one of two delivery methods (orange juice (OJ) or ascorbic acid (VC)). Researchers wanted to know if the odontoblast length could be used as a marker of Vitamin C uptake, for the purposes of providing better nutritional supplementation to members of the Canadian armed forces (alas, the first of many injustices for Oliver Twisted Teeth -- the study was not done to help little Guinea piggies).
 
 ##
 
@@ -203,15 +206,16 @@ p+labs(title="Odontoblast length by dose", x="Dose (mg)", y = "Length")+
 
 ```
 
-Looking at the boxplot of the growth data, what type of ANOVA model may be most appropriate?  Take a moment to write a model in mathematical notation -- then we will confer with the group possible choices.
+Looking at the boxplot of the growth data, what type of ANOVA model may be most appropriate?  Take a moment to write a model in mathematical notation -- then we will confer with groups on possible choices.
 
 ## Your task!
 
-1. Under your model, write out (in terms of parameters) the means for each combination of supplement type and dose.
+1. Under your ANOVA model, write out (in terms of parameters) the means for each combination of supplement type and dose.
 2. Fit your model and provide a one-page summary of the analysis in language accessible to the general public.
 3. Suppose that greater lengths are indicative of better absorption. Make a recommendation for the dose(s) and supplement type(s) to be used to deliver vitamin C to armed forces members, assuming that the goal is to maximize absorption of vitamin C. Use statistical evidence to support your recommendation.
+4. Conduct diagnostic checks to see how well the assumptions behind your model are satisfied. Are there any reasons for concern about your model choice?
 
-## 
+
 
 
 

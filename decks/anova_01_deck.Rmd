@@ -31,7 +31,7 @@ Our research question of interest is whether the distance from the bike to the c
 ## Exploring the data
 
 ```{r descstat}
-load("~/Documents/GitHub/STA-410-610/PsychBikeData")
+load("~/Documents/GitHub/STA-410-610/PsychBikeData.RData")
 summary(PsychBikeData)
 
 ```
@@ -78,7 +78,7 @@ Consider the model
 y_{ij}&=&\mu+\alpha_j+\varepsilon_{ij} \text{ (treatment effects model)} \\
 &=& \mu_j + \varepsilon_{ij} ~~~~~~~\text{         (treatment means model)}
 \end{eqnarray*}
-where $\mu_{j}=\mu+\alpha_j$. These two equations are simply alternate parameterizations of the same model. In each case, we estimate a separate mean passing distance $\mu_j$ as a function of each of the 5 curb distances tested.
+where $\mu_{j}=\mu+\alpha_j$. These two equations are simply alternate parameterizations of the same model. In each case, we estimate a separate mean passing distance $\mu_j=\mu+\alpha_j$ as a function of each of the 5 curb distances tested.
 
 ##
 
@@ -200,7 +200,7 @@ In ANOVA, we typically assume independence of observations and equal variances w
 
 <!-- KKMN chapter 16 page 683 -->
 
-Using algebra, you can show that $E(MSG)=\sigma^2 + \frac{\sum n_j (\mu_j-\mu)^2}{J-1}$. Under the null hypothesis that all the group means are 0, this expectation reduces to $\sigma^2$.
+Using algebra, you can show that $E(MSG)=\sigma^2 + \frac{\sum n_j (\mu_j-\mu)^2}{J-1}$. Under the null hypothesis that all the group means are the same, this expectation reduces to $\sigma^2$.
 
 
 
@@ -220,6 +220,18 @@ summary(aov.res)
 ```
 
 This F test indicates that it is very unlikely we would see differences in passing distance as large as we did under the null hypothesis that all groups have the same mean. There is a difference in passing distance for at least one set of curb distances.
+
+## Where is the difference?
+
+After an *overall F test* is rejected, the next obvious questions is "Why?" It could be the case that each group is different from all other groups, or maybe only one group differs from the other. [Many types of step-down tests](https://newonlinecourses.science.psu.edu/stat503/node/15/) are available with varying degrees of protection of the type I error rate.
+
+## Step-down tests
+
+The phrasing *step-down* is a reminder that these tests are not conducted unless the overall F test is rejected.  Some options include the following.
+
+- The Bonferroni comparison using the significance level $\frac{\alpha}{\text{number of tests}}$  is generally the most conservative and is not guaranteed to find a signficant pairwise comparison even if the overall F test is rejected.
+- Fisher's LSD test is generally the least conservative, as it involves regular pairwise t-tests with no correction to $\alpha$, with the type I error rate protection in the sense of not carrying out the pairwise tests if the overall F test is not rejected. 
+- Many methods lie in between these extremes, with some additional protection of the type I error rate after rejection of the overall null hypothesis, including Tukey's method, Scheffe's method, ....
 
 ##
 ```{r bikepair}

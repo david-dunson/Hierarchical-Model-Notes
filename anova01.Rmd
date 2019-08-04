@@ -53,9 +53,9 @@ Anything here?  Check Penn State?  Resources on matrix formulation of linear mod
 
 # Homework
 
-[Assignment 1](decks/homework/hw1.html)
+[Assignment 1](homework/hw1.html)
 
-<!-- [Assignment 2](decks/homework/hw2.html)  --->
+<!-- [Assignment 2](homework/hw2.html)  --->
 
 
 

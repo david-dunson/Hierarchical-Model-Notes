@@ -14,16 +14,20 @@ This homework should be turned in as a .pdf of the output along with an .Rmd fil
 
   a. Using the scalar formulation of the ANOVA model $y_{ij} \sim N\left(\mu_j,\sigma^2 \right)$, show that $\widehat{\mu}_{OLS}=(\overline{y}_1,\cdots,\overline{y}_J)$, where $\overline{y}_j$ is the sample mean in group $j$.
   
-  b. Write the model in (a) in matrix form assuming you have 3 groups with 3 observations each and show by hand (or typed!) that $(X'X)^{-1}X'y$ yields the same estimates.
-  
-  c. Using the scalar formulation of the ANOVA model $y_{ij} \sim N\left(\mu+\alpha_j,\sigma^2 \right)$ with the constraint $\sum_j \alpha_j=0$, show
+  b. Using the scalar formulation of the ANOVA model $y_{ij} \sim N\left(\mu+\alpha_j,\sigma^2 \right)$ with the constraint $\sum_j \alpha_j=0$, show
     
     i. $\widehat{\mu}=\overline{y}_{\cdot \cdot}$, where $\overline{y}_{\cdot \cdot}$ is the grand mean over all observations
     
-    ii. $\widehat{\mu}=\frac{1}{J}\sum_j \widehat{\mu}_j$ when the sample sizes in each group j $n_j=n$ for all groups
+    ii. $\widehat{\mu}=\frac{1}{J}\sum_j \widehat{\mu}_j$ when the sample sizes in each group $n_j=n$ for all groups
     
     iii. $\widehat{\alpha}_j=\widehat{\mu}_j-\widehat{\mu}=\overline{y}_{j}-\overline{y}_{\cdot \cdot}$
     
+  
+  c. Write the model in (a) in matrix form assuming you have 3 groups with 3 observations each and show by hand (or typed!) that $(X'X)^{-1}X'y$ yields the same estimates as in the scalar formulation. Note the parameter vector corresponding to this model should contain the three mean parameters $(\mu_1, \mu_2, \mu_3)$
+  
+  
+  
+
     
 
   
@@ -41,7 +45,7 @@ The handling of female characters in the American series Game of Thrones, and in
   
 ### 3. Contrasts
 
-Suppose you fit an ANOVA model to responses collected from J=3 groups, each of sample size $n$. You consider the following two ANOVA models.
+Suppose you fit an ANOVA model to responses collected from J=3 groups. You consider the following two ANOVA models.
 
 \begin{eqnarray}
 y_{ij}&=&\mu_j + \varepsilon_{ij} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ (1) \\
@@ -50,8 +54,9 @@ y_{ij}&=& \mu + \alpha_1I(j=1)+\alpha_2I(j=2)+\varepsilon_{ij} ~~~~ (2)
 
   a. Find the linear combinations of parameters in model (2) that are equivalent to $\mu_1-\mu_2$, $\mu_1-\mu_3$, and $\mu_2-\mu_3$ in model (1).
   
-  b. Show that the estimates of these mean differences are identical regardless of the coding scheme used, either theoretically or by analyzing the Game of Thrones data using a one-way ANOVA model with gender as the only predictor.
+  b. Show that the estimates of these mean differences are identical regardless of the coding scheme (1) or (2) used, either theoretically or by analyzing the Game of Thrones data using a one-way ANOVA model with gender as the only predictor.
   
   
-### 4. (Required for 601, extra credit for 401.) Prove or disprove. Suppose $X$ and $Y$ each follow *univariate* normal distributions and that $\text{Cov}(X,Y)=0$. Then $X$ is independent of $Y$.
+### 4. (Required for 601, extra credit for 401.) 
+Prove or disprove. Suppose $X$ and $Y$ each follow *univariate* normal distributions and that $\text{Cov}(X,Y)=0$. Then $X$ is independent of $Y$.
 
