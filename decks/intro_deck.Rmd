@@ -1,0 +1,60 @@
+---
+title: Introduction to Hierarchical Models
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+
+## Introduction to Hierarchical Models
+
+The terminology "hierarchical model" is quite general and can imply anything from simple use of a prior distribution to a highly organized hierarchy (students nested in classes nested in schools nested in school systems nested in states nested in countries).  
+
+## 
+
+Hierarchical models are often used in the following commonly-encountered settings:
+
+ - members of a "cluster" share more similarities with each other than with members of other clusters, violating the typical independence assumption of generalized linear models (like linear or logistic regression) -- examples of clusters include members of a family or students in a class
+ 
+ - hypotheses of interest include context-dependent associations, often across a large number of settings -- e.g., does success of a new mode of instruction depend on the individual teacher
+ 
+ - it is necessary to borrow information across groups in order to stabilize estimates or to obtain estimates with desirable properties -- e.g., we want to make state-specific estimates of election candidate preference by country of origin, but some states may have few immigrants from a given country
+ 
+ 
+## Generalized Linear Models (GLM)
+
+The generalized linear model framework accommodates many popular statistical models, including linear regression, logistic regression, probit regression, and Poisson regression, among others.
+
+Two popular GLM's we will use in class include the linear regression model and the logistic regression model. 
+
+## Linear regression
+
+Linear regression is perhaps the most widely-used statistical model. This model is given by $$y_i=\beta_0+\beta_1x_{1i}+\cdots+\beta_px_{pi}+\varepsilon_i,$$ where $$\varepsilon_i \sim N\left(0,\sigma^2\right).$$
+
+
+If the parameter $\beta_j>0$, then increasing levels of $x_j$ are associated with larger expected values of $y$, and values of $\beta_j<0$ are associated with smaller expected values of $y$.  $\beta_j=0$ is consistent with no association between $x_j$ and $y$.
+
+## Logistic regression
+
+*Logistic regression* is a type of generalized linear model, which generalizes the typical linear model to binary data. Let $y_i$ take either the value 1 or the value 0 (the labels assigned to 1 and 0 are arbitrary -- that is, we could let 1 denote voters and 0 denote non-voters, or we could exchange the labels -- we just need to remember our coding).
+
+The logistic regression model is linear on the log of the odds: $$\log\frac{\pi_i}{1-\pi_i}=\beta_0+\beta_1x_{1i}+\cdots+\beta_px_{pi},$$ where $\pi_i=Pr(y_i=1)$.
+
+If the parameter $\beta_j>0$, then increasing levels of $x_j$ are associated with higher probabilities that $y=1$, and values of $\beta_j<0$ are associated with lower probabilities that $y=1$. $\beta_j=0$ is consistent with no association between $x_j$ and $y$.
+
+
+
+##
+
+For some intuition behind hierarchical models, we'll check out [this neat tutorial by Michael Freeman at University of Washington](http://mfviz.com/hierarchical-models/).
+

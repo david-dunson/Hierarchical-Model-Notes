@@ -494,6 +494,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <h1 class="title">Random Effects ANOVA</h1>
 </section>
 
+<section id="random-effects-anova" class="slide level2">
+<h2>Random Effects ANOVA</h2>
+<p>Random effects ANOVA is a simple hierarchical model. In this framework we assume that group-specific means are distributed around some overall mean.</p>
+<p>We will introduce this model in the context of a study in which the groups are the 85 counties in the state of Minnesota.</p>
+</section>
 <section id="motivating-example-radon-study" class="slide level2">
 <h2>Motivating Example: Radon Study</h2>
 <p>Radon, a naturally-occurring radioactive gas, is a carcinogen known to cause lung cancer in high concentrations. Several thousand lung cancer deaths in the US per year are attributable to radon exposure.</p>
@@ -506,7 +511,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <p>We wish to estimate the distribution of radon levels in houses <span class="math inline">\(i\)</span> within 85 counties <span class="math inline">\(j\)</span> in Minnesota. The outcome <span class="math inline">\(y_i\)</span> is the natural log of measured radon levels.</p>
 <ul>
 <li><p>One estimate would be the average of all radon levels in Minnesota (same estimate for all counties), <span class="math inline">\(\overline{y}_{\cdot \cdot}\)</span>, but this ignores variation across counties, and some counties may have higher radon levels naturally than others (radon is more commonly found in soils with granite rock, as opposed to some other soil types).</p></li>
-<li><p>Another estimate would be just to average the radon level in each county, <span class="math inline">\(\overline{y}_j\)</span>, which can over-fit the data within county (for example, Lac Qui Parle County, which has the highest radon level of all the 85 MN counties, has radon measures from only 2 homes). This is like using an ANOVA model with a <em>fixed effect</em> for county.</p></li>
+<li><p>Another estimate would be just to average the radon level in each county, <span class="math inline">\(\overline{y}_j\)</span>, which can over-fit the data within county (for example, Lac Qui Parle County, which has the highest observed radon level of all the 85 MN counties, had radon measures from only 2 homes). This is similar to using an ANOVA model with a <em>fixed effect</em> for county.</p></li>
 </ul>
 </section>
 <section id="section" class="slide level2">
@@ -518,7 +523,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="section-1" class="slide level2">
 <h2></h2>
-<p>The figure contrasts two extreme approaches to obtaining estimates of group means <span class="math inline">\(\mu_j\)</span> in this type of setting. A common procedure might be the following. Fit the ANOVA model <span class="math inline">\(y_{ij}=\mu+\alpha_j+\varepsilon_{ij}\)</span>, where <span class="math inline">\(\varepsilon_{ij} \sim N(0,\sigma^2)\)</span>, testing the significance of the groups using an overall F test (here, an 84 degree of freedom test).</p>
+<p>The figure contrasts two extreme approaches to obtaining estimates of group means <span class="math inline">\(\mu_j\)</span> in this type of setting. A common procedure might be the following. Fit the ANOVA model <span class="math inline">\(y_{ij}=\mu+\alpha_j+\varepsilon_{ij}\)</span>, where <span class="math inline">\(\varepsilon_{ij} \sim N(0,\sigma^2)\)</span>, testing the significance of the groups using an overall F test (here, an 84 degree of freedom test, as we’re testing all 85 means are the same).</p>
 <ul>
 <li>If <span class="math inline">\(p&lt;0.05\)</span>, use the estimate <span class="math inline">\(\widehat{\mu}_j=\overline{y}_j\)</span> for the mean in each county</li>
 <li>If <span class="math inline">\(p&gt;0.05\)</span>, use the estimate <span class="math inline">\(\widehat{\mu}_j=\overline{y}\)</span> for the mean in each county</li>
@@ -527,13 +532,13 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="section-2" class="slide level2">
 <h2></h2>
-<p>Ideally, we could use the estimate <span class="math inline">\(\overline{y}_j\)</span> for counties with sufficient sample size and the estimate <span class="math inline">\(\overline{y}\)</span> for counties where the variability is too high.</p>
+<p>An improvement might be using the estimate <span class="math inline">\(\overline{y}_j\)</span> for counties with sufficient sample size and the estimate <span class="math inline">\(\overline{y}\)</span> for counties where the variability is too high.</p>
 <p>Important question: how do we define “sufficient” and “too high”?</p>
 </section>
-<section id="random-effects-anova" class="slide level2">
+<section id="random-effects-anova-1" class="slide level2">
 <h2>Random Effects ANOVA</h2>
 <p><em>Random effects</em> ANOVA is a special case of a <em>hierarchical</em> or <em>multilevel</em> linear model that provides a nice framework for borrowing information across groups when needed to stabilize estimates. We can specify such a model as <span class="math inline">\(y_{ij}=\mu+\alpha_j+\varepsilon_{ij}\)</span>, where <span class="math inline">\(\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)\)</span> and <span class="math inline">\(\alpha_j \overset{iid}{\sim} N(0,\tau^2)\)</span>. The model on <span class="math inline">\(\alpha_j\)</span> allows us to borrow information in order to obtain better group-specific estimates when needed; because <span class="math inline">\(\alpha_j\)</span> is now viewed as random, the model can be called a <em>random effects</em> model.</p>
-<p>The model is sometimes called a <em>random intercept</em> model because each group has its own intercept, <span class="math inline">\(\mu_j\)</span>, that follows a Gaussian distribution.</p>
+<p>This particular model is sometimes called a <em>random intercept</em> model because each group has its own intercept, <span class="math inline">\(\mu_j=\mu+\alpha_j\)</span>, that follows a Gaussian distribution.</p>
 </section>
 <section id="random-effects-anova-for-radon-data" class="slide level2">
 <h2>Random Effects ANOVA for Radon Data</h2>
@@ -665,11 +670,16 @@ The covariance matrix <span class="math inline">\(\Sigma\)</span> is then given 
 <section id="section-8" class="slide level2">
 <h2></h2>
 <p>Instead of directly maximizing the log-likelihood in R, we can use the lme4 library to do the work for us.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;~/Documents/GitHub/STA-410-610/PsychBikeData&quot;</span>)
-<span class="kw">library</span>(lme4)</code></pre></div>
-<pre><code>## Loading required package: Matrix</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit.ml=<span class="kw">lmer</span>(<span class="st">`</span><span class="dt">passing distance</span><span class="st">`</span> <span class="op">~</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>kerb), <span class="dt">REML=</span><span class="ot">FALSE</span>, <span class="dt">data =</span> PsychBikeData)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;~/Documents/GitHub/STA-410-610/PsychBikeData.RData&quot;</span>)
+<span class="kw">library</span>(lme4)
+fit.ml=<span class="kw">lmer</span>(<span class="st">`</span><span class="dt">passing distance</span><span class="st">`</span> <span class="op">~</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">|</span><span class="st"> </span>kerb), <span class="dt">REML=</span><span class="ot">FALSE</span>, <span class="dt">data =</span> PsychBikeData)
 <span class="kw">summary</span>(fit.ml)</code></pre></div>
+</section>
+<section id="section-9" class="slide level2">
+<h2></h2>
+<pre><code>## Warning: package 'lme4' was built under R version 3.5.2</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Warning: package 'Matrix' was built under R version 3.5.2</code></pre>
 <pre><code>## Linear mixed model fit by maximum likelihood  ['lmerMod']
 ## Formula: `passing distance` ~ (1 | kerb)
 ##    Data: PsychBikeData
@@ -692,8 +702,8 @@ The covariance matrix <span class="math inline">\(\Sigma\)</span> is then given 
 ## (Intercept)  1.54023    0.04363    35.3</code></pre>
 <p>Our ML estimates of <span class="math inline">\((\mu,\tau^2,\sigma^2)\)</span> for the bike data are <span class="math inline">\((\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.009, 0.137)\)</span></p>
 </section>
-<section id="reml" class="slide level2">
-<h2>REML</h2>
+<section id="fixed-effects-anova-table" class="slide level2">
+<h2>Fixed Effects ANOVA Table</h2>
 <p>Previously, we examined an ANOVA table in which group <span class="math inline">\(j\)</span> had <span class="math inline">\(n_j\)</span> members. For simplicity now assume <span class="math inline">\(n_j=n ~\forall ~ j\)</span> so that N=Jn. Then our ANOVA table can be written</p>
 <table>
 <thead>
@@ -733,9 +743,13 @@ The covariance matrix <span class="math inline">\(\Sigma\)</span> is then given 
 </tr>
 </tbody>
 </table>
-<p>Our justification for the F ratio measuring evidence against <span class="math inline">\(H_0\)</span> was that -<span class="math inline">\(E[MSE \mid \mu, \alpha_j,\sigma^2]=\sigma^2\)</span> -<span class="math inline">\(E[MSG \mid \mu, \alpha_j, \sigma^2]=\sigma^2+\frac{n\sum (\mu_j-\mu)^2}{J-1}\)</span> (assuming equal group sizes)</p>
+<p>Our justification for the F ratio measuring evidence against <span class="math inline">\(H_0\)</span> was that</p>
+<ul>
+<li><span class="math inline">\(E[MSE \mid \mu, \alpha_j,\sigma^2]=\sigma^2\)</span></li>
+<li><span class="math inline">\(E[MSG \mid \mu, \alpha_j, \sigma^2]=\sigma^2+\frac{n\sum (\mu_j-\mu)^2}{J-1}\)</span> (assuming equal group sizes)</li>
+</ul>
 </section>
-<section id="section-9" class="slide level2">
+<section id="section-10" class="slide level2">
 <h2></h2>
 <p>If we now treat <span class="math inline">\(\alpha_j \overset{iid}{\sim} N(0,\tau^2)\)</span> as random, then</p>
 <span class="math display">\[\begin{eqnarray*}
@@ -750,7 +764,7 @@ E[MSG \mid \mu, \sigma^2, \tau^2]&amp;=&amp;E\left[E[MSG \mid \mu, \alpha_j, \si
 <li>restricted maximum likelihood (REML) estimator</li>
 </ul>
 </section>
-<section id="reml-1" class="slide level2">
+<section id="reml" class="slide level2">
 <h2>REML</h2>
 <p>REML estimation is quite popular for variance component estimation. Features of REML estimation include the following</p>
 <ul>
@@ -782,7 +796,11 @@ E[MSG \mid \mu, \sigma^2, \tau^2]&amp;=&amp;E\left[E[MSG \mid \mu, \alpha_j, \si
 ## Fixed effects:
 ##             Estimate Std. Error t value
 ## (Intercept)  1.54008    0.04876   31.59</code></pre>
-<p>Our REML estimates of <span class="math inline">\((\mu,\tau^2,\sigma^2)\)</span> for the bike data are <span class="math inline">\((\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.012, 0.137)\)</span></p>
+<p>Our REML estimates for the bike data are <span class="math inline">\((\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.012, 0.137)\)</span>.</p>
+</section>
+<section id="section-11" class="slide level2">
+<h2></h2>
+<p>Note that the “REML” estimate of the mean <span class="math inline">\(\mu\)</span> is not obtained using the REML likelihood, which does not involve parameters in the linear predictor. We will return to this point later in the course.</p>
 </section>
 <section id="empirical-bayes" class="slide level2">
 <h2>Empirical Bayes</h2>
@@ -794,7 +812,7 @@ y_{ij}&amp;=&amp;\mu_j+\varepsilon_{ij}\\
 \end{eqnarray*}\]</span>
 <p>Suppose <span class="math inline">\((\mu, \tau^2, \sigma^2)\)</span> are known exactly and consider estimating <span class="math inline">\(\mu_j\)</span> with an estimator that is a linear function of the group sample mean <span class="math inline">\(\widehat{\mu}_j=a\overline{y}_j+b\)</span>. Then one can show that the MSE <span class="math inline">\(E[(\mu_j-\widehat{\mu}_j)^2]\)</span> is minimized if <span class="math inline">\(a=\frac{\frac{n_j}{\sigma^2}}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}}\)</span> and <span class="math inline">\(b=(1-a)\mu\)</span>, so that <span class="math inline">\(\widehat{\mu}_j=w_j \overline{y}_j+(1-w_j)\mu\)</span>, where <span class="math inline">\(w_j=\frac{\frac{n_j}{\sigma^2}}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}}\)</span></p>
 </section>
-<section id="section-10" class="slide level2">
+<section id="section-12" class="slide level2">
 <h2></h2>
 <p>If we knew <span class="math inline">\((\mu, \tau^2,\sigma^2)\)</span> this estimate would be the <em>Bayes estimate</em>; however, we do not know these parameters and are instead estimating them from the data, so that</p>
 <p><span class="math inline">\(\widehat{\mu}_j=\widehat{w}_j \overline{y}_j+(1-\widehat{w}_j)\widehat{\mu}\)</span>, where <span class="math inline">\(\widehat{w}_j=\frac{\frac{n_j}{\widehat{\sigma}^2}}{\frac{n_j}{\widehat{\sigma}^2}+\frac{1}{\widehat{\tau}^2}}\)</span></p>
@@ -816,6 +834,12 @@ y_{ij}&amp;=&amp;\mu_j+\varepsilon_{ij}\\
 ## 
 ## attr(,&quot;class&quot;)
 ## [1] &quot;coef.mer&quot;</code></pre>
+</section>
+<section id="section-13" class="slide level2">
+<h2></h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tapply</span>(PsychBikeData<span class="op">$</span><span class="st">`</span><span class="dt">passing distance</span><span class="st">`</span>,PsychBikeData<span class="op">$</span>kerb,mean)</code></pre></div>
+<pre><code>##     0.25      0.5     0.75        1     1.25 
+## 1.698054 1.590473 1.505519 1.490584 1.412813</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(fit.reml)</code></pre></div>
 <pre><code>## $kerb
 ##      (Intercept)
@@ -862,9 +886,9 @@ y_{ij}&amp;=&amp;\mu_j+\varepsilon_{ij}\\
 <p>In practice, we carry out all estimation together (estimate variances along with the <span class="math inline">\(\alpha\)</span> parameters), but we won’t worry about this yet.</p>
 <p>Code for the radon analysis as presented in Gelman and Hill <a href="http://www.stat.columbia.edu/~gelman/arm/examples/radon/radon_chap12.R">is available at this link</a> .</p>
 </section>
-<section id="location-of-measurement-in-radon-study" class="slide level2">
-<h2>Location of measurement in radon study</h2>
-<p>One important predictor of radon levels is the floor on which the measurement is taken: basement (<span class="math inline">\(x_i=0\)</span>) or first floor (<span class="math inline">\(x_i=1\)</span>); radon comes from underground and can enter more easily when the house is built into the ground.</p>
+<section id="adding-a-grouping-factor-location-of-measurement" class="slide level2">
+<h2>Adding a Grouping Factor: Location of Measurement</h2>
+<p>One important predictor of radon levels is the floor on which the measurement is taken: basement (<span class="math inline">\(x_i=0\)</span>) or first floor (<span class="math inline">\(x_i=1\)</span>). Radon comes from underground and can enter more easily when the house is built into the ground; in addition, basements tend to have higher levels than ground floors.</p>
 <p>First, we examine the complete-pooling regression, <span class="math inline">\(y_i=\alpha+\beta x_i + \varepsilon_i\)</span>, and the no-pooling regression <span class="math inline">\(y_i=\alpha_{j[i]}+\beta x_i + \varepsilon_i\)</span>, where <span class="math inline">\(\alpha_{j[i]}\)</span> is the mean log radon level from basement measures of homes (indexed by i) in county <span class="math inline">\(j\)</span>.</p>
 <p>The following plot shows the dashed lines <span class="math inline">\(\widehat{y}=\widehat{\alpha}+\widehat{\beta} x\)</span> for eight selected counties from the complete pooling model, and the solid lines <span class="math inline">\(\widehat{y}=\widehat{\alpha}_j+\widehat{\beta}x\)</span> from no pooling model.</p>
 </section>
@@ -905,7 +929,13 @@ county &lt;-<span class="st"> </span><span class="kw">rep</span> (<span class="o
 }</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">###pooled model
 lm.pooled&lt;-<span class="kw">lm</span>(<span class="dt">formula=</span>y<span class="op">~</span>x)
-<span class="kw">summary</span>(lm.pooled)</code></pre></div>
+<span class="kw">summary</span>(lm.pooled)
+###unpooled  model
+lm.unpooled&lt;-<span class="kw">lm</span>(<span class="dt">formula=</span>y<span class="op">~</span>x<span class="op">+</span><span class="kw">factor</span>(county)<span class="op">-</span><span class="dv">1</span>)
+<span class="kw">summary</span>(lm.unpooled)</code></pre></div>
+</section>
+<section id="section-14" class="slide level2">
+<h2></h2>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ x)
@@ -924,9 +954,9 @@ lm.pooled&lt;-<span class="kw">lm</span>(<span class="dt">formula=</span>y<span 
 ## Residual standard error: 0.8226 on 917 degrees of freedom
 ## Multiple R-squared:  0.07178,    Adjusted R-squared:  0.07077 
 ## F-statistic: 70.91 on 1 and 917 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">###unpooled  model
-lm.unpooled&lt;-<span class="kw">lm</span>(<span class="dt">formula=</span>y<span class="op">~</span>x<span class="op">+</span><span class="kw">factor</span>(county)<span class="op">-</span><span class="dv">1</span>)
-<span class="kw">summary</span>(lm.unpooled)</code></pre></div>
+</section>
+<section id="section-15" class="slide level2">
+<h2></h2>
 <pre><code>## 
 ## Call:
 ## lm(formula = y ~ x + factor(county) - 1)
@@ -1029,9 +1059,17 @@ lm.unpooled&lt;-<span class="kw">lm</span>(<span class="dt">formula=</span>y<spa
 ## Residual standard error: 0.7564 on 833 degrees of freedom
 ## Multiple R-squared:  0.7671, Adjusted R-squared:  0.7431 
 ## F-statistic: 31.91 on 86 and 833 DF,  p-value: &lt; 2.2e-16</code></pre>
+</section>
+<section id="section-16" class="slide level2">
+<h2></h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#basic MLM with just random intercept for county</span>
+<span class="kw">library</span>(lme4)
 M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>county),<span class="dt">REML=</span><span class="ot">FALSE</span>)
-<span class="kw">summary</span>(M1)</code></pre></div>
+<span class="kw">summary</span>(M1)
+<span class="kw">coef</span>(M1)</code></pre></div>
+</section>
+<section id="section-17" class="slide level2">
+<h2></h2>
 <pre><code>## Linear mixed model fit by maximum likelihood  ['lmerMod']
 ## Formula: y ~ x + (1 | county)
 ## 
@@ -1056,7 +1094,6 @@ M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">
 ## Correlation of Fixed Effects:
 ##   (Intr)
 ## x -0.290</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(M1)</code></pre></div>
 <pre><code>## $county
 ##    (Intercept)          x
 ## 1    1.1945745 -0.6926365
@@ -1065,13 +1102,13 @@ M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">
 ## 4    1.5037889 -0.6926365
 ## 5    1.4460519 -0.6926365
 ## 6    1.4796397 -0.6926365
-## 7    1.8555702 -0.6926365
+## 7    1.8555701 -0.6926365
 ## 8    1.6796893 -0.6926365
-## 9    1.1621915 -0.6926365
+## 9    1.1621916 -0.6926365
 ## 10   1.5078244 -0.6926365
 ## 11   1.4323468 -0.6926365
 ## 12   1.5754595 -0.6926365
-## 13   1.2391506 -0.6926365
+## 13   1.2391507 -0.6926365
 ## 14   1.8355525 -0.6926365
 ## 15   1.4029057 -0.6926365
 ## 16   1.2464311 -0.6926365
@@ -1086,19 +1123,19 @@ M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">
 ## 25   1.8112724 -0.6926365
 ## 26   1.3627354 -0.6926365
 ## 27   1.6203441 -0.6926365
-## 28   1.3477309 -0.6926365
+## 28   1.3477310 -0.6926365
 ## 29   1.3167485 -0.6926365
 ## 30   1.1024167 -0.6926365
-## 31   1.7296715 -0.6926365
-## 32   1.3656407 -0.6926365
+## 31   1.7296714 -0.6926365
+## 32   1.3656408 -0.6926365
 ## 33   1.7163254 -0.6926365
 ## 34   1.5006074 -0.6926365
-## 35   1.0902637 -0.6926365
-## 36   1.8612908 -0.6926365
+## 35   1.0902638 -0.6926365
+## 36   1.8612907 -0.6926365
 ## 37   0.7980765 -0.6926365
 ## 38   1.6279261 -0.6926365
 ## 39   1.5961932 -0.6926365
-## 40   1.8212250 -0.6926365
+## 40   1.8212249 -0.6926365
 ## 41   1.7607856 -0.6926365
 ## 42   1.4455459 -0.6926365
 ## 43   1.5395531 -0.6926365
@@ -1109,7 +1146,7 @@ M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">
 ## 48   1.2638020 -0.6926365
 ## 49   1.6282095 -0.6926365
 ## 50   1.6219929 -0.6926365
-## 51   1.7601469 -0.6926365
+## 51   1.7601468 -0.6926365
 ## 52   1.6274442 -0.6926365
 ## 53   1.3828666 -0.6926365
 ## 54   1.3332417 -0.6926365
@@ -1127,7 +1164,7 @@ M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">
 ## 66   1.5971714 -0.6926365
 ## 67   1.6964805 -0.6926365
 ## 68   1.2398624 -0.6926365
-## 69   1.3682585 -0.6926365
+## 69   1.3682586 -0.6926365
 ## 70   0.8904344 -0.6926365
 ## 71   1.4827093 -0.6926365
 ## 72   1.5381798 -0.6926365
@@ -1148,12 +1185,12 @@ M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">
 ## attr(,&quot;class&quot;)
 ## [1] &quot;coef.mer&quot;</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lme4)
-<span class="co">#basic MLM with just random intercept for county</span>
-M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>county))</code></pre></div>
+<span class="co">#basic MLM with just random intercept for county, fit using REML</span>
+M2&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>county))</code></pre></div>
 </section>
 <section id="output-from-mlm" class="slide level2">
 <h2>Output from MLM</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(M1)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(M2)</code></pre></div>
 <pre><code>## Linear mixed model fit by REML ['lmerMod']
 ## Formula: y ~ x + (1 | county)
 ## 
@@ -1181,7 +1218,7 @@ M1&lt;-<span class="kw">lmer</span>(y<span class="op">~</span>x<span class="op">
 </section>
 <section id="county-level-estimates" class="slide level2">
 <h2>County-level estimates</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(M1)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(M2)</code></pre></div>
 <pre><code>## $county
 ##    (Intercept)          x
 ## 1    1.1915004 -0.6929937

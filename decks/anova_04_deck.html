@@ -526,7 +526,7 @@ y_{ij}&amp;=&amp;\mu_j+\varepsilon_{ij}=\mu_j + \varepsilon_{ij}
 <p>We have now fully-specified our model with the following components.</p>
 <ol type="1">
 <li><p>Unknown parameters <span class="math inline">\((\mu,\tau^2,\sigma^2,\alpha_1,\cdots,\alpha_J)\)</span></p></li>
-<li><p>Prior distributions, specified in terms of prior guesses at parameters <span class="math inline">\((\mu_0,\tau_0^2,\sigma_0^2)\)</span> and certainty/prior sample sizes <span class="math inline">\((m_0,\eta_0,\nu_0)\)</span></p></li>
+<li><p>Prior distributions, specified in terms of prior guesses <span class="math inline">\((\mu_0,\tau_0^2,\sigma_0^2)\)</span> and certainty/prior sample sizes <span class="math inline">\((m_0,\eta_0,\nu_0)\)</span></p></li>
 <li><p>Don’t forget the data <span class="math inline">\(y,x\)</span> from our groups!</p></li>
 </ol>
 </section>
@@ -539,13 +539,13 @@ y_{ij}&amp;=&amp;\mu_j+\varepsilon_{ij}=\mu_j + \varepsilon_{ij}
 <span class="math display">\[\begin{eqnarray*}
 p(\mu &amp;\mid&amp; \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
 &amp;\propto &amp; p(\mu \mid \tau^2) p(\tau^2)p(\sigma^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2)\prod_{i=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
-&amp;\propto &amp; p(\mu \mid \tau^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2) \\
+&amp;\propto &amp; p(\mu \mid \tau^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2) ~~~ \text{(dropping stuff not involving } \mu \text{)} \\
 &amp;\propto &amp; \exp \left\{-\frac{m_0(\mu-\mu_0)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (\mu-\mu_j)^2}{2\tau^2}\right\}
 \end{eqnarray*}\]</span>
 </section>
 <section id="section-2" class="slide level2">
 <h2></h2>
-<p>You can show then that <span class="math inline">\((\mu \mid \tau^2, \mu_1, \cdots, \mu_J)=N(e,v)\)</span> where <span class="math inline">\(e=\frac{J}{m_0+J}\frac{1}{J}\sum \mu_j + \frac{m_0}{J+m_0}\mu_0\)</span> and <span class="math inline">\(v=\frac{\tau^2}{J+m_0}\)</span>, and here we can think of <span class="math inline">\(m_0\)</span> as the number of “prior observations” and <span class="math inline">\(\mu_0\)</span> as the sample mean of those prior observations. In practice, people take <span class="math inline">\(\mu_0\)</span> to be a reasonable prior guess, and if they’re really unsure they take <span class="math inline">\(m_0\)</span> as the degree of certainly, implying that this is equivalent roughly to the certainty you would have from only one sampled value from the population (so not very much information).</p>
+<p>You can show then that <span class="math inline">\((\mu \mid \tau^2, \mu_1, \cdots, \mu_J)=N(e,v)\)</span> where <span class="math inline">\(e=\frac{J}{m_0+J}\frac{1}{J}\sum \mu_j + \frac{m_0}{J+m_0}\mu_0\)</span> and <span class="math inline">\(v=\frac{\tau^2}{J+m_0}\)</span>, and here we can think of <span class="math inline">\(m_0\)</span> as the number of “prior observations” and <span class="math inline">\(\mu_0\)</span> as the sample mean of those prior observations. In practice, people take <span class="math inline">\(\mu_0\)</span> to be a reasonable prior guess, and if they’re really unsure they take <span class="math inline">\(m_0=1\)</span>, implying that this is equivalent roughly to the certainty you would have from only one sampled value from the population (so not very much information).</p>
 </section>
 <section id="section-3" class="slide level2">
 <h2></h2>
@@ -584,15 +584,14 @@ p(\mu &amp;\mid&amp; \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \
 <span class="math display">\[\begin{eqnarray*}
 p(\mu_j &amp;\mid&amp; \mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
 &amp;\propto &amp; p(\mu \mid \tau^2) p(\tau^2)p(\sigma^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2)\prod_{i=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
-&amp;\propto &amp; p(\mu_j \mid \mu, \tau^2) \prod_{j=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
-&amp;\propto &amp; \exp \left\{-\frac{(\mu_j-\mu)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (y_{ij}-\mu)^2}{2\sigma^2}\right\}
+&amp;\propto&amp; p(\mu_j \mid \mu, \tau^2) \prod_{j=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) ~~~~ \propto ~~~~ \exp \left\{-\frac{(\mu_j-\mu)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (y_{ij}-\mu)^2}{2\sigma^2}\right\}
 \end{eqnarray*}\]</span>
 <p></small></p>
 <p>For homework you will show this is a normal distribution with variance <span class="math inline">\(v_j=\frac{1}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}}\)</span> and mean <span class="math inline">\(v_j\left[\frac{n_j}{\sigma^2}\overline{y}_j+\frac{1}{\tau^2}\mu\right]\)</span>.</p>
 </section>
 <section id="section-7" class="slide level2">
 <h2></h2>
-<p>The full conditional posterior distribution of <span class="math inline">\(\mu_j\)</span> has a nice form, and we can see that the conditional mean is a compromise between the sample mean (weighted by the data precision) and the overall mean (weighted by the prior precision), while the conditional precision (inverse variance) can be thought of as the sum of data precision and prior precision.</p>
+<p>The full conditional posterior distribution of <span class="math inline">\(\mu_j\)</span> has a nice form, and we can see that the conditional mean is a compromise between the sample mean (weighted by the data precision) and the overall mean (weighted by the prior across-group precision), while the conditional precision (inverse variance) can be thought of as the sum of data precision and prior across-group precision.</p>
 </section>
 <section id="inverse-gamma-distribution" class="slide level2">
 <h2>Inverse Gamma Distribution</h2>
@@ -605,14 +604,12 @@ p(\mu_j &amp;\mid&amp; \mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p
 <section id="section-9" class="slide level2">
 <h2></h2>
 <p>The full conditional posterior for <span class="math inline">\(\tau^2\)</span> in our hierarchical normal model is given by</p>
-<p><small></p>
 <span class="math display">\[\begin{eqnarray*}
 p(\tau^2 &amp;\mid&amp; \mu, \sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
-&amp;\propto&amp; p(\tau^2) p(\mu \mid \tau^2) \prod p(\mu_1, \cdots, \mu_J \mid \mu, \tau^2) \\
+&amp;\propto&amp;  p(\tau^2) p(\mu \mid \tau^2) \prod p(\mu_1, \cdots, \mu_J \mid \mu, \tau^2) \\
 &amp;\propto&amp; \left(\tau^2\right)^{-\frac{m_0}{2}-1}e^{-\frac{m_0\tau_0^2}{2\tau^2}} \left(\tau^2\right)^{-\frac{1}{2}}e^{-\frac{m_0(\mu-\mu_0)^2}{2\tau^2}}\prod_{j=1}^J \left(\tau^2\right)^{-\frac{1}{2}}e^{-\frac{(\mu_j-\mu)^2}{2\tau^2}} \\
 &amp;\propto&amp; (\tau^2)^{-\frac{m_0+J+1}{2}-1}e^{-\frac{m_0\tau_0^2+m_0(\mu-\mu_0)^2+\sum (\mu_j-\mu)^2}{2\tau^2}}
 \end{eqnarray*}\]</span>
-<p></small></p>
 <p>so that the full conditional posterior is also IG.</p>
 </section>
 <section id="section-10" class="slide level2">
@@ -623,8 +620,9 @@ p(\tau^2 &amp;\mid&amp; \mu, \sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, 
 <h2>Posterior Inference</h2>
 <p>We can use Gibbs sampling to make inference about the posterior distribution.</p>
 </section>
-<section id="now-program-data-example" class="slide level2">
-<h2>now program data example</h2>
+<section id="biking-data" class="slide level2">
+<h2>Biking Data</h2>
+<p>Here we fit a hierarchical model for the association between curb and passing distance in the bike data. NEED TO FIT THIS MODEL WITH THE DEFAULT PRIORS INSTEAD OF WITH THE STAN VS USED HERE.</p>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 

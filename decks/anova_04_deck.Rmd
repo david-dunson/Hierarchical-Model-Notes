@@ -53,7 +53,7 @@ We have now fully-specified our model with the following components.
 
 1. Unknown parameters $(\mu,\tau^2,\sigma^2,\alpha_1,\cdots,\alpha_J)$
 
-2. Prior distributions, specified in terms of prior guesses at parameters $(\mu_0,\tau_0^2,\sigma_0^2)$ and certainty/prior sample sizes $(m_0,\eta_0,\nu_0)$
+2. Prior distributions, specified in terms of prior guesses $(\mu_0,\tau_0^2,\sigma_0^2)$ and certainty/prior sample sizes $(m_0,\eta_0,\nu_0)$
 
 3. Don't forget the data $y,x$ from our groups!
 
@@ -66,14 +66,14 @@ We can interrogate the posterior distribution of the parameters using Gibbs samp
 \begin{eqnarray*}
 p(\mu &\mid& \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
 &\propto & p(\mu \mid \tau^2) p(\tau^2)p(\sigma^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2)\prod_{i=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
-&\propto & p(\mu \mid \tau^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2) \\
+&\propto & p(\mu \mid \tau^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2) ~~~ \text{(dropping stuff not involving } \mu \text{)} \\
 &\propto & \exp \left\{-\frac{m_0(\mu-\mu_0)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (\mu-\mu_j)^2}{2\tau^2}\right\}
 \end{eqnarray*}
 
 
 ##
  
-You can show then that $(\mu \mid \tau^2, \mu_1, \cdots, \mu_J)=N(e,v)$ where $e=\frac{J}{m_0+J}\frac{1}{J}\sum \mu_j + \frac{m_0}{J+m_0}\mu_0$ and $v=\frac{\tau^2}{J+m_0}$, and here we can think of $m_0$ as the number of "prior observations" and $\mu_0$ as the sample mean of those prior observations.  In practice, people take $\mu_0$ to be a reasonable prior guess, and if they're really unsure they take $m_0$ as the degree of certainly, implying that this is equivalent roughly to the certainty you would have from only one sampled value from the population (so not very much information).
+You can show then that $(\mu \mid \tau^2, \mu_1, \cdots, \mu_J)=N(e,v)$ where $e=\frac{J}{m_0+J}\frac{1}{J}\sum \mu_j + \frac{m_0}{J+m_0}\mu_0$ and $v=\frac{\tau^2}{J+m_0}$, and here we can think of $m_0$ as the number of "prior observations" and $\mu_0$ as the sample mean of those prior observations.  In practice, people take $\mu_0$ to be a reasonable prior guess, and if they're really unsure they take $m_0=1$, implying that this is equivalent roughly to the certainty you would have from only one sampled value from the population (so not very much information).
 
 ##
 
@@ -117,8 +117,7 @@ Using similar algebra, we can show the full conditional distribution of $\mu_j$ 
 \begin{eqnarray*}
 p(\mu_j &\mid& \mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
 &\propto & p(\mu \mid \tau^2) p(\tau^2)p(\sigma^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2)\prod_{i=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
-&\propto & p(\mu_j \mid \mu, \tau^2) \prod_{j=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
-&\propto & \exp \left\{-\frac{(\mu_j-\mu)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (y_{ij}-\mu)^2}{2\sigma^2}\right\}
+&\propto& p(\mu_j \mid \mu, \tau^2) \prod_{j=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) ~~~~ \propto ~~~~ \exp \left\{-\frac{(\mu_j-\mu)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (y_{ij}-\mu)^2}{2\sigma^2}\right\}
 \end{eqnarray*}
 
 
@@ -129,7 +128,7 @@ For homework you will show this is a normal distribution with variance $v_j=\fra
 
 ##
 
-The full conditional posterior distribution of $\mu_j$ has a nice form, and we can see that the conditional mean is a compromise between the sample mean (weighted by the data precision) and the overall mean (weighted by the prior precision), while the conditional precision (inverse variance) can be thought of as the sum of data precision and prior precision.
+The full conditional posterior distribution of $\mu_j$ has a nice form, and we can see that the conditional mean is a compromise between the sample mean (weighted by the data precision) and the overall mean (weighted by the prior across-group precision), while the conditional precision (inverse variance) can be thought of as the sum of data precision and prior across-group precision.
 
 ## Inverse Gamma Distribution
 
@@ -143,16 +142,16 @@ Using an IG$\left(\frac{m_0}{2},\frac{m_0\tau_0^2}{2}\right)$ distribution for $
 
 The full conditional posterior for $\tau^2$ in our hierarchical normal model is given by
 
-<small>
+
 
 \begin{eqnarray*}
 p(\tau^2 &\mid& \mu, \sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
-&\propto& p(\tau^2) p(\mu \mid \tau^2) \prod p(\mu_1, \cdots, \mu_J \mid \mu, \tau^2) \\
+&\propto&  p(\tau^2) p(\mu \mid \tau^2) \prod p(\mu_1, \cdots, \mu_J \mid \mu, \tau^2) \\
 &\propto& \left(\tau^2\right)^{-\frac{m_0}{2}-1}e^{-\frac{m_0\tau_0^2}{2\tau^2}} \left(\tau^2\right)^{-\frac{1}{2}}e^{-\frac{m_0(\mu-\mu_0)^2}{2\tau^2}}\prod_{j=1}^J \left(\tau^2\right)^{-\frac{1}{2}}e^{-\frac{(\mu_j-\mu)^2}{2\tau^2}} \\
 &\propto& (\tau^2)^{-\frac{m_0+J+1}{2}-1}e^{-\frac{m_0\tau_0^2+m_0(\mu-\mu_0)^2+\sum (\mu_j-\mu)^2}{2\tau^2}}
 \end{eqnarray*}
 
-</small>
+
 
 so that the full conditional posterior is also IG.
 
@@ -164,7 +163,9 @@ You can also show the full conditional posterior of $\sigma^2$ is $IG\left(\frac
 
 We can use Gibbs sampling to make inference about the posterior distribution.
 
-## now program data example
+## Biking Data
+
+Here we fit a hierarchical model for the association between curb and passing distance in the bike data.  NEED TO FIT THIS MODEL WITH THE DEFAULT PRIORS INSTEAD OF WITH THE STAN VS USED HERE.
 
 ```{r standefault, cache=TRUE, warning=FALSE, echo=FALSE}
 load("~/Documents/GitHub/STA-410-610/PsychBikeData")

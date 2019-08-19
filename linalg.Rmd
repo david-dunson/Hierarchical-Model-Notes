@@ -1,12 +1,10 @@
 ---
 title: "Review and Introduction"
+output: 
+  github_document:
+      pandoc_args: --webtex
 ---
 
-```{r, echo=FALSE, include=FALSE}
-library(kableExtra)
-library(knitr)
-library(tidyverse)
-```
 
 
 
@@ -41,9 +39,9 @@ Penn State University maintains some very nice review materials online (these ar
 
 # Slides
 
-[Hierarchical Models: Overview](decks/overview_deck.html)
+[Hierarchical Models: Overview](decks/intro_deck.html)
 
-## Review Materials
+## Slides for Your Own Review 
 
 [Basics: Vectors and matrices](decks/linalg_01_deck.html)
 

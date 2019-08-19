@@ -156,7 +156,11 @@ has rank = \hspace{2in}
 
 ## Full rank matrices
 
-If ${\bf A}$ is an $(r \times c)$ matrix with $r \geq c$, we say ${\bf A}$ is *full rank* if rank(${\bf A}$)=$c$.  If rank(${\bf A}$)$<c$, then we say ${\bf A}$ is less than full rank.  In linear regression, the matrix of covariates ${\bf X}$ must have full rank in order for our parameter estimates, $\widehat{\beta}$, to be unique.
+If ${\bf A}$ is an $(r \times c)$ matrix with $r \geq c$, we say ${\bf A}$ is *full rank* if rank(${\bf A}$)=$c$.  
+
+If rank(${\bf A}$)$<c$, then we say ${\bf A}$ is less than full rank.  
+
+In linear regression, the matrix of covariates ${\bf X}$ must have full rank in order for our parameter estimates, $\widehat{\beta}$, to be unique.
 
 ## Singular matrices
 

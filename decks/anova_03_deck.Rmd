@@ -15,6 +15,12 @@ output:
   
 ---
 
+## Random Effects ANOVA
+
+Random effects ANOVA is a simple hierarchical model. In this framework we assume that group-specific means are distributed around some overall mean.
+
+
+We will introduce this model in the context of a study in which the groups are the 85 counties in the state of Minnesota.
 
 ## Motivating Example: Radon Study
 
@@ -33,7 +39,7 @@ We wish to estimate the distribution of radon levels in houses $i$ within 85 cou
 - One estimate would be the average of all radon levels in Minnesota (same estimate for all counties), $\overline{y}_{\cdot \cdot}$, but this ignores variation across counties, and some counties may have higher radon levels naturally than others (radon is more commonly found in soils with granite rock, as opposed to some other soil types).
 
 - Another estimate would be just to average the radon level in each
-  county, $\overline{y}_j$, which can over-fit the data within county (for example, Lac Qui Parle County, which has the highest radon level of all the 85 MN counties, has radon measures from only 2 homes). This is like using an ANOVA model with a *fixed effect* for county.
+  county, $\overline{y}_j$, which can over-fit the data within county (for example, Lac Qui Parle County, which has the highest observed radon level of all the 85 MN counties, had radon measures from only 2 homes). This is similar to using an ANOVA model with a *fixed effect* for county.
 
 ## 
 ![Estimates and SE's for log radon levels in MN counties versus the
@@ -43,7 +49,7 @@ Note we get pretty good (low variance) estimates in counties where more samples 
 
 ##
 
-The figure contrasts two extreme approaches to obtaining estimates of group means $\mu_j$ in this type of setting.  A common procedure might be the following.  Fit the ANOVA model $y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \sim N(0,\sigma^2)$, testing the significance of the groups using an overall F test (here, an 84 degree of freedom test).
+The figure contrasts two extreme approaches to obtaining estimates of group means $\mu_j$ in this type of setting.  A common procedure might be the following.  Fit the ANOVA model $y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \sim N(0,\sigma^2)$, testing the significance of the groups using an overall F test (here, an 84 degree of freedom test, as we're testing all 85 means are the same).
 
   - If $p<0.05$, use the estimate $\widehat{\mu}_j=\overline{y}_j$ for the mean in each county
   - If $p>0.05$, use the estimate $\widehat{\mu}_j=\overline{y}$ for the mean in each county
@@ -52,7 +58,7 @@ With either extreme, we will be using sub-optimal estimates for some counties.
 
 ## 
 
-Ideally, we could use the estimate $\overline{y}_j$ for counties with sufficient sample size and the estimate $\overline{y}$ for counties where the variability is too high.  
+An improvement might be using the estimate $\overline{y}_j$ for counties with sufficient sample size and the estimate $\overline{y}$ for counties where the variability is too high.  
 
 Important question: how do we define "sufficient" and "too high"?
 
@@ -60,7 +66,7 @@ Important question: how do we define "sufficient" and "too high"?
 
 *Random effects* ANOVA is a special case of a *hierarchical* or *multilevel* linear model that provides a nice framework for borrowing information across groups when needed to stabilize estimates.  We can specify such a model as $y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$ and $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$. The model on $\alpha_j$ allows us to borrow information in order to obtain better group-specific estimates when needed; because $\alpha_j$ is now viewed as random, the model can be called a *random effects* model. 
 
-The model is sometimes called a *random intercept* model because each group has its own intercept, $\mu_j$, that follows a Gaussian distribution.
+This particular model is sometimes called a *random intercept* model because each group has its own intercept, $\mu_j=\mu+\alpha_j$, that follows a Gaussian distribution.
 
 ## Random Effects ANOVA for Radon Data
 
@@ -217,16 +223,26 @@ $y_{ij}=\mu+\alpha_j+\varepsilon_{ij}$, where $\varepsilon_{ij} \overset{iid}{\s
 
 Instead of directly maximizing the log-likelihood in R, we can use the lme4 library to do the work for us.
 
-```{r findmle}
-load("~/Documents/GitHub/STA-410-610/PsychBikeData")
+```{r findmle, eval=FALSE}
+load("~/Documents/GitHub/STA-410-610/PsychBikeData.RData")
 library(lme4)
 fit.ml=lmer(`passing distance` ~ (1 | kerb), REML=FALSE, data = PsychBikeData)
 summary(fit.ml)
 ```
 
+##
+
+```{r findmle2, echo=FALSE}
+load("~/Documents/GitHub/STA-410-610/PsychBikeData.RData")
+library(lme4)
+fit.ml=lmer(`passing distance` ~ (1 | kerb), REML=FALSE, data = PsychBikeData)
+summary(fit.ml)
+```
+
+
 Our ML estimates of $(\mu,\tau^2,\sigma^2)$ for the bike data are $(\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.009, 0.137)$
 
-## REML
+## Fixed Effects ANOVA Table
 
 Previously, we examined an ANOVA table in which group $j$ had $n_j$ members. For simplicity now assume $n_j=n ~\forall ~ j$ so that N=Jn. Then our ANOVA table can be written
 
@@ -238,8 +254,9 @@ Previously, we examined an ANOVA table in which group $j$ had $n_j$ members. For
 | Total | $Jn-1$ | SST | | |
 
 Our justification for the F ratio measuring evidence against $H_0$ was that
-  -$E[MSE \mid \mu, \alpha_j,\sigma^2]=\sigma^2$
-  -$E[MSG \mid \mu, \alpha_j, \sigma^2]=\sigma^2+\frac{n\sum (\mu_j-\mu)^2}{J-1}$ (assuming equal group sizes)
+
+  - $E[MSE \mid \mu, \alpha_j,\sigma^2]=\sigma^2$
+  - $E[MSG \mid \mu, \alpha_j, \sigma^2]=\sigma^2+\frac{n\sum (\mu_j-\mu)^2}{J-1}$ (assuming equal group sizes)
 
 ##
   
@@ -277,7 +294,11 @@ fit.reml=lmer(`passing distance` ~ (1 | kerb), REML=TRUE, data = PsychBikeData)
 summary(fit.reml)
 ```
 
-Our REML estimates of $(\mu,\tau^2,\sigma^2)$ for the bike data are $(\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.012, 0.137)$
+Our REML estimates for the bike data are $(\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.012, 0.137)$. 
+
+##
+
+Note that the "REML" estimate of the mean $\mu$ is not obtained using the REML likelihood, which does not involve parameters in the linear predictor. We will return to this point later in the course.
 
 ## Empirical Bayes
 
@@ -306,14 +327,15 @@ is called an *empirical Bayes estimate* because our unknown parameters have been
 ```{r ebest}
 tapply(PsychBikeData$`passing distance`,PsychBikeData$kerb,mean)
 coef(fit.ml)
+```
+
+##
+
+```{r ebest2}
+tapply(PsychBikeData$`passing distance`,PsychBikeData$kerb,mean)
 coef(fit.reml)
 
 ```
-
-
-
-
-
 
 
 ## Data exploration in Radon Study
@@ -356,9 +378,9 @@ In practice, we carry out all estimation together (estimate variances along with
 Code for the radon analysis as presented in Gelman and Hill [is available at this link](http://www.stat.columbia.edu/~gelman/arm/examples/radon/radon_chap12.R)  .
 
 
-## Location of measurement in radon study
+## Adding a Grouping Factor: Location of Measurement
 
-One important predictor of radon levels is the floor on which the measurement is taken:  basement ($x_i=0$) or first floor ($x_i=1$); radon comes from underground and can enter more easily when the house is built into the ground.
+One important predictor of radon levels is the floor on which the measurement is taken:  basement ($x_i=0$) or first floor ($x_i=1$). Radon comes from underground and can enter more easily when the house is built into the ground; in addition, basements tend to have higher levels than ground floors.
 
 First, we examine the complete-pooling regression, $y_i=\alpha+\beta x_i + \varepsilon_i$, and the no-pooling regression $y_i=\alpha_{j[i]}+\beta x_i + \varepsilon_i$, where $\alpha_{j[i]}$ is the mean log radon level from basement
 measures of homes (indexed by i) in county $j$. 
@@ -409,7 +431,7 @@ for (i in 1:J){
 
 ```
 
-```{r fitsimplemodels}
+```{r fitsimplemodels, eval=FALSE}
 ###pooled model
 lm.pooled<-lm(formula=y~x)
 summary(lm.pooled)
@@ -418,7 +440,38 @@ lm.unpooled<-lm(formula=y~x+factor(county)-1)
 summary(lm.unpooled)
 ```
 
-```{r lmer}
+##
+
+```{r fitsimplemodels2, echo=FALSE}
+###pooled model
+lm.pooled<-lm(formula=y~x)
+summary(lm.pooled)
+```
+
+##
+
+```{r fitsimplemodels3, echo=FALSE}
+###unpooled  model
+lm.unpooled<-lm(formula=y~x+factor(county)-1)
+summary(lm.unpooled)
+```
+
+
+##
+
+```{r lmer, eval=FALSE}
+#basic MLM with just random intercept for county
+library(lme4)
+M1<-lmer(y~x+(1|county),REML=FALSE)
+summary(M1)
+coef(M1)
+```
+
+
+##
+
+```{r lmer2, echo=FALSE}
+library(lme4)
 #basic MLM with just random intercept for county
 M1<-lmer(y~x+(1|county),REML=FALSE)
 summary(M1)
@@ -426,22 +479,22 @@ coef(M1)
 ```
 
 
-```{r M1}
+```{r M2}
 library(lme4)
-#basic MLM with just random intercept for county
-M1<-lmer(y~x+(1|county))
+#basic MLM with just random intercept for county, fit using REML
+M2<-lmer(y~x+(1|county))
 ```
 
 ## Output from MLM
-```{r M1out}
-summary(M1)
+```{r M2out}
+summary(M2)
 ```
 
 <small> The ratio of county-level variance to total variance is an estimate of the correlation of within-county measures. Here $\hat{\rho}=\frac{.1077}{.1077+.5709}=0.16$. </small>
 
 ## County-level estimates
-```{r M1colevel}
-coef(M1)
+```{r M2colevel}
+coef(M2)
 ```
 
 The first column gives estimates of $\alpha_j$, and the second column gives the estimate of $\beta$ (does not vary over county $j$ according to the model we specified), for the first 19 of 85 counties.

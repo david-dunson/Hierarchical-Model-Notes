@@ -15,6 +15,14 @@ output:
   
 ---
 
+```{r, echo=FALSE, include=FALSE}
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+```
+
+
+
 ## Maximum likelihood estimators
 
 *Maximum likelihood estimates* (MLE's) have excellent large-sample properties and are applicable in a wide variety of situations.  
@@ -86,5 +94,5 @@ By a similar argument, an approximate $100(1-\alpha)\%$ large-sample confidence 
 \end{equation*}
 where $Pr(Z > Z_{1-\frac{\alpha}{2}})=\frac{\alpha}{2}$ when $Z \sim N(0,1)$.
 
-\emph{NOTE:}  Testing $\sigma^2$ is more complicated, and the Wald test for the hypothesis $\sigma^2=0$ is not recommended because the value $\sigma^2=0$ is on the boundary of the parameter space for $\sigma^2$.
+\emph{NOTE:}  Testing $\sigma^2$ is more complicated, and the Wald test for the hypothesis $\sigma^2=0$ is not recommended because the value $\sigma^2=0$ is on the boundary of the parameter space for $\sigma^2$, a violation of a regularity condition for the validity of the test.
 
