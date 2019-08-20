@@ -65,36 +65,36 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | September 4   | Random Effects ANOVA | Group Policies Document Due |
 | September 6   | Random Effects ANOVA|  |
 | September 9  | Bayesian Estimation | Assignment 1 Due  |
-| September 11  | Lab: Visualizing Estimates  |  |
+| September 11  | Lab: Visualizing Estimates  | Group Lab Reports   |
 | September 13  |Bayesian Estimation |  |
-| September 16  | Lab: Empirical Bayes \& Bayesian Estimation |   |
+| September 16  | Lab: Empirical Bayes \& Bayesian Estimation | Group Lab Reports   |
 | September 18  | Random Effects ANCOVA |   |
 | September 20  | Linear Mixed Effects Model and Case Study 1 Introduction | Assignment 2 Due  |
-| September 23  | Lab: Fitting Hierarchical Bayes Models |  |
+| September 23  | Lab: Fitting Hierarchical Bayes Models | Group Lab Reports  |
 | September 25  | Exam Review |  |
 | September 27  | Exam 1 (in class)  | Exam 1 (in class) |
-| September 30  |  Lab: Linear Mixed Effects Models I         |  |
+| September 30  |  Lab: Linear Mixed Effects Models I         | Group Lab Reports  |
 | October 2     | Estimation in LME | Exam 1 Returned (my deliverable)  | 
 | October 4     | Lab: Help, I'm Behind! Hands-on Analysis and Q&A | Midsemester Grades Due (my deliverable)  |
 | October 7    | Fall break  |  |
 | October 9    |  Hierarchical Models with Nonconstant Variance |  |
 | October 11    | Linear Mixed Effects Model for Longitudinal Data |   |
-| October 14    | Lab: Longitudinal Data Analysis |  |
+| October 14    | Lab: Longitudinal Data Analysis | Group Lab Reports  |
 | October 16    | Linear Mixed Effects Model for Longitudinal Data |  |
 | October 18    | Case Study Presentations |  Case Study 1 Due |
-| October 21    | Lab: Logistic Regression | | 
+| October 21    | Lab: Logistic Regression | Group Lab Reports  | 
 | October 23    | Case Study Presentations | |
 | October 25    | Generalized Linear Models  |  | 
-| October 28    | Lab: Mixed Effects  | Assignment 3 Due | 
+| October 28    | Lab: Mixed Effects  | Assignment 3 Due; Group Lab Reports  | 
 | October 30    | Bayesian Estimation of GLM and Case Study 2 Introduction  |    |
 | November 1    | Generalized Linear Mixed Effects Models |  |
-| November 4    | Lab: Hierarchical Logistic Regression | | 
+| November 4    | Lab: Hierarchical Logistic Regression | Group Lab Reports  | 
 | November 6    | Bayesian Estimation of GLMM |  |
 | November 8    | GLMM in Practice  |  |
-| November 11   | Lab: Bayesian GLMM | |
+| November 11   | Lab: Bayesian GLMM | Group Lab Reports  |
 | November 13   | Bayesian Estimation with Missing Data |  |
 | November 15   | Bayesian Estimation with Missing Data | Assignment 4 Due |
-| November 18   | Lab: Exam Review |  |
+| November 18   | Lab: Exam Review | Group Lab Reports  |
 | November 20   | Exam 2 (in class) | Exam 2 (in class) | 
 | November 22   | Case Study 2 Presentations |  |
 | November 25   | Case Study 2 Presentations |  |
