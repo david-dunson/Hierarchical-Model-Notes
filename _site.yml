@@ -12,6 +12,10 @@ navbar:
     href: linalg.html
   - text: ANOVA
     href: anova01.html
+  - text: LMM
+    href: lme02.html
+  - text: GLMM
+  - text: Missing Data
 
 output:
   html_document:

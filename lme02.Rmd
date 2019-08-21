@@ -49,7 +49,6 @@ library(tidyverse)
 
 [Random Effects ANCOVA](decks/lme_01_deck.html)
 
-[Introduce Random slopes?]
 
 [Linear Mixed Effects Model]
 

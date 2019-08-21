@@ -3,7 +3,7 @@ title: Introduction to Hierarchical Models
 output: 
   revealjs::revealjs_presentation:
     theme: night
-    highlight: espresso
+    highlight: tango
     center: true
     transition: none
     css: styles.css
@@ -19,6 +19,7 @@ output:
 ## Introduction to Hierarchical Models
 
 The terminology "hierarchical model" is quite general and can imply anything from simple use of a prior distribution to a highly organized hierarchy (students nested in classes nested in schools nested in school systems nested in states nested in countries).  
+
 
 ## 
 

@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -231,48 +232,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -382,6 +344,11 @@ div.tocify {
 <li>
   <a href="anova01.html">ANOVA</a>
 </li>
+<li>
+  <a href="lme02.html">LMM</a>
+</li>
+<li class="dropdown-header">GLMM</li>
+<li class="dropdown-header">Missing Data</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -419,10 +386,13 @@ div.tocify {
 <p>[Goldstein and Spiegelhalter paper on rankings] (<a href="https://www.bristol.ac.uk/media-library/sites/cmm/migrated/documents/statistical-issues-for-league-tables1.pdf" class="uri">https://www.bristol.ac.uk/media-library/sites/cmm/migrated/documents/statistical-issues-for-league-tables1.pdf</a>)</p>
 <p><a href="https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/definitions">Matrix definitions</a></p>
 <p><a href="https://arxiv.org/pdf/1510.00842v2.pdf">George et al paper</a></p>
+<p><a href="https://github.com/donnemartin/hospital-quality">Hospital data</a></p>
+<p><a href="https://rpubs.com/D_Cypher/BestHospitals">More on hospital compare data</a></p>
 </div>
 <div id="slides" class="section level1">
 <h1>Slides</h1>
-<p><a href="decks/lme_01_deck.html">Linear Mixed Effects Model</a></p>
+<p><a href="decks/lme_01_deck.html">Random Effects ANCOVA</a></p>
+<p>[Linear Mixed Effects Model]</p>
 </div>
 <div id="homework" class="section level1">
 <h1>Homework</h1>
@@ -448,6 +418,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

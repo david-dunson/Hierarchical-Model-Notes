@@ -117,16 +117,25 @@ Here we see clear evidence of heterogeneity in math scores across schools.
 
 ## ANOVA results
 
-```{r catplot,echo=FALSE}
+```{r catplot,echo=TRUE, eval=FALSE}
 library(sjPlot)
 plot_model(m1,sort.est=TRUE)
 ```
+
+##
+
+```{r catplot1, echo=FALSE,warning=FALSE}
+library(sjPlot)
+plot_model(m1,sort.est=TRUE)
+```
+
+Based on these estimates, we might conclude that the school has higher performance than some, but not all, schools.
 
 ## Random effects ANOVA
 
 Note in the prior plot that the highest estimated mean also has a very large variance. We may wish to use shrinkage estimation in order to stabilize that and other estimates for schools in which few students provide data.
 
-```{r ranef}
+```{r ranef, eval=FALSE}
 library(lme4)
 m2=lmer(mathscore~(1|school),data=nels)
 summary(m2)
@@ -137,8 +146,20 @@ icc(m2)
 ```
 
 ##
+```{r ranef2, echo=FALSE, warning=FALSE}
+library(lme4)
+m2=lmer(mathscore~(1|school),data=nels)
+summary(m2)
+library(sjstats)
+icc(m2)
 
-How do we conduct a formal test of heterogeneity in this random effects setting?  Well, this is a bit more complicated than in the fixed effects setting, and we'll return to the issue in a couple of lectures. For now just note that the school-level estimated variance seems pretty large.
+
+```
+
+
+##
+
+How do we conduct a formal test of heterogeneity in this random effects setting?  Well, this is a bit more complicated than in the fixed effects setting, and we'll return to the issue in a couple of lectures. For now just note that the school-level estimated variance is not small.
 
 
 ## Bringing SES into the mix

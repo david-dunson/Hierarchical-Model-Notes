@@ -10,6 +10,10 @@ output:
 
 # Review Materials (on your own, as needed)
 
+Prerequisites for this course include STA 360 (Bayesian Inference) and all its prerequisite at Duke (linear algebra, multivariable calculus, probability, inference, and regression).
+
+Review slides are provided for linear algebra as well as some probability and inference material, including the following. Please familiarize yourself with the content of these notes if your recollection is fuzzy.
+
 - basic properties of vectors and matrices
 - linear independence, dependence, and rank of a matrix
 - inversion of full-rank and less than full-rank matrices

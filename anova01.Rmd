@@ -1,5 +1,8 @@
 ---
 title: "ANOVA"
+output: 
+  github_document:
+      pandoc_args: --webtex
 ---
 
 ```{r, echo=FALSE, include=FALSE}
@@ -28,20 +31,16 @@ library(tidyverse)
 
 - Gelman and Hill Chapter 22
 
-Anything here?  Check Penn State?  Resources on matrix formulation of linear model?
+[RStanARM documentation](https://mc-stan.org/users/documentation/case-studies/tutorial_rstanarm.html)
 
-[POINT TO RSTANARM DOCUMENTATION]
-(https://mc-stan.org/users/documentation/case-studies/tutorial_rstanarm.html)
-
-[Goldstein and Spiegelhalter paper on rankings] (https://www.bristol.ac.uk/media-library/sites/cmm/migrated/documents/statistical-issues-for-league-tables1.pdf)
+[Goldstein and Spiegelhalter paper on rankings](https://www.bristol.ac.uk/media-library/sites/cmm/migrated/documents/statistical-issues-for-league-tables1.pdf)
 
 [Matrix definitions](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/definitions)
 
 
 # Slides
 
-<!--- [Introduction](decks/intro_deck.html) ---> 
-
+[Introduction](decks/intro_deck.html) 
 
 [The ANOVA Model: Matrix Formulation](decks/anova_01_deck.html)
 

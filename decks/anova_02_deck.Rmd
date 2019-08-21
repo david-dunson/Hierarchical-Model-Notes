@@ -192,6 +192,23 @@ Guinea pig dental problems are NOT fun. Our dataset (Crampton, 1947) contains as
 
 ##
 
+
+```{r guineadescriptives0,echo=TRUE, eval=FALSE}
+library(ggplot2)
+gp=ToothGrowth
+gp$dose=as.factor(gp$dose)
+# Default bar plot
+p<- ggplot(gp, aes(x=dose, y=len, fill=supp)) + 
+  geom_bar(stat="identity", position=position_dodge()) 
+# Finished bar plot
+p+labs(title="Odontoblast length by dose", x="Dose (mg)", y = "Length")+
+   theme_classic() +
+   scale_fill_manual(values=c('#999999','#E69F00'))
+
+```
+
+##
+
 ```{r guineadescriptives,echo=FALSE, warning=FALSE, out.width="50%"}
 library(ggplot2)
 gp=ToothGrowth
