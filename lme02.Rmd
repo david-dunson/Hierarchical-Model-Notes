@@ -17,25 +17,15 @@ library(tidyverse)
 
 - Relaxing assumptions: nonconstant variance
 
-- Need to do better job here on the motivation and list of topics!
-
-- Would be good to have an elections case study here too -- pull in Mr. P?  So two case studies for the course -- one on election predictions, and one on hospital rankings?  Maybe election pred is case study but hospital rankings needs to be a series of homework assignments....
+<!--- - Would be good to have an elections case study here too -- pull in Mr. P?  So two case studies for the course -- one on election predictions, and one on hospital rankings?  Maybe election pred is case study but hospital rankings needs to be a series of homework assignments.... ---> 
 
 
 
 # Resources
 
-- Hoff Chapters 5-x
+- Hoff Chapters 5-6
 
-- Gelman and Hill Chapter X
-
-
-[POINT TO RSTANARM DOCUMENTATION]
-(https://mc-stan.org/users/documentation/case-studies/tutorial_rstanarm.html)
-
-[Goldstein and Spiegelhalter paper on rankings] (https://www.bristol.ac.uk/media-library/sites/cmm/migrated/documents/statistical-issues-for-league-tables1.pdf)
-
-[Matrix definitions](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/definitions)
+- Gelman and Hill Chapters 12, 13, and 18
 
 [George et al paper](https://arxiv.org/pdf/1510.00842v2.pdf)
 
@@ -45,18 +35,17 @@ library(tidyverse)
 
 # Slides
 
+Coming soon!
 
 
-[Random Effects ANCOVA](decks/lme_01_deck.html)
+<!--- [Random Effects ANCOVA](decks/lme_01_deck.html) --->
 
 
-[Linear Mixed Effects Model]
+
 
 # Homework
 
-[Assignment 3]
-
-[Assignment 4]
+Coming soon!
 
 
 
