@@ -94,12 +94,12 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | November 11   | Lab: Bayesian GLMM | Group Lab Reports  |
 | November 13   | Bayesian Estimation with Missing Data |  |
 | November 15   | Bayesian Estimation with Missing Data | Assignment 4 Due |
-| November 18   | Lab: Exam Review | Group Lab Reports  |
-| November 20   | Exam 2 (in class) | Exam 2 (in class) | 
-| November 22   | Case Study 2 Presentations |  |
-| November 25   | Case Study 2 Presentations |  |
-| December 2    | Make-Up Exams (if needed) |  |
-| December 4    | Case Study 2 Presentations |  |
-| December 6    | Case Study 2 Presentations | Case Study 2 Due |
+| November 18   | Lab: Estimation with Missing Data | Group Lab Reports  |
+| November 20   | Bayesian Estimation with Missing Data |  | 
+| November 22   | Lab: Exam Review |  |
+| November 25   | Exam 2 (in class) | Exam 2 (in class) |
+| December 2    | Make-Up Day (exam/assignment replacement opportunity) |  |
+| December 4    | Case Study 2 Presentations | Case Study 2 Due |
+| December 6    | Case Study 2 Presentations |  |
 
 

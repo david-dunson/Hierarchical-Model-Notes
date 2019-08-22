@@ -58,7 +58,7 @@ and based on self-reported data. Groups should adhere to specified [group polici
 
 #### Case studies
 
-STA 410/610 involves detailed analysis of two case studies using current, relevant data. Each case study will involve a final submission for the entire group. Final case study submissions will involve a written report and possibly an oral presentation to be viewed by the other teams (in class or by video, as assigned). 
+STA 410/610 involves detailed analysis of two case studies using current, relevant data. Each case study will involve a final submission for the entire group. Final case study submissions will involve a written report and an oral presentation to be viewed by the other teams. You must be present at the oral presentations in order to receive full credit for the group case study.
 
 Additional details on the case studies will be provided as the course progresses.
 
@@ -82,9 +82,11 @@ Two in-class examinations will be given as specified on the syllabus. If you kno
 
 #### Make-up Examinations and Substitute Credit
 
-During the last week of undergraduate classes, students will have the opportunity to earn credit for one missed assignment (or one assignment a grade a student would like to improve).  The optional in-class assignment on Monday, December 2 may be used to replace one in-class examination grade *or* one homework grade *or* one case study grade (if you miss two things, you're going to have a 0 somewhere, so please avoid that). You will need to let me know which grade you would like to replace before taking the assessment (so do the math for what counts the most ahead of time).
+During the last week of undergraduate classes, students will have the opportunity to earn credit for one missed assignment (or one assignment a grade a student would like to improve).  The optional in-class assignment on Monday, December 2 may be used to replace one in-class examination grade *or* one homework grade *or* one case study grade (if you miss two things, you're going to have a 0 somewhere, so please avoid that). You will need to let me know which grade you would like to replace before taking the assessment (so do the math for what counts the most ahead of time). 
 
 This assignment will be challenging and designed to evaluate mastery of the material. If the make-up grade is lower than the grade to be replaced, the higher grade will be retained (that is, completing this assignment will not lower a student's grade).
+
+
 
 
 
@@ -140,7 +142,7 @@ All group members are expected to be present when the group presents a case stud
 
 ### Regrade requests
 
-Regrade requests must be made within three days of when a report is returned. These will be honored if points were tallied incorrectly, or if you feel part of your report is correct, but it was marked wrong. No regrade will be made to alter the number of points deducted for an issue. The last day to file a grade change request is December 2.
+Regrade requests must be made within three days of when a report is returned. These will be honored if points were tallied incorrectly, or if you feel part of your report is correct, but it was marked wrong. No regrade will be made to alter the number of points deducted for an issue. When a regrade request is evaluated, if new errors are identified, additional points may be deducted from the grade. The last day to file a grade change request is December 2.
 
 
 

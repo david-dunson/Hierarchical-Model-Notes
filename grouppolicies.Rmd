@@ -44,3 +44,14 @@ Potential expectations include the following (not an exhaustive list!):
 
 
 <tiny> Group policies adapted from Felder and Brent, 2000 </tiny>
+
+### Group evaluations
+
+After each group activity (lab report or case study), each group member will provide the following on Sakai.
+
+(1) A list of all other team members (not including you) and considering all the work on the assignment that was not done by you, a breakdown of the fraction of work done by each other team member. For example, if you are on a 4 person team and the other team members all contributed equally, you'd assign the fraction 1/3 to each of them (regardless of whether you all did 1/4 of the work overall, or whether you personally did half the work and the others each did 1/6).
+(2) In the case you feel one or more team members deserves a different grade on the assignment than the others, you'll provide a description of why that member or members deserves a different grade. (In this case you can talk about your own relative contribution.)
+
+A concern or complaint of unequal division of labor within a group that is not accompanied by group evaluations indicating this will generally not be entertained.
+
+At any time a group can request a meeting with the instructor to discuss group dynamics or other challenges.

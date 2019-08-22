@@ -59,3 +59,12 @@ If the parameter $\beta_j>0$, then increasing levels of $x_j$ are associated wit
 
 For some intuition behind hierarchical models, we'll check out [this neat tutorial by Michael Freeman at University of Washington](http://mfviz.com/hierarchical-models/).
 
+##
+
+Suppose an expert suggests the following average 9-month salaries for starting assistant professors (0 years experience) by discipline: (biomedical) informatics (102K), English (52K), sociology (60K), biology (80K), and statistics (105K), with a similar impact of 3.5% higher salary per year of experience all disciplines. 
+
+Specify a model and corresponding parameter values consistent with this information.
+
+Note: this approximate model for faculty salaries is not a very good one!
+
+
