@@ -1,19 +1,25 @@
 ---
 title: Bayesian Inference for the Hierarchical Normal Model
-output: 
-  revealjs::revealjs_presentation:
-    theme: night
-    highlight: espresso
-    center: true
-    transition: none
-    css: styles.css
-    fig_caption: true
-    reveal_options:
-      progress: true
-      slideNumber: true
+output: beamer_presentation
+
+#output: 
+#  revealjs::revealjs_presentation:
+#    theme: night
+#    highlight: espresso
+##    center: true
+#    transition: none
+#    css: styles.css
+#    fig_caption: true
+#    reveal_options:
+#      progress: true
+#      slideNumber: true
       
   
 ---
+
+## Reading
+
+This lecture is based on Chapter 4 of Hoff.
 
 ## Hierarchical Normal Model
 
@@ -168,7 +174,7 @@ We can use Gibbs sampling to make inference about the posterior distribution.
 Here we fit a hierarchical model for the association between curb and passing distance in the bike data.  NEED TO FIT THIS MODEL WITH THE DEFAULT PRIORS INSTEAD OF WITH THE STAN VS USED HERE.
 
 ```{r standefault, cache=TRUE, warning=FALSE, echo=FALSE}
-load("~/Documents/GitHub/STA-410-610/PsychBikeData")
+load("~/Documents/GitHub/STA-410-610/PsychBikeData.RData")
 library(rstanarm)
 M1_stanlmer=stan_lmer(`passing distance` ~ (1 | kerb),  data = PsychBikeData)
 

@@ -15,6 +15,11 @@ output:
   
 ---
 
+## Reading
+
+This lecture is based on Section 2.1 of Hoff. 
+
+
 ## Linear Model Estimates
 
 Consider a very simple one-sample linear model given by $y_i=\mu+\varepsilon_i$, $\varepsilon_i \sim N(0,\sigma^2)$ in matrix notation, given by $$\begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix}=\begin{pmatrix} 1 \\ 1 \\ \vdots \\ 1 \end{pmatrix} \begin{pmatrix} \mu \end{pmatrix} + \begin{pmatrix} \varepsilon_1 \\ \varepsilon_2 \\ \vdots \\ \varepsilon_n \end{pmatrix}$$ with the vector $\varepsilon \sim N(0_{n \times 1},\sigma^2I_{n \times n})$.

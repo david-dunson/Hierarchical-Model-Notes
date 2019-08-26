@@ -15,6 +15,9 @@ output:
   
 ---
 
+## Reading
+
+This lecture is based on Section 2.1 of Hoff. 
 
 ## Motivating Example: Cycling Safety
 

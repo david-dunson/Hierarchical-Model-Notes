@@ -59,12 +59,19 @@ If the parameter $\beta_j>0$, then increasing levels of $x_j$ are associated wit
 
 For some intuition behind hierarchical models, we'll check out [this neat tutorial by Michael Freeman at University of Washington](http://mfviz.com/hierarchical-models/).
 
-##
+## Practice
 
 Suppose an expert suggests the following average 9-month salaries for starting assistant professors (0 years experience) by discipline: (biomedical) informatics (102K), English (52K), sociology (60K), biology (80K), and statistics (105K), with a similar impact of 3.5% higher salary per year of experience all disciplines. 
 
 Specify a model and corresponding parameter values consistent with this information.
 
 Note: this approximate model for faculty salaries is not a very good one!
+
+## More practice
+
+A firm specializing in security at sports events has conducted an experiment comparing three mechanisms to reduce the crowd size awaiting entry at any one time.  The firm compares three strategies: full screening with bag searches, a clear bag strategy that eliminates the need for searching every bag, and enhanced full screening (with extra screening stations). The outcome of interest is a summary variable representing the average size of the crowd, averaged over the 20 minutes with the biggest crowd size. (It is desirable to minimize crowd size at entry  because at this point there has been no screening for safety.) Your data include crowd size for over 200 major college and professional sporting events, with roughly 1/3 of the events using each strategy.
+
+Specify a statistical model (using equations if possible) for evaluating the null hypothesis that the three strategies are associated with equal crowd sizes. Explain how you would determine which strategy is the best (assuming that is based only on crowd size).
+
 
 

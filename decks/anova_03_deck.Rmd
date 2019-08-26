@@ -15,6 +15,10 @@ output:
   
 ---
 
+## Readings
+
+This lecture is based on Section 2.2 and some of Chapter 3 of Hoff.
+
 ## Random Effects ANOVA
 
 Random effects ANOVA is a simple hierarchical model. In this framework we assume that group-specific means are distributed around some overall mean.
