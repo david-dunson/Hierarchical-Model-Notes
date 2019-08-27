@@ -27,7 +27,7 @@ The team then designed an experiment in which a cyclist (Dr. Walker) varied the 
 
 ##
 
-We will consider the outcome of passing distance $y_{ij}$, which is the measured distance (in m) between the vehicle and the cyclist, as a function of the distance from the bike to the curb (indexed by $j$), as some cyclists have postulated that ["the more room you take up, the more room they give you."](https://www.hotels-in-netherlands.com/bikereadercom/contributors/misc/big.html)
+We will consider the outcome of passing distance $y_{ij}$, which is the measured distance (in m) between the vehicle and the cyclist, as a function of the distance from the bike to the curb (indexed by $j$), as some cyclists have postulated that ["the more room you take up, the more room they give you."](https://www.hotels-in-netherlands.com/bikereadercom/contributors/misc/big.html)  We'll use these  data to test this "Theory of Big."
 
 Our research question of interest is whether the distance from the bike to the curb is indeed related to the passing distance between the bike and a vehicle.
 
@@ -129,7 +129,7 @@ $$SSE(\mu)=\sum_j \sum_i (y_{ij}-\mu_j)^2.$$
 
 You can show (homework 1!) that the OLS estimates are given by
 
-  - $\widehat{\mu}_{OLS}=(\widehat{\mu}_1,\cdots,\widehat{\mu}_J)=(\overline{y}_1,\cdots,\overline{y}_J)$, where $\overline{y}_j$ is the sample mean in group $j$.
+  - $(\widehat{\mu}_1,\cdots,\widehat{\mu}_J)=(\overline{y}_1,\cdots,\overline{y}_J)$, where $\overline{y}_j$ is the sample mean in group $j$.
 
   - $\widehat{\mu}=\overline{y}$, where $\overline{y}$ is the grand mean over all observations
     
@@ -241,7 +241,7 @@ The phrasing *step-down* is a reminder that these tests are not conducted unless
 TukeyHSD(aov.res)
 ```
 
-Because we're curious, we'll look for where the difference appears to be with [Tukey's HSD test](https://en.wikipedia.org/wiki/Tukey%27s_range_test). Looks like the passing distance is similar for curb distances of 0.75m and 1m but different for other combinations. Contrary to the hypothesis, the passing distance was greater when bikers rode closer to the curb.
+Because we're curious, we'll look for where the difference appears to be with [Tukey's HSD test](https://en.wikipedia.org/wiki/Tukey%27s_range_test), which is basically a regular t-test that controls the family-wide error rate. Looks like the passing distance is similar for curb distances of 0.75m and 1m but different for other combinations. Contrary to the hypothesis, the passing distance was greater when bikers rode closer to the curb.
 
 ## Residual plot
 
@@ -289,6 +289,25 @@ In ANOVA, the $X$ matrix has a special form, which is sometimes summarized by th
   
   
 In each case, the row corresponding to group $j$ is repeated $n_j$ times so that the full $X$ matrix has $\sum_j n_j$ rows.
+
+
+## Simple Example
+
+Consider a study in which we wish to compare pain levels among children recovering from surgery who were randomized to one of three groups:  audio books (chosen by each child), music (the child could select the playlist), or control (noise cancelling headphones). After 30 minutes of one of the three conditions, each child rated his or her pain status using the following scale.
+
+
+![](figures/faces.gif){width=50%}
+
+## 
+
+The study is described [here](https://www.npr.org/sections/health-shots/2015/06/22/415048075/to-ease-pain-reach-for-your-playlist-instead-of-popping-a-pill), but we will consider similar data from a hypothetical smaller study (n=15 total).  Suppose the data from the three groups is as follows.
+
+Audio books:  5,6,7,2,6
+Music:  5,4,4,7,6
+Control: 4,8,7,6,10
+
+Write each element of $y=X\beta+\varepsilon$ in matrix or vector form using a group means coding scheme.  Once you've finished, repeat the exercise using reference cell coding.
+
 
 
 ## Least Squares Estimation
