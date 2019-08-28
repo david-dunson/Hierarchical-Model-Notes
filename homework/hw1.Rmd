@@ -27,7 +27,7 @@ This homework should be turned in as a .pdf of the output along with an .Rmd fil
   
 ### 2. Game of Thrones
 
-The handling of female characters in the American series Game of Thrones, and indeed whether it is feminist or mysogynistic, has been hotly debated. The dataset [gotscreen.Rdata](gotscreen.RData) contains information on the number of seconds of screentime for members of each gender in each episode of 7 seasons of Game of Thrones. Using descriptive statistics as well as a two-way ANOVA model with interaction, explore whether an actor's screentime differs by gender (male, female, or unspecified) and whether there are any differences in potential gender effects across the 7 seasons of the show. Your answer should include the following details.
+The handling of female characters in the American series Game of Thrones, and indeed whether it is feminist or mysogynistic, has been hotly debated. The dataset [gotscreen.RData](gotscreen.RData) contains information on the number of seconds of screentime for members of each gender in each episode of 7 seasons of Game of Thrones. Using descriptive statistics as well as a two-way ANOVA model with interaction, explore whether an actor's screentime differs by gender (male, female, or unspecified) and whether there are any differences in potential gender effects across the 7 seasons of the show. Your answer should include the following details.
 
   1. Exploratory data analysis of screentime, including average screentime per actor as well as total screentime for all actors of a given gender. 
   2. A clear specification of the model using an equation, including clear specification of any modeling assumptions.
