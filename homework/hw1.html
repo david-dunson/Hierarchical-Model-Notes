@@ -187,10 +187,10 @@ summary {
 <h3>1. OLS Estimation</h3>
 <ol style="list-style-type: lower-alpha">
 <li><p>Using the scalar formulation of the ANOVA model <span class="math inline">\(y_{ij} \sim N\left(\mu_j,\sigma^2 \right)\)</span>, show that <span class="math inline">\(\widehat{\mu}_{OLS}=(\overline{y}_1,\cdots,\overline{y}_J)\)</span>, where <span class="math inline">\(\overline{y}_j\)</span> is the sample mean in group <span class="math inline">\(j\)</span>.</p></li>
-<li><p>Using the scalar formulation of the ANOVA model <span class="math inline">\(y_{ij} \sim N\left(\mu+\alpha_j,\sigma^2 \right)\)</span> with the constraint <span class="math inline">\(\sum_j \alpha_j=0\)</span>, show</p>
+<li><p>Using the scalar formulation of the ANOVA model <span class="math inline">\(y_{ij} \sim N\left(\mu+\alpha_j,\sigma^2 \right)\)</span> with the constraint <span class="math inline">\(\sum_j \alpha_j=0\)</span>, assume <span class="math inline">\(n_j=n\)</span> and show</p>
 <ol style="list-style-type: lower-roman">
 <li><p><span class="math inline">\(\widehat{\mu}=\overline{y}_{\cdot \cdot}\)</span>, where <span class="math inline">\(\overline{y}_{\cdot \cdot}\)</span> is the grand mean over all observations</p></li>
-<li><p><span class="math inline">\(\widehat{\mu}=\frac{1}{J}\sum_j \widehat{\mu}_j\)</span> when the sample sizes in each group <span class="math inline">\(n_j=n\)</span> for all groups</p></li>
+<li><p><span class="math inline">\(\widehat{\mu}=\frac{1}{J}\sum_j \widehat{\mu}_j\)</span></p></li>
 <li><p><span class="math inline">\(\widehat{\alpha}_j=\widehat{\mu}_j-\widehat{\mu}=\overline{y}_{j}-\overline{y}_{\cdot \cdot}\)</span></p></li>
 </ol></li>
 <li><p>Write the model in (a) in matrix form assuming you have 3 groups with 3 observations each and show that <span class="math inline">\((X'X)^{-1}X'y\)</span> yields the same estimates as in the scalar formulation. Note the parameter vector corresponding to this model should contain the three mean parameters <span class="math inline">\((\mu_1, \mu_2, \mu_3)\)</span>.</p></li>
