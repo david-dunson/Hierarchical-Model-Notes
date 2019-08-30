@@ -50,6 +50,6 @@ y_{ij}&=& \mu + \alpha_1I(j=1)+\alpha_2I(j=2)+\varepsilon_{ij} ~~~~ (2)
   b. Show that the estimates of these mean differences are identical regardless of the coding scheme (1) or (2) used, either theoretically or by analyzing the Game of Thrones data using a one-way ANOVA model with gender as the only predictor.
   
   
-### 4. (Required for 601, extra credit for 401.) 
+### 4. (Required for 610, extra credit for 410.) 
 Prove or disprove. Suppose $X$ and $Y$ each follow *univariate* normal distributions and that $\text{Cov}(X,Y)=0$. Then $X$ is independent of $Y$.
 

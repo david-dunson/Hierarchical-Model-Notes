@@ -581,7 +581,7 @@ H_a: ~~~~&amp;\theta&amp; = C\beta \neq \theta_0,
 </section>
 <section id="section-4" class="slide level2">
 <h2></h2>
-<p>For example, if we have three groups and want to test differences in all pairwise comparisons, we can use <span class="math inline">\(\beta=\begin{pmatrix} \mu_1 \\ \mu_2 \\ \mu_3 \end{pmatrix}\)</span>, <span class="math inline">\(C=\begin{pmatrix} 1 &amp; -1 &amp; 0 \\ 1 &amp; 0 &amp; -1 \\ 0 &amp; 1 &amp; -1 \end{pmatrix}\)</span>, <span class="math inline">\(\theta_0=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}\)</span> so that our hypothesis is that <span class="math inline">\(\begin{pmatrix} \mu_1 - \mu_2 \\ \mu_1 - \mu_3 \\ \mu_2 - \mu_3 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}\)</span>.</p>
+<p>For example, if we have three groups in the model <span class="math inline">\(y_{ij}=\mu_j+\varepsilon_{ij}\)</span> and want to test differences in all pairwise comparisons, we can use <span class="math inline">\(\beta=\begin{pmatrix} \mu_1 \\ \mu_2 \\ \mu_3 \end{pmatrix}\)</span>, <span class="math inline">\(C=\begin{pmatrix} 1 &amp; -1 &amp; 0 \\ 1 &amp; 0 &amp; -1 \\ 0 &amp; 1 &amp; -1 \end{pmatrix}\)</span>, <span class="math inline">\(\theta_0=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}\)</span> so that our hypothesis is that <span class="math inline">\(\begin{pmatrix} \mu_1 - \mu_2 \\ \mu_1 - \mu_3 \\ \mu_2 - \mu_3 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}\)</span>.</p>
 </section>
 <section id="distributional-results-for-linear-combinations" class="slide level2">
 <h2>Distributional Results for Linear Combinations</h2>
@@ -593,7 +593,7 @@ H_a: ~~~~&amp;\theta&amp; = C\beta \neq \theta_0,
 <section id="multi-way-anova-and-interactions" class="slide level2">
 <h2>Multi-Way ANOVA and Interactions</h2>
 <p>ANOVA is easily extended to accommodate any number of categorical variables. Variables may each contribute independently to a response, or they may work together to influence response values.</p>
-<p><em>Interaction effects</em> are important when the association between one independent variable and the response may depend on the level of another independent variable. <a href="https://courses.washington.edu/smartpsy/interactions.htm">Click this link for nice insight on what interactions imply in terms of group means</a></p>
+<p><em>Interaction effects</em> are important when the association between one independent variable and the response may depend on the level of another independent variable. <a href="https://courses.washington.edu/smartpsy/interactions.htm">Click this link for insight on what interactions imply in terms of group means</a></p>
 </section>
 <section id="interaction-example" class="slide level2">
 <h2>Interaction Example</h2>
@@ -684,7 +684,7 @@ p<span class="op">+</span><span class="kw">labs</span>(<span class="dt">title=</
 <h2>Your task!</h2>
 <ol type="1">
 <li>Under your ANOVA model, write out (in terms of parameters) the means for each combination of supplement type and dose.</li>
-<li>Fit your model and provide a one-page summary of the analysis in language accessible to the general public.</li>
+<li>Fit your model and provide a <span class="math inline">\(\leq\)</span> one-page summary of the analysis in language accessible to the general public.</li>
 <li>Suppose that greater lengths are indicative of better absorption. Make a recommendation for the dose(s) and supplement type(s) to be used to deliver vitamin C to armed forces members, assuming that the goal is to maximize absorption of vitamin C. Use statistical evidence to support your recommendation.</li>
 <li>Conduct diagnostic checks to see how well the assumptions behind your model are satisfied. Are there any reasons for concern about your model choice?</li>
 </ol>

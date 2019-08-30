@@ -119,7 +119,7 @@ where often $\theta_0=0$.
 
 ##
 
-For example, if we have three groups and want to test differences in all pairwise comparisons, we can use $\beta=\begin{pmatrix} \mu_1 \\ \mu_2 \\ \mu_3 \end{pmatrix}$, $C=\begin{pmatrix} 1 & -1 & 0 \\ 1 & 0 & -1 \\ 0 & 1 & -1 \end{pmatrix}$, $\theta_0=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}$ so that our hypothesis is that $\begin{pmatrix} \mu_1 - \mu_2 \\ \mu_1 - \mu_3 \\ \mu_2 - \mu_3 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}$.
+For example, if we have three groups in the model $y_{ij}=\mu_j+\varepsilon_{ij}$ and want to test differences in all pairwise comparisons, we can use $\beta=\begin{pmatrix} \mu_1 \\ \mu_2 \\ \mu_3 \end{pmatrix}$, $C=\begin{pmatrix} 1 & -1 & 0 \\ 1 & 0 & -1 \\ 0 & 1 & -1 \end{pmatrix}$, $\theta_0=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}$ so that our hypothesis is that $\begin{pmatrix} \mu_1 - \mu_2 \\ \mu_1 - \mu_3 \\ \mu_2 - \mu_3 \end{pmatrix}=\begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}$.
 
 ## Distributional Results for Linear Combinations
 
@@ -136,7 +136,7 @@ You could also fit a reduced model subject to the constraint you wish to test (e
 ANOVA is easily extended to accommodate any number of categorical variables. Variables may each contribute independently to a response, or they may work together to influence response values.
 
 *Interaction effects* are important when the association between one independent variable and the response may depend on the level of another independent variable. 
-[Click this link for nice insight on what interactions imply in terms of group means](https://courses.washington.edu/smartpsy/interactions.htm)
+[Click this link for insight on what interactions imply in terms of group means](https://courses.washington.edu/smartpsy/interactions.htm)
 
 ## Interaction Example
 
@@ -233,7 +233,7 @@ Looking at the boxplot of the growth data, what type of ANOVA model may be most 
 ## Your task!
 
 1. Under your ANOVA model, write out (in terms of parameters) the means for each combination of supplement type and dose.
-2. Fit your model and provide a one-page summary of the analysis in language accessible to the general public.
+2. Fit your model and provide a $\leq$ one-page summary of the analysis in language accessible to the general public.
 3. Suppose that greater lengths are indicative of better absorption. Make a recommendation for the dose(s) and supplement type(s) to be used to deliver vitamin C to armed forces members, assuming that the goal is to maximize absorption of vitamin C. Use statistical evidence to support your recommendation.
 4. Conduct diagnostic checks to see how well the assumptions behind your model are satisfied. Are there any reasons for concern about your model choice?
 
