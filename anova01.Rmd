@@ -50,7 +50,9 @@ library(tidyverse)
 
 <!--  [Bayesian Inference for the Hierarchical Normal Model](decks/anova_04_deck.html) --->
 
+# Labs
 
+[Lab 1](labs/lab1.html)
 
 # Homework
 

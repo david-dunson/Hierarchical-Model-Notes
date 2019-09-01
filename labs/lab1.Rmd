@@ -1,0 +1,50 @@
+---
+title: "Lab 1"
+---
+
+```{r block1, echo=FALSE, include=FALSE}
+library(tidyverse)
+library(broom)
+```
+
+  
+### Help, these kids are killing me!
+
+In a classic *Nature* communication, Partridge and Farquhar argued that there is a physiological cost of reproduction, which is in line with many evolutionary theories. At that time, this cost had been shown experimentally for females, but no cost for sexual activity had been shown for males in which the only paternal contribution to offspring is provision of gametes.  
+
+To explore whether there is any effect of sexual activity on lifespan, researchers randomized male fruit flies to one of two groups:  an isolated population of males (no sexual activity), or a mixed-gender population in which the male fruit flies were sexually active. Because body size has also been linked to longevity, we consider it here (measured by thorax length) as well. The data are in the file [fruitfly_thorax_len.csv](fruitfly_thorax_len.csv), which contains lifespan, thorax length, and randomization group for male fruit flies in the experiment.
+
+First, we visualize the lifespan of the male fruit flies as a function of body size and sexual activity.
+
+```{r buzz}
+buzzkiller=read_csv("fruitfly_thorax_len.csv")
+#reorder factors
+buzzkiller$thorax <- factor(buzzkiller$thorax,
+                                     levels = c("short",
+                                                "long"))
+ggplot(buzzkiller,
+       aes(x = sexually_active, y = longevity, color = thorax)) +
+  stat_summary(fun.y = mean,
+               geom = "point",
+               shape = 5,
+               size = 4,
+               position = position_dodge(0.5)) +
+  geom_jitter(position = position_dodge(0.5), alpha = 0.3) +
+  scale_color_manual(values=c("black", "dodgerblue3")) +
+  xlab("Sexual Activity") +
+  ylab("Longevity (days)")  
+```
+
+Prepare a written report describing the association between sexual activity, body size, and longevity in male fruit flies. Your report should include the following.
+
+1.  Clear specification of an ANOVA model (using an equation) used to explore the associations of interest
+2.  Clearly-labeled tables and graphical displays describing the data and communicating your findings
+3.  Uncertainty quantification around effect estimates of interest (no point estimates without uncertainty!)
+4.  Evidence of adequacy of model fit and evaluation of suitability of modeling assumptions
+5.  Clear description of results in language accessible to a general scientifically-savvy reader (e.g., someone reading a science article in the BBC or CNN apps)
+
+
+This report is due by the beginning of class on Wednesday via upload to Sakai (one submission per group).  The minimum font size is 11 point and maximum number of pages is 3.
+
+ 
+
