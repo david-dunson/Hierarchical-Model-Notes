@@ -50,7 +50,7 @@ library(tidyverse)
 
 [Random Effects ANOVA](decks/anova_03_deck.html)
 
-<!--  [Bayesian Inference for the Hierarchical Normal Model](decks/anova_04_deck.html) --->
+<!--  [Introduction to Bayesian Inference for the Hierarchical Normal Model](decks/anova_04_deck.html) --->
 
 # Labs
 
