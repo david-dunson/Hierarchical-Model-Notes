@@ -37,6 +37,8 @@ library(tidyverse)
 
 [Matrix definitions](https://onlinecourses.science.psu.edu/statprogram/reviews/matrix-algebra/definitions)
 
+[Code for the radon analysis as presented in Gelman and Hill](http://www.stat.columbia.edu/~gelman/arm/examples/radon/radon_chap12.R) 
+
 
 # Slides
 
