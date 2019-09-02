@@ -11,11 +11,10 @@ output:
     reveal_options:
       progress: true
       slideNumber: true
-      
-  
 ---
 
 ## Readings
+
 
 This lecture is based on Section 2.2 and some of Chapter 3 of Hoff.
 
@@ -26,11 +25,13 @@ Random effects ANOVA is a simple hierarchical model. In this framework we assume
 
 We will introduce this model in the context of a study in which the groups are the 85 counties in the state of Minnesota.
 
+We consider this study rather than just the bike data because estimates of county-specific estimates are of interest, and some counties have very few observed data points. (In the bike data, we have a substantial number of replicates for each curb distance.)
+
 ## Motivating Example: Radon Study
 
 Radon, a naturally-occurring radioactive gas, is a carcinogen known to cause lung cancer in high concentrations.  Several thousand lung cancer deaths in the US per year are attributable to radon exposure.
 
-Radon levels in US homes varies greatly, and some homes have dangerously high radon levels.  In order to identify areas of the US with high radon exposures, the US EPA conducted a study of radon levels in a random sample of more than 80,000 homes.
+Radon levels in US homes vary greatly, and some homes have dangerously high radon levels.  In order to identify areas of the US with high radon exposures, the US EPA conducted a study of radon levels in a random sample of more than 80,000 homes.
 
 [Click here](http://www.ncradon.org/ncradon/) to check highest recorded radon levels in your area. Note that these levels may come from short-term home test kits, which vary widely in accuracy.
 
@@ -58,7 +59,7 @@ The figure contrasts two extreme approaches to obtaining estimates of group mean
   - If $p<0.05$, use the estimate $\widehat{\mu}_j=\overline{y}_j$ for the mean in each county
   - If $p>0.05$, use the estimate $\widehat{\mu}_j=\overline{y}$ for the mean in each county
   
-With either extreme, we will be using sub-optimal estimates for some counties. 
+With either case, we will be using sub-optimal estimates for some counties, and the above method is fairly extreme (all or nothing one way or the other!).
 
 ## 
 
@@ -144,7 +145,7 @@ For two observations in different groups j and j',
 &=& E(y_{ij})E(y_{i'j'})-\mu^2=\mu^2-\mu^2=0
 \end{eqnarray*}
 
-
+\vspace{.1in}
 
 For two observations in the same group j,
 \begin{eqnarray*}
@@ -218,6 +219,14 @@ and we often work with the log-likelihood, given by
 
 which we then minimize (as I took the negative) in order to find the MLE.
 
+## MLE for Simplest Case
+
+Consider a one-sample setting in which we wish to estimate the sample mean $\mu$ and variance $\sigma^2$ using the model $y_{i}=\mu+\varepsilon_{i}$, $i=1,\ldots,n$, $\varepsilon_i \sim N\left(0,\sigma^2\right)$.
+
+Then our log-likelihood is proportional to $n\log\sigma^2 + \frac{\sum(y_i-\mu)^2}{\sigma^2}$, and to find the MLE's of $\mu$ and $\sigma^2$, when you take derivatives and solve for zero, you obtain $\widehat{\mu}=\overline{y}$ and $\widehat{\sigma}^2=\frac{\sum (y_i-\overline{y})^2}{n}$. 
+
+Typically we don't use the MLE to estimate $\sigma^2$ because of its well-known small-sample bias, instead using the unbiased estimate $s^2=\frac{\sum (y_i-\overline{y})^2}{n-1}=\frac{n}{n-1}\widehat{\sigma}^2$.
+
 ## MLE for Bike Data
  Recall our model
  
@@ -246,50 +255,40 @@ summary(fit.ml)
 
 Our ML estimates of $(\mu,\tau^2,\sigma^2)$ for the bike data are $(\widehat{\mu},\widehat{\tau}^2,\widehat{\sigma}^2)=(1.540, 0.009, 0.137)$
 
-## Fixed Effects ANOVA Table
 
-Previously, we examined an ANOVA table in which group $j$ had $n_j$ members. For simplicity now assume $n_j=n ~\forall ~ j$ so that N=Jn. Then our ANOVA table can be written
-
-
-|Source           | DF | SS | MS | F | p |
-| ----------  | --- | --- | --- | --- | --- | 
-| Groups | $J-1$ | SSG | $MSG=\frac{SSG}{J-1}$ | $\frac{MSG}{MSE}$ | from $F_{J-1,J(n-1)}$ |
-| Error | $J(n-1)$ | SSE | $MSE=\frac{SSE}{J(n-1)}$ | |  
-| Total | $Jn-1$ | SST | | |
-
-Our justification for the F ratio measuring evidence against $H_0$ was that
-
-  - $E[MSE \mid \mu, \alpha_j,\sigma^2]=\sigma^2$
-  - $E[MSG \mid \mu, \alpha_j, \sigma^2]=\sigma^2+\frac{n\sum (\mu_j-\mu)^2}{J-1}$ (assuming equal group sizes)
-
-##
-  
-If we now treat $\alpha_j \overset{iid}{\sim} N(0,\tau^2)$ as random, then
-
-\begin{eqnarray*}
-E[MSG \mid \mu, \sigma^2, \tau^2]&=&E\left[E[MSG \mid \mu, \alpha_j, \sigma^2]\mid \mu, \sigma^2, \tau^2 \right] \\
-&=& E[\sigma^2+\frac{n\sum (\mu_j-\mu)^2}{J-1}\mid \mu, \sigma^2, \tau^2]$ \\
-&=& \sigma^2+n\tau^2
-\end{eqnarray*}
-
-because $\frac{\sum (\mu_j-\mu)^2}{J-1}$ is an unbiased estimate of $\tau^2$. Thus 
-$E[\frac{MSG-MSE}{n}]=(\sigma^2+n\tau^2-\sigma^2)/n=\tau^2$ and thus an *unbiased* estimate of $\tau^2$ is given by $\widehat{\tau}^2=(MSG-MSE)/n$. This estimator has many names, including 
-
-  - ANOVA estimator (comes from ANOVA table)
-  - method of moments estimator (based on expectations/moments)
-  - restricted maximum likelihood (REML) estimator
-  
 ## REML
 
-REML estimation is quite popular for variance component estimation. Features of REML estimation include the following
+REML (restricted or residual maximum likelihood) estimation is quite popular for variance component estimation. Features of REML estimation include the following
 
-  - it is based on a likelihood function of residuals and therefore only uses information that does not depend on fixed effects
-  - when all groups have the same sample size $n_j=n$, it is the same as the ANOVA estimator
+  - it is based on a likelihood function that only uses information that does not depend on fixed effects (we define new outcomes orthogonal to the mean)
+  - it is generally less biased than ML estimates (and unbiased in certain special cases)
   
-  
-We'll get into more detail on REML estimation methods later in the course -- it turns out our old friend $s^2$ for the variance of a normal distribution is a REML estimator.
-  
+## REML for Simplest Case  
+
+Recall our one-sample setting in which we wish to estimate the sample mean $\mu$ and variance $\sigma^2$ using the model $y_{i}=\mu+\varepsilon_{i}$, $i=1,\ldots,n$, $\varepsilon_i \sim N\left(0,\sigma^2\right)$.
+
+REML estimates are often based on a full-rank set of error contrasts -- the basic idea is to retain the information in the data about the variance while eliminating the fixed effects. Because the residuals sum to zero in our simple model by definition, a full-rank set of residuals contains $n-1$ residuals for our mean-only model. If you've taken advanced linear models, you can show that the REML estimator maximizes the likelihood of a full rank set of error contrasts.
+
+##
+
+Because not everyone took STA 721, we'll consider a heuristic derivation. The full residuals $\varepsilon_i=y_i-\mu$ contain all the information in the likelihood about the variance parameter $\sigma^2$. 
+
+Because the residuals are independent of the fixed effect $\mu$ and the sample mean $\overline{y}$ is independent of the sample variance, we can re-express our log likelihood to isolate the residual likelihood:
+
+$$\ell(y,\mu,\sigma^2)=\ell(\varepsilon,\mu,\sigma^2)+\ell(\overline{y},\mu,\sigma^2)$$
+
+We know $\widehat{\mu}=\overline{y}\sim N\left(\mu,\frac{\sigma^2}{n}\right)$ and so $\ell(\overline{y},\mu,\sigma^2)\propto \log \frac{\sigma^2}{n} + \frac{(\overline{y}-\mu)^2}{\frac{\sigma^2}{n}}$ which reduces to $\log \sigma^2 - \log n$ once we plug in the MLE $\overline{y}$ for $\mu$.
+
+##
+
+Then $$\ell(\varepsilon,\mu,\sigma^2) \propto n\log \sigma^2 + \frac{\sum (y_i-\mu)^2}{\sigma^2}-\log \sigma^2+\log n$$ which is proportional to $$(n-1)\log \sigma^2 + \frac{\sum (y_i-\mu)^2}{\sigma^2},$$ which looks just like our ML likelihood with the exception of the multiplier $n-1$ instead of $n$, and it's straightforward to show the maximum is $\widehat{\sigma}^2_{REML}=\frac{\sum (y_i-\mu)^2}{n-1}$.
+
+
+  Because they are generally less biased than ML estimates, REML estimates are typically the default frequentist estimates provided by many software packages.
+
+
 ## REML Estimates for the Bike Data
+
 
 
 ```{r findreml}
@@ -302,9 +301,13 @@ Our REML estimates for the bike data are $(\widehat{\mu},\widehat{\tau}^2,\wideh
 
 ##
 
-Note that the "REML" estimate of the mean $\mu$ is not obtained using the REML likelihood, which does not involve parameters in the linear predictor. We will return to this point later in the course.
+Note that the "REML" estimate of the mean $\mu$ is not obtained using the REML likelihood, which does not involve parameters in the linear predictor. We will return to this point later in the course when we deal with more complex models than this simple case, in which the mean estimate is $\overline{y}$ regardless of whether we use ML or REML for $\sigma^2$. In more complicated models, the estimates of mean parameters will be a function of variance parameters, and iterative methods are required.
 
 ## Empirical Bayes
+
+When we have random effects in a model, the standard frequentist effects of these random quantities are called *empirical Bayes* estimates, regardless of whether we obtain other estimates using ML or REML.
+
+##
 
 Recall our group means formulation:
 
