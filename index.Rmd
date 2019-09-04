@@ -65,12 +65,12 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | September 4   | Random Effects ANOVA | Group Policies Document Due |
 | September 6   | Random Effects ANOVA|  |
 | September 9  | Bayesian Estimation | Assignment 1 Due  |
-| September 11  | Lab: Visualizing Estimates  | Group Lab Reports   |
+| September 11  | Lab: Gibbs Sampling  | Group Lab Reports   |
 | September 13  |Bayesian Estimation |  |
-| September 16  | Lab: Empirical Bayes \& Bayesian Estimation | Group Lab Reports   |
+| September 16  | Lab: Visualizaing Estimates | Group Lab Reports   |
 | September 18  | Random Effects ANCOVA |   |
-| September 20  | Linear Mixed Effects Model and Case Study 1 Introduction | Assignment 2 Due  |
-| September 23  | Lab: Fitting Hierarchical Bayes Models | Group Lab Reports  |
+| September 20  | Linear Mixed Effects Model and Case Study 1 Introduction |   |
+| September 23  | Lab: Fitting Hierarchical Bayes Models | Group Lab Reports, Assignment 2 Due  |
 | September 25  | Exam Review |  |
 | September 27  | Exam 1 (in class)  | Exam 1 (in class) |
 | September 30  |  Lab: Linear Mixed Effects Models I         | Group Lab Reports  |
