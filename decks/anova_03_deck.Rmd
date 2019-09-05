@@ -473,9 +473,100 @@ coef(M2)
 
 The first column gives estimates of $\alpha_j$, and the second column gives the estimate of $\beta$ (does not vary over county $j$ according to the model we specified).
 
+## Plotting Code
+
+```{r fig, eval=FALSE}
+ybarbar = mean(y)
+
+sample.size <- as.vector (table (county))
+sample.size.jittered <- sample.size*exp (runif (J, -.1, .1))
+cty.mns = tapply(y,county,mean)
+cty.vars = tapply(y,county,var)
+cty.sds = mean(sqrt(cty.vars[!is.na(cty.vars)]))/sqrt(sample.size)
+cty.sds.sep = sqrt(tapply(y,county,var)/sample.size)
+
+par(mfrow=c(1,2))
+plot (sample.size.jittered, cty.mns, cex.lab=.9, cex.axis=1,
+      xlab="sample size in county j",
+      ylab="avg. log radon in county j",
+      pch=20, log="x", cex=.3, mgp=c(1.5,.5,0),
+      ylim=c(0,3.2), yaxt="n", xaxt="n")
+axis (1, c(1,3,10,30,100), cex.axis=.9, mgp=c(1.5,.5,0))
+axis (2, seq(0,3), cex.axis=.9, mgp=c(1.5,.5,0))
+for (j in 1:J){
+  lines (rep(sample.size.jittered[j],2),
+         cty.mns[j] + c(-1,1)*cty.sds[j], lwd=.5)
+#         cty.mns[j] + c(-1,1)*mean(cty.sds[!is.na(cty.sds)]), lwd=.5)
+}
+title("No pooling",cex.main=.9, line=1)
+abline(h=ybarbar)
+
+library(arm)
+M3<-lmer(y~(1|county))
+coef(M3)+c(-2,2)*se.ranef(M3)
+
+plot (sample.size.jittered, coef(M3)$county[,1], cex.lab=.9, cex.axis=1,
+      xlab="sample size in county j",
+      ylab="avg. log radon in county j",
+      pch=20, log="x", cex=.3, mgp=c(1.5,.5,0),
+      ylim=c(0,3.2), yaxt="n", xaxt="n")
+axis (1, c(1,3,10,30,100), cex.axis=.9, mgp=c(1.5,.5,0))
+axis (2, seq(0,3), cex.axis=.9, mgp=c(1.5,.5,0))
+for (j in 1:J){
+  lines (rep(sample.size.jittered[j],2),coef(M3)$county[j,1] + c(-1,1)*se.ranef(M3)$county[j,1], lwd=.5)
+} 
+title("Partial Pooling",cex.main=.9, line=1)
+abline(h=ybarbar)
+```
+
+## Plots
+
+```{r fig2, echo=FALSE, warning=FALSE, message=FALSE}
+ybarbar = mean(y)
+
+sample.size <- as.vector (table (county))
+sample.size.jittered <- sample.size*exp (runif (J, -.1, .1))
+cty.mns = tapply(y,county,mean)
+cty.vars = tapply(y,county,var)
+cty.sds = mean(sqrt(cty.vars[!is.na(cty.vars)]))/sqrt(sample.size)
+cty.sds.sep = sqrt(tapply(y,county,var)/sample.size)
+
+par(mfrow=c(1,2))
+plot (sample.size.jittered, cty.mns, cex.lab=.9, cex.axis=1,
+      xlab="sample size in county j",
+      ylab="avg. log radon in county j",
+      pch=20, log="x", cex=.3, mgp=c(1.5,.5,0),
+      ylim=c(0,3.2), yaxt="n", xaxt="n")
+axis (1, c(1,3,10,30,100), cex.axis=.9, mgp=c(1.5,.5,0))
+axis (2, seq(0,3), cex.axis=.9, mgp=c(1.5,.5,0))
+for (j in 1:J){
+  lines (rep(sample.size.jittered[j],2),
+         cty.mns[j] + c(-1,1)*cty.sds[j], lwd=.5)
+#         cty.mns[j] + c(-1,1)*mean(cty.sds[!is.na(cty.sds)]), lwd=.5)
+}
+title("No pooling",cex.main=.9, line=1)
+abline(h=ybarbar)
+
+library(arm)
+M3<-lmer(y~(1|county))
+
+plot (sample.size.jittered, coef(M3)$county[,1], cex.lab=.9, cex.axis=1,
+      xlab="sample size in county j",
+      ylab="avg. log radon in county j",
+      pch=20, log="x", cex=.3, mgp=c(1.5,.5,0),
+      ylim=c(0,3.2), yaxt="n", xaxt="n")
+axis (1, c(1,3,10,30,100), cex.axis=.9, mgp=c(1.5,.5,0))
+axis (2, seq(0,3), cex.axis=.9, mgp=c(1.5,.5,0))
+for (j in 1:J){
+  lines (rep(sample.size.jittered[j],2),coef(M3)$county[j,1] + c(-1,1)*se.ranef(M3)$county[j,1], lwd=.5)
+} 
+title("Partial Pooling",cex.main=.9, line=1)
+abline(h=ybarbar)
+```
+
 ## Your Job!
 
-Examine estimates from complete pooling, no pooling, and the multilevel model for counties in Pennsylvania (PA), with a focus on how the shrinkage varies according to sample size.
+Examine estimates from complete pooling, no pooling, and the multilevel model for counties in another state of your choice, with a focus on how the shrinkage varies according to sample size.  Create a graphical display of these estimates to illustrate the degree of shrinkage (this can be a graphic like Gelman's or another graphic of your choice).
 
 
 
