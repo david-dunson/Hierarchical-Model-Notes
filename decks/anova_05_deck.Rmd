@@ -1,0 +1,172 @@
+---
+title: Priors for Group-Level Variance
+#output: beamer_presentation #NOTE THIS ACTUALLY WORKS FOR PDF
+
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Reading
+
+This set of notes is based on [Andrew Gelman's 2006 paper on priors for variance components in hierarchical models](http://www.stat.columbia.edu/~gelman/research/published/taumain.pdf).
+
+
+## Hierarchical Normal Model
+
+Recall our data model:
+
+\begin{eqnarray*}
+y_{ij}&=&\mu_j+\varepsilon_{ij}=\mu + \alpha_j + \varepsilon_{ij}
+\end{eqnarray*}
+where $\mu_j=\mu +\alpha_j$, $\alpha_j \overset{iid}{\sim} N\left(0,\tau^2\right) \perp \varepsilon_{ij} \overset{iid}{\sim} N\left(0,\sigma^2\right)$
+
+We now need specify a prior distribution for $(\mu,\tau^2,\sigma^2)$, denoted  $p(\theta)=p(\mu,\tau^2,\sigma^2)$.
+
+## Bayesian Specification of the Model
+
+
+
+We start with a "default" prior specification given by $$p(\mu,\tau^2,\sigma^2)=p(\mu|\tau^2)p(\tau^2)p(\sigma^2),$$
+where
+
+  - $p(\mu | \tau^2)$ is $N\left(\mu_0,\frac{\tau^2}{m_0}\right)$
+  - $p(\tau^2)$ is inverse-gamma$\left(\frac{\eta_0}{2},\frac{\eta_0\tau_0^2}{2}\right)$
+  - $p(\sigma^2)$ is inverse-gamma$\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$
+  
+## Relatively noninformative priors 
+
+It is often of interest to specify relatively noninformative priors for parameters. In general, we have enough data so that we can use any reasonable prior distribution for $\mu$ and $\sigma$, for example $p(\mu, \sigma) \propto 1$.
+
+Picking a flattish prior for $\tau^2$ is trickier because sometimes our data do not contain a lot of information about this parameter -- e.g., we may have relatively few groups, which is the case in our bike data.
+
+This parameter is also problematic in frequentist models -- in particular there is no always-non-negative classical unbiased estimator for it.
+
+## High Variance Priors for $\tau$
+
+One basic idea is to base a prior on a proper density but inflate the variance so that its shape gets pretty flat.
+
+Two commonly considered priors for $\tau$ include the uniform(0,A) as $A \rightarrow \infty$ and inverse-gamma($\varepsilon,\varepsilon$) as $\varepsilon \rightarrow 0$.
+
+## Limits of Prior Distributions
+
+Gelman shows 
+
+  - the uniform(0,A) prior on $\tau$ yields a limiting proper posterior density as $A \rightarrow \infty$ as long as we have at least 3 groups. The implication is that if we pick A big enough, our resulting inferences are not sensitive to the choice of A. 
+    
+  - the inverse-gamma($\varepsilon,\varepsilon$) for $\tau^2$ does *not* have a proper limiting posterior, so that posterior inferences are sensitive to the value of $\varepsilon$ chosen, particularly when small values of $\tau^2$ are reasonable. Unfortunately, these 'small $\varepsilon$' priors became quite popular due to being used in many illustrative examples in the WinBUGS manuals, though they are no longer recommended.
+  
+## Parameter Expansion
+
+Gelman (2006) proposes a parameter expansion that facilitates a family of weakly-informative prior distributions.
+
+\begin{eqnarray*}
+y_{ij} &\sim& N(\mu + \xi \eta_j, \sigma^2) \\
+\eta_j &\sim& N(0,\sigma_\eta^2)
+\end{eqnarray*}
+
+In this case the parameters $\alpha_j$ correspond to $\xi \eta_j$ in this model, and $\tau$ corresponds to $|\xi|\sigma_\eta$ here. 
+
+##
+
+For simplicity, consider independent priors on $\xi$ and $\sigma_\eta$. A conditionally-conjugate choice for $\xi$ is normal -- and given that the scale of $\xi$ cannot be separately identified from that of $\eta_j$, a N(0,1) is convenient.
+
+A conditionally-conjugate prior family for $\sigma_\eta^2$ is inverse gamma, and when combined with the N(0,1) we have an implied half-t prior for $\sigma_\eta$, which is the absolute value of a Student's t distribution centered at zero. 
+
+## Half t
+
+The half t prior is a function of a scale parameter $A$ and degrees of freedom $\nu$ and can be written $$p(\tau)\propto \left(1+\frac{1}{\nu}\left(\frac{\tau}{A}\right)^2\right)^{-(\nu+1)/2}.$$  Gelman proposes a half-Cauchy prior (obtained with a large scale parameter $A$ and $\nu=1$) as a weakly-informative choice that is desirable at times with a small number of groups.
+
+## Example: Hospital Income
+
+We consider data from the Centers for Medicare and Medicaid Services on hospital costs and profit from the 2014 fiscal year. Our interest is in examining variability of net income to the hospital across states.
+
+```{r readdata, warning=FALSE, message=FALSE}
+load("data/hc2014.RData")
+hc2014$control=factor(hc2014$control,levels=1:13,
+ labels=c("Nonprofit-church","Nonprofit-other","Individual","Corporation",
+  "Partnership","Other Proprietary","Gvmt-Federal", "Gvmt-City-County",
+  "Gvmt-County","Gvmt-State", "Gvmt-Hospital District","Gvmt-City","Gvmt-Other"))
+library(rstan)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+```
+
+## 
+
+We'll fit the model $$y_{ij}=\mu+\alpha_j+\varepsilon_{ij},$$ where $y_{ij}$ represents the log of the net income of hospital $i$ in state $j$, and $\alpha_j$ is a random effect for state.
+
+```{r brmscost, eval=FALSE}
+library(brms)
+m1=brm(log(netincome)~(1|state),data=hc2014,
+       control = list(adapt_delta = .99),
+  prior = c(
+    prior(normal(0, 10), class = Intercept),
+    prior(student_t(3, 0, 1), class = sd),
+    prior(student_t(3, 0, 1), class = sigma)
+  ))
+```
+
+##
+
+```{r brmscost2, echo=FALSE, warning=FALSE, message=FALSE, cache=TRUE}
+library(brms)
+m1=brm(log(netincome)~(1|state),data=hc2014,
+       control = list(adapt_delta = .99),
+  prior = c(
+    prior(normal(0, 10), class = Intercept),
+    prior(student_t(3, 0, 1), class = sd),
+    prior(student_t(3, 0, 1), class = sigma)
+  ))
+summary(m1)
+```
+
+##
+We can plot the state-specific means with 95% credible intervals:
+
+```{r summarizem1, eval=FALSE,cache=TRUE, message=FALSE,warnings=FALSE}
+library(tidyverse)
+library(tidybayes)
+m1 %>%
+  spread_draws(b_Intercept, r_state[state,]) %>%
+  median_qi(state_mean = b_Intercept + r_state) %>%
+  ggplot(aes(y = state, x = state_mean, xmin = .lower, xmax = .upper)) +
+  geom_pointintervalh()
+
+```
+
+##
+
+```{r summarizem1b, echo=FALSE, cache=TRUE, message=FALSE,warnings=FALSE}
+library(tidyverse)
+library(tidybayes)
+m1 %>%
+  spread_draws(b_Intercept, r_state[state,]) %>%
+  median_qi(state_mean = b_Intercept + r_state) %>%
+  ggplot(aes(y = state, x = state_mean, xmin = .lower, xmax = .upper)) +
+  geom_pointintervalh()
+
+```
+
+##
+What is the posterior probability that net hospital income is higher in NC than in Minnesota?  Georgia?
+
+```{r summarizem2, cache=TRUE}
+mat1=m1 %>%
+  spread_draws(r_state[state,]) %>%
+  compare_levels(r_state, by = state)
+mat2=filter(mat1,state == "NC - MN")
+mean(mat2$r_state>0)
+mat2=filter(mat1,state == "NC - GA")
+mean(mat2$r_state>0)
+```
