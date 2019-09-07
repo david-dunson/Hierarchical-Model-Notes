@@ -387,10 +387,10 @@ Data: [srrs2.dat](data/srrs2.dat)
 
 ```{r readsetup}
 srrs2 <- read.table ("data/srrs2.dat", header=T, sep=",")
-mn <- srrs2$state=="MN"
+mn <- srrs2$state=="MN" 
 radon <- srrs2$activity[mn]
 log.radon <- log (ifelse (radon==0, .1, radon))
-floor <- srrs2$floor[mn]   # 0 for basement, 1 for first floor
+floor <- srrs2$floor[mn]   # 0 for basement, 1 for first floor, 9 for missing (no missing in minnesota)
 n <- length(radon)
 y <- log.radon
 x <- floor

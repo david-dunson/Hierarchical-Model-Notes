@@ -1,25 +1,36 @@
 ---
 title: Bayesian Inference for the Hierarchical Normal Model
-output: beamer_presentation
+#output: beamer_presentation #NOTE THIS ACTUALLY WORKS FOR PDF
 
-#output: 
-#  revealjs::revealjs_presentation:
-#    theme: night
-#    highlight: espresso
-##    center: true
-#    transition: none
-#    css: styles.css
-#    fig_caption: true
-#    reveal_options:
-#      progress: true
-#      slideNumber: true
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
       
   
 ---
 
 ## Reading
 
-This lecture is based on Chapter 4 of Hoff.
+This lecture is based on Chapter 4 of Hoff and Chapter 8 of [baby Hoff](https://link-springer-com.proxy.lib.duke.edu/book/10.1007%2F978-0-387-92407-6) (the 360/601/602 text). Note the "baby Hoff" text contains substantial code that may be useful.
+
+
+## 
+
+Bayesian estimation is often the approach of choice for fitting hierarchical models.  Two major advantages include
+
+  - estimation and computation, particularly in complex, highly structured, or generalized linear models
+    
+  - straightforward uncertainty quantification
+    
+    
 
 ## Hierarchical Normal Model
 
@@ -123,7 +134,7 @@ Using similar algebra, we can show the full conditional distribution of $\mu_j$ 
 \begin{eqnarray*}
 p(\mu_j &\mid& \mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, \tau^2,\sigma^2, Y, \mu_1, \cdots, \mu_J) \\
 &\propto & p(\mu \mid \tau^2) p(\tau^2)p(\sigma^2)\prod_{j=1}^J p(\mu_j \mid \mu, \tau^2)\prod_{i=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) \\
-&\propto& p(\mu_j \mid \mu, \tau^2) \prod_{j=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) ~~~~ \propto ~~~~ \exp \left\{-\frac{(\mu_j-\mu)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (y_{ij}-\mu)^2}{2\sigma^2}\right\}
+&\propto& p(\mu_j \mid \mu, \tau^2) \prod_{j=1}^{n_j} p(y_{ij} \mid \mu_j, \sigma^2) ~~~~ \propto ~~~~ \exp \left\{-\frac{(\mu_j-\mu)^2}{2\tau^2}\right\} \exp \left\{-\frac{\sum (y_{ij}-\mu_j)^2}{2\sigma^2}\right\}
 \end{eqnarray*}
 
 
@@ -167,31 +178,29 @@ You can also show the full conditional posterior of $\sigma^2$ is $IG\left(\frac
 
 ## Posterior Inference
 
-We can use Gibbs sampling to make inference about the posterior distribution.
+Now that we have the full conditional posterior distributions, we can use Gibbs sampling to make inference.
 
-## Biking Data
+## Challenge to Validity: Heterogeneous Variances
 
-Here we fit a hierarchical model for the association between curb and passing distance in the bike data.  NEED TO FIT THIS MODEL WITH THE DEFAULT PRIORS INSTEAD OF WITH THE STAN VS USED HERE.
+One potential challenge is that the variance of income across hospitals may not be the same for each state. This could be due to a variety of factors. One potential remedy for this issue is to allow the error variance to differ across groups, with 
 
-```{r standefault, cache=TRUE, warning=FALSE, echo=FALSE}
-load("~/Documents/GitHub/STA-410-610/PsychBikeData.RData")
-library(rstanarm)
-M1_stanlmer=stan_lmer(`passing distance` ~ (1 | kerb),  data = PsychBikeData)
 
-```
+$p(\sigma^2_j) \overset{iid}{\sim} IG\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$
 
-## print output
-```{r standefaultprior, cache=TRUE}
-prior_summary(object=M1_stanlmer)
+##
 
-```
+If we fix $\nu_0$ and $\sigma_0^2$ in advance, then $p(\sigma_J^2 \mid \sigma_1^2, \ldots, \sigma_{J-1}^2)=p(\sigma_J^2)$. This means that information about $\sigma_1^2, \ldots, \sigma_{J-1}^2$ is not used in the estimation of $\sigma_J^2$, which is inefficient, especially when some groups $j$ have low sample sizes. Ideally, we would borrow some information across groups in estimating the group-specific variances. 
 
-## print output
-```{r standefaultoutput, cache=TRUE}
-print(M1_stanlmer,digits=2)
-```
+A remedy is to use the (conditionally conjugate) hyperprior $p(\sigma^2) \sim \text{gamma}(a,b)$. This simple prior enables hierarchical modeling of our variances.
 
-## need to do more on example!  code, interp, etc
-Maybe do simple hospital ranking (or hw?). Then pose question -- is hospital mortality high because they're bad, or because sicker people are going there, or both?
+##
 
-Use that old example from Kristian and James?  I think I used it at UNC in my bayes class there last.
+There is not an analogous conjugate choice for $p(\nu_0)$; however, sampling is not too bad (see "baby Hoff") if we restrict $\nu_0$ values to integers with the geometric prior $p(\nu_0) \propto e^{-\lambda \nu_0}$ and we subsequently compute the unnormalized posterior for a large number of values and sample from them.
+
+
+
+## Lab Wednesday
+
+In the next two labs, we'll program in R (by hand) an R function that uses Gibbs sampling (and modifications thereof) for inference in the model specified in this lecture and apply it to data on health care.
+
+   
