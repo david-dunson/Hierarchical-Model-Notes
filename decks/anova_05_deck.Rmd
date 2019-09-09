@@ -93,10 +93,6 @@ We consider data from the Centers for Medicare and Medicaid Services on hospital
 
 ```{r readdata, warning=FALSE, message=FALSE}
 load("data/hc2014.RData")
-hc2014$control=factor(hc2014$control,levels=1:13,
- labels=c("Nonprofit-church","Nonprofit-other","Individual","Corporation",
-  "Partnership","Other Proprietary","Gvmt-Federal", "Gvmt-City-County",
-  "Gvmt-County","Gvmt-State", "Gvmt-Hospital District","Gvmt-City","Gvmt-Other"))
 library(rstan)
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())

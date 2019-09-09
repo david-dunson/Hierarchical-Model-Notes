@@ -557,10 +557,6 @@ y_{ij} &amp;\sim&amp; N(\mu + \xi \eta_j, \sigma^2) \\
 <h2>Example: Hospital Income</h2>
 <p>We consider data from the Centers for Medicare and Medicaid Services on hospital costs and profit from the 2014 fiscal year. Our interest is in examining variability of net income to the hospital across states.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">load</span>(<span class="st">&quot;data/hc2014.RData&quot;</span>)
-hc2014<span class="op">$</span>control=<span class="kw">factor</span>(hc2014<span class="op">$</span>control,<span class="dt">levels=</span><span class="dv">1</span><span class="op">:</span><span class="dv">13</span>,
- <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Nonprofit-church&quot;</span>,<span class="st">&quot;Nonprofit-other&quot;</span>,<span class="st">&quot;Individual&quot;</span>,<span class="st">&quot;Corporation&quot;</span>,
-  <span class="st">&quot;Partnership&quot;</span>,<span class="st">&quot;Other Proprietary&quot;</span>,<span class="st">&quot;Gvmt-Federal&quot;</span>, <span class="st">&quot;Gvmt-City-County&quot;</span>,
-  <span class="st">&quot;Gvmt-County&quot;</span>,<span class="st">&quot;Gvmt-State&quot;</span>, <span class="st">&quot;Gvmt-Hospital District&quot;</span>,<span class="st">&quot;Gvmt-City&quot;</span>,<span class="st">&quot;Gvmt-Other&quot;</span>))
 <span class="kw">library</span>(rstan)
 <span class="kw">rstan_options</span>(<span class="dt">auto_write =</span> <span class="ot">TRUE</span>)
 <span class="kw">options</span>(<span class="dt">mc.cores =</span> parallel<span class="op">::</span><span class="kw">detectCores</span>())</code></pre></div>
