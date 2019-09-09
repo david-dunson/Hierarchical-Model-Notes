@@ -180,9 +180,27 @@ You can also show the full conditional posterior of $\sigma^2$ is $IG\left(\frac
 
 Now that we have the full conditional posterior distributions, we can use Gibbs sampling to make inference.
 
-## Challenge to Validity: Heterogeneous Variances
+## Challenge to Validity: Heterogeneous Means and Variances
 
-One potential challenge is that the variance of income across hospitals may not be the same for each state. This could be due to a variety of factors. One potential remedy for this issue is to allow the error variance to differ across groups, with 
+While many people feel that shrinkage can "do no harm," it can be quite detrimental when the shrinkage target is not correctly specified.
+
+##
+![Mortality by Volume](figures/mortprob.jpg)
+
+##
+
+![Estimated random intercepts by volume](figures/alpha.jpg)
+
+##
+
+How might we specify a model to avoid these problems?
+
+$\alpha_j \sim N(\mu_j(z),\sigma^2_j(z))$
+
+
+##
+
+Another potential challenge is that the variance of income across hospitals may not be the same for each state. This could be due to a variety of factors. One potential remedy for this issue is to allow the error variance to differ across groups, with 
 
 
 $p(\sigma^2_j) \overset{iid}{\sim} IG\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$
