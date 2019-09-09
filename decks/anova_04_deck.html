@@ -614,17 +614,17 @@ p(\tau^2 &amp;\mid&amp; \mu, \sigma^2, Y, \mu_1, \cdots, \mu_J) \propto  p(\mu, 
 <section id="section-14" class="slide level2">
 <h2></h2>
 <p>How might we specify a model to avoid these problems?</p>
-<p><span class="math inline">\(\alpha_j \sim N(\mu_j(z),\sigma^2_j(z))\)</span></p>
+<p><span class="math inline">\(\alpha_j \sim N(\mu_j(z),\tau^2_j(z))\)</span></p>
 </section>
 <section id="section-15" class="slide level2">
 <h2></h2>
-<p>Another potential challenge is that the variance of income across hospitals may not be the same for each state. This could be due to a variety of factors. One potential remedy for this issue is to allow the error variance to differ across groups, with</p>
+<p>Another potential challenge is that the variance of the response may not be the same for each group. This could be due to a variety of factors. One potential remedy for this issue is to allow the error variance to differ across groups, with</p>
 <p><span class="math inline">\(p(\sigma^2_j) \overset{iid}{\sim} IG\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)\)</span></p>
 </section>
 <section id="section-16" class="slide level2">
 <h2></h2>
 <p>If we fix <span class="math inline">\(\nu_0\)</span> and <span class="math inline">\(\sigma_0^2\)</span> in advance, then <span class="math inline">\(p(\sigma_J^2 \mid \sigma_1^2, \ldots, \sigma_{J-1}^2)=p(\sigma_J^2)\)</span>. This means that information about <span class="math inline">\(\sigma_1^2, \ldots, \sigma_{J-1}^2\)</span> is not used in the estimation of <span class="math inline">\(\sigma_J^2\)</span>, which is inefficient, especially when some groups <span class="math inline">\(j\)</span> have low sample sizes. Ideally, we would borrow some information across groups in estimating the group-specific variances.</p>
-<p>A remedy is to use the (conditionally conjugate) hyperprior <span class="math inline">\(p(\sigma^2) \sim \text{gamma}(a,b)\)</span>. This simple prior enables hierarchical modeling of our variances.</p>
+<p>A remedy is to use the (conditionally conjugate) hyperprior <span class="math inline">\(p(\sigma^2_0) \sim \text{gamma}(a,b)\)</span>. This simple prior enables hierarchical modeling of our variances.</p>
 </section>
 <section id="section-17" class="slide level2">
 <h2></h2>

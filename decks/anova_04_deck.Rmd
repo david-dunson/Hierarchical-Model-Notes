@@ -195,12 +195,12 @@ While many people feel that shrinkage can "do no harm," it can be quite detrimen
 
 How might we specify a model to avoid these problems?
 
-$\alpha_j \sim N(\mu_j(z),\sigma^2_j(z))$
+$\alpha_j \sim N(\mu_j(z),\tau^2_j(z))$
 
 
 ##
 
-Another potential challenge is that the variance of income across hospitals may not be the same for each state. This could be due to a variety of factors. One potential remedy for this issue is to allow the error variance to differ across groups, with 
+Another potential challenge is that the variance of the response may not be the same for each group. This could be due to a variety of factors. One potential remedy for this issue is to allow the error variance to differ across groups, with 
 
 
 $p(\sigma^2_j) \overset{iid}{\sim} IG\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$
@@ -209,7 +209,7 @@ $p(\sigma^2_j) \overset{iid}{\sim} IG\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2
 
 If we fix $\nu_0$ and $\sigma_0^2$ in advance, then $p(\sigma_J^2 \mid \sigma_1^2, \ldots, \sigma_{J-1}^2)=p(\sigma_J^2)$. This means that information about $\sigma_1^2, \ldots, \sigma_{J-1}^2$ is not used in the estimation of $\sigma_J^2$, which is inefficient, especially when some groups $j$ have low sample sizes. Ideally, we would borrow some information across groups in estimating the group-specific variances. 
 
-A remedy is to use the (conditionally conjugate) hyperprior $p(\sigma^2) \sim \text{gamma}(a,b)$. This simple prior enables hierarchical modeling of our variances.
+A remedy is to use the (conditionally conjugate) hyperprior $p(\sigma^2_0) \sim \text{gamma}(a,b)$. This simple prior enables hierarchical modeling of our variances.
 
 ##
 
