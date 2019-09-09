@@ -4,7 +4,7 @@ title: "Labs 2-3"
 
 ### Hospital Rankings
 
-For the next two labs, we will consider data  from the Centers for Medicare and Medicaid Services on hospital costs and profit from the 2014 fiscal year. Our interest is in examining variability of net hospital income across states. 
+For the next two labs, we will consider [data  from the Centers for Medicare and Medicaid Services on hospital costs and profit from the 2014 fiscal year](hc2014.RData). Our interest is in examining variability of net hospital income across states. 
 
 The item of interest is the ranking of states by net income of hospitals. 
 

@@ -63,6 +63,8 @@ library(tidyverse)
 
 [Lab 1](labs/lab1.html)
 
+[Labs 2-3](labs/lab2.html)
+
 # Homework
 
 [Assignment 1](homework/hw1.html)
