@@ -24,7 +24,7 @@ Undergraduates: ok to assume that $\nu_0$ and $\sigma_0^2$ are fixed in advance;
 
 ### 3. R function for heterogeneous variances
 
-Modify the R function developed in lab to accommodate heterogeneous variances as specified in question 2 of this assignment. (It is ok to collaborate with lab members only on writing the R function and modifying it to accommodate heterogeneous variances.) Use this R function to explore whether there is evidence of heterogeneous error variances across counties in the Minnesota radon data.
+Modify the R function developed in lab to accommodate heterogeneous variances as specified in question 2 of this assignment. (It is ok to collaborate with lab members only on writing the R function and modifying it to accommodate heterogeneous variances.) Use this R function to explore whether there is evidence of heterogeneous error variances across counties in the Minnesota radon data. Be sure to include reproducible code with your submission.
 
 Undergraduates: ok to assume that $\nu_0$ and $\sigma_0^2$ are fixed in advance; extra credit if you allow hyperpriors for these.  
 

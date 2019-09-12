@@ -166,3 +166,4 @@ mean(mat2$r_state>0)
 mat2=filter(mat1,state == "NC - GA")
 mean(mat2$r_state>0)
 ```
+
