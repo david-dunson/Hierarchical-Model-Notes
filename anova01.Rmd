@@ -1,5 +1,5 @@
 ---
-title: "ANOVA"
+title: "ANOVA with Random Effects"
 output: 
   github_document:
       pandoc_args: --webtex
@@ -59,6 +59,8 @@ library(tidyverse)
 
 [Priors for Group-Level Variance](decks/anova_05_deck.html)
 
+Random Effects ANCOVA (Coming Soon!)
+
 # Labs
 
 [Lab 1](labs/lab1.html)
@@ -69,7 +71,7 @@ library(tidyverse)
 
 [Assignment 1](homework/hw1.html)
 
-<!-- [Assignment 2](homework/hw2.html)  --->
+[Assignment 2](homework/hw2.html)  
 
 
 

@@ -67,7 +67,7 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | September 9  | Bayesian Estimation | Assignment 1 Due  |
 | September 11  | Lab: Gibbs Sampling  |    |
 | September 13  |Bayesian Estimation |  |
-| September 16  | Lab: Visualizaing Estimates |    |
+| September 16  | Lab: Visualizing Estimates |    |
 | September 18  | Random Effects ANCOVA | Second lab report due  |
 | September 20  | Linear Mixed Effects Model and Case Study 1 Introduction |   |
 | September 23  | Lab: Formulating and Fitting Hierarchical Bayes Models | Assignment 2 Due  |
