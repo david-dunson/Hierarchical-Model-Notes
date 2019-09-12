@@ -8,36 +8,30 @@ library(knitr)
 library(tidyverse)
 ```
 
-
+This homework is the second of four and is due by the start of class on Monday, September 23.
 
 ### 1. Hierarchical Normal Model
 
-a. Derive the full conditional posterior distribution of $\mu_j$ using the specification provided in the notes, showing all intermediate steps to verify its conditional mean is X and cond var is Y.
+a. Derive the full conditional posterior distribution of $\mu_j$ using the specification provided in the notes, showing all intermediate steps to verify its conditional variance is $v_j=\frac{1}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}}$ and its conditional mean is $v_j\left[\frac{n_j}{\sigma^2}\overline{y}_j+\frac{1}{\tau^2}\mu\right]$.
 
-b. Derive the full conditional posterior distribution of $\sigma^2$ blah blah.
+b. Derive the full conditional posterior distribution of $\sigma^2$  using the specification provided in the notes, showing all intermediate steps to verify this conditional posterior is $IG\left(\frac{\nu_0+\sum n_j}{2},\frac{\nu_0\sigma_0^2+\sum \sum (y_{ij}-\mu_j)^2}{2}\right)$.
 
+### 2. Unequal variances by group
 
+Now assume the within-group variance for group $j$ is $\sigma_j^2$, where $\sigma_1^2,\ldots, \sigma_J^2 \overset{iid}{\sim} \text{inverse-gamma} \left(\frac{\nu_0}{2},\frac{\nu_0 \sigma_0^2}{2}\right)$. Derive the full conditional posterior distributions for $(\mu,\tau^2, \mu_j, \sigma_j^2)$ under this heterogeneous error variance scenario.  Heterogeneous error variances are not uncommon, yet often analysts fail to consider them, which can be problematic!
 
-``` {r gotimport}
-library(readxl)
-gameofthronesseason1234567 <- read_excel("~/Documents/TEACHING/STA410_610/DATA/gameofthronesseason1234567.xlsx")
-View(gameofthronesseason1234567)
+Undergraduates: ok to assume that $\nu_0$ and $\sigma_0^2$ are fixed in advance; extra credit if you allow hyperpriors for these and show the relevant posteriors. Grad students: specify a prior distribution for $(\nu_0,\sigma_0^2)$ that allows shrinkage of the $\sigma^2_j$ and provide all relevant posteriors.
 
-library(dplyr)
-gotscreen=gameofthronesseason1234567 %>%
-    group_by(Episode, Gender, Season) %>%
-    summarize(seccount = sum(screensec))
+### 3. R function for heterogeneous variances
 
-gameofthronesseason1234567 %>%
-    group_by(Gender, Season) %>%
-    summarize(secmean = mean(screensec))
+Modify the R function developed in lab to accommodate heterogeneous variances as specified in question 2 of this assignment. (It is ok to collaborate with lab members only on writing the R function and modifying it to accommodate heterogeneous variances.) Use this R function to explore whether there is evidence of heterogeneous error variances across counties in the Minnesota radon data.
+
+Undergraduates: ok to assume that $\nu_0$ and $\sigma_0^2$ are fixed in advance; extra credit if you allow hyperpriors for these.  
 
 
-aov.got=aov(seccount~factor(Season)*factor(Gender),data=gotscreen)
-save(gotscreen, file = "~/Documents/TEACHING/STA410_610/DATA/gotscreen.RData")
 
-```
-    
-    HAVE THEM DO REFERENCE CELL CODING AND ALSO ESTIMATE CONTRASTS ON THIS HOMEWORK TOO GOING BACK AND FORTH BETWEEN CODING SCHEMES
+### 4. Correlation One
 
+Correlation One is a company that works with organizations of all types to evaluate and retain data science talent. Based on tests given to over 50,000 students at over 200 universities, they have ranked the participating universities according to the quality of their students in the data science job market (based entirely upon the exam scores). While some universities train large numbers of students in the data sciences who end up taking a Correlation One assessment, other universities train a small number of students who take the assessment.
 
+Assuming that the test scores are approximately normally distributed, propose a hierarchical model for test scores that can be used to obtain a ranking of universities and describe how one would quantify uncertainty around the estimated ranking.  Clearly specify the model you propose, any assumptions, and any prior distributions. In addition, comment specifically on how the ranking from your model might or might not differ from a ranking based entirely on observed mean test scores for each university.
