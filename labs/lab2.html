@@ -185,18 +185,19 @@ summary {
 <div id="hospital-rankings" class="section level3">
 <h3>Hospital Rankings</h3>
 <p>For the next two labs, we will consider <a href="hc2014.RData">data from the Centers for Medicare and Medicaid Services on hospital costs and profit from the 2014 fiscal year</a>. Our interest is in examining variability of net hospital income across states.</p>
-<p>The item of interest is the ranking of states by net income of hospitals.</p>
+<p>One primary item of interest is the ranking of states by net income of hospitals.</p>
 <p>It is important to control for the potential influence of hospital ownership (in the variable called control) and of the number of beds (a proxy for hospital size). The ownership categories include Voluntary Nonprofit-Church, Voluntary Nonprofit-Other, Proprietary-Individual, Proprietary-Corporation, Proprietary-Partnership, Proprietary-Other, Governmental-Federal, Governmental-City-County, Governmental-County, Governmental-State, Governmental-Hospital District, Governmental-City, and Governmental-Other.</p>
 <p>Prepare a written report that describes the association between ownership type and income, as well as the association between the number of beds and income. Your report should also describe variability in net income across states and provide information about the ranking of states with respect to net income. Ranking information should include not only an estimated ranking but also some characterization of uncertainty. Your report should also include the following.</p>
 <ol style="list-style-type: decimal">
 <li>Clear specification of any models (using equations) used to explore the associations of interest</li>
 <li>Clearly-labeled tables and graphical displays describing the data and communicating your findings</li>
-<li>Uncertainty quantification around effect estimates of interest (no point estimates without uncertainty!)</li>
+<li>Uncertainty quantification around estimates of interest (no point estimates without uncertainty!)</li>
 <li>Evidence of adequacy of model fit and evaluation of suitability of modeling assumptions</li>
 <li>Clear description of results in language accessible to a general scientifically-savvy reader (e.g., someone reading a science article in the BBC or CNN apps)</li>
+<li>Reproducible R code for your entire analysis (ideally a single .Rmd will produce your entire report)</li>
 </ol>
 <p>This report is due by the beginning of class on Wednesday, September 18 via upload to Sakai (one submission per group). The minimum font size is 11 point and maximum number of pages is 5.</p>
-<p>Suggested strategy: on September 11, develop and fit a model involving just state effects, ignoring to start potential effects of number of beds and ownership of the hospital. Obtain preliminary results on the rankings. Then in the following week’s lab on September 16, incorporate those covariates into the model and explore how controlling for those covariates affects the state rankings.</p>
+<p>Suggested strategy: on September 11, develop and fit a model involving just state effects, ignoring (for this week) potential effects of number of beds and ownership of the hospital. Obtain preliminary results on the rankings. Then in the following week’s lab on September 16, incorporate those covariates into the model and explore how controlling for those covariates affects the state rankings.</p>
 </div>
 
 
