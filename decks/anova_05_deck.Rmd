@@ -53,10 +53,10 @@ We now need specify a prior distribution for $(\mu,\tau^2,\sigma^2)$, denoted  $
 
 
 
-We start with a "default" prior specification given by $$p(\mu,\tau^2,\sigma^2)=p(\mu|\tau^2)p(\tau^2)p(\sigma^2),$$
+We start with a "default" prior specification given by $$p(\mu,\tau^2,\sigma^2)=p(\mu)p(\tau^2)p(\sigma^2),$$
 where
 
-  - $p(\mu | \tau^2)$ is $N\left(\mu_0,\frac{\tau^2}{m_0}\right)$
+  - $p(\mu)$ is $N\left(\mu_0,\gamma_0^2\right)$
   - $p(\tau^2)$ is inverse-gamma$\left(\frac{\eta_0}{2},\frac{\eta_0\tau_0^2}{2}\right)$
   - $p(\sigma^2)$ is inverse-gamma$\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$
   
@@ -97,7 +97,7 @@ In this case the parameters $\alpha_j$ correspond to $\xi \eta_j$ in this model,
 
 For simplicity, consider independent priors on $\xi$ and $\sigma_\eta$. A conditionally-conjugate choice for $\xi$ is normal -- and given that the scale of $\xi$ cannot be separately identified from that of $\eta_j$, a N(0,1) is convenient.
 
-A conditionally-conjugate prior family for $\sigma_\eta^2$ is inverse gamma, and when combined with the N(0,1) we have an implied half-t prior for $\sigma_\eta$, which is the absolute value of a Student's t distribution centered at zero. 
+A conditionally-conjugate prior family for $\sigma_\eta^2$ is inverse gamma, and when combined with the N(0,1) we have an implied half-t prior for $\tau$, which is the absolute value of a Student's t distribution centered at zero. 
 
 ## Half t
 
@@ -116,11 +116,11 @@ options(mc.cores = parallel::detectCores())
 
 ## 
 
-We'll fit the model $$y_{ij}=\mu+\alpha_j+\varepsilon_{ij},$$ where $y_{ij}$ represents the log of the net income of hospital $i$ in state $j$, and $\alpha_j$ is a random effect for state.
+We'll fit the model $$y_{ij}=\mu+\alpha_j+\varepsilon_{ij},$$ where $y_{ij}$ represents the net income of hospital $i$ in state $j$, and $\alpha_j$ is a random effect for state.
 
 ```{r brmscost, eval=FALSE}
 library(brms)
-m1=brm(log(netincome)~(1|state),data=hc2014,
+m1=brm(netincome~(1|state),data=hc2014,
        control = list(adapt_delta = .99),
   prior = c(
     prior(normal(0, 10), class = Intercept),
@@ -133,7 +133,7 @@ m1=brm(log(netincome)~(1|state),data=hc2014,
 
 ```{r brmscost2, echo=FALSE, warning=FALSE, message=FALSE, cache=TRUE}
 library(brms)
-m1=brm(log(netincome)~(1|state),data=hc2014,
+m1=brm(netincome~(1|state),data=hc2014,
        control = list(adapt_delta = .99),
   prior = c(
     prior(normal(0, 10), class = Intercept),
@@ -190,3 +190,72 @@ Using the method of your choice, simulate draws from inverse gamma and half-t di
 
 Note:  R has several functions, including invgamma, HalfT, halfnormal, HalfCauchy, dist.HalfCauchy
 
+## Code (courtesy of Graham, Yiwei, and Zixi)
+
+```{r drawsamples}
+library(tidyverse)
+n <- 10000
+
+samples <- data.frame(halft3 = abs(rt(n=n,df=3)),
+                      halfnorm = abs(rnorm(n,0,1)),
+                      normsq = rnorm(n,0,1)^2,
+                      invgam = 1/rgamma(n,3,3)) 
+```
+
+##
+
+
+
+```{r plots, eval=FALSE}
+samples %>% 
+  reshape2::melt() %>% 
+  ggplot(mapping = aes(x=value,fill = variable)) + xlim(0,10) + 
+  geom_density(alpha = .5)
+
+samples %>% 
+  reshape2::melt() %>% 
+  ggplot(mapping = aes(y=value,fill = variable)) + ylim(0,10) + 
+  geom_boxplot()
+
+samples %>% 
+  reshape2::melt() %>% 
+  group_by(variable) %>% 
+  summarise(mean= mean(value),
+            sd = sd(value),
+            q75 = quantile(value,.75),
+            q25 = quantile(value,.25))
+
+
+```
+
+##
+```{r plots2, echo=FALSE, warning=FALSE, message=FALSE}
+samples %>% 
+  reshape2::melt() %>% 
+  ggplot(mapping = aes(x=value,fill = variable)) + xlim(0,10) + 
+  geom_density(alpha = .5)
+```
+
+##
+
+```{r plots3, echo=FALSE, warning=FALSE, message=FALSE}
+samples %>% 
+  reshape2::melt() %>% 
+  ggplot(mapping = aes(y=value,fill = variable)) + ylim(0,10) + 
+  geom_boxplot()
+```
+
+##
+
+```{r plots4, echo=FALSE, warning=FALSE, message=FALSE}
+
+samples %>% 
+  reshape2::melt() %>% 
+  group_by(variable) %>% 
+  summarise(mean= mean(value),
+            sd = sd(value),
+            q75 = quantile(value,.75),
+            q25 = quantile(value,.25))
+
+
+```
