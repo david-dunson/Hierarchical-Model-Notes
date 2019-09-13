@@ -184,5 +184,9 @@ mat2=filter(mat1,state == "NC - GA")
 mean(mat2$r_state>0)
 ```
 
+## Getting a feel for prior options!
 
+Using the method of your choice, simulate draws from inverse gamma and half-t distributions. Think about potentially centering these priors on $\tau^2 \approx 1$.  
+
+Note:  R has several functions, including invgamma, HalfT, halfnormal, HalfCauchy, dist.HalfCauchy
 
