@@ -59,7 +59,7 @@ library(tidyverse)
 
 [Priors for Group-Level Variance](decks/anova_05_deck.html)
 
-Random Effects ANCOVA (Coming Soon!)
+[Random Effects ANCOVA](decks/ancova_01_deck.html)
 
 # Labs
 
