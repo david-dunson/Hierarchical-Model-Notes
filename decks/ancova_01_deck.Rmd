@@ -919,6 +919,8 @@ $Corr(y_{ij},y_{i'j})=\frac{\tau^2}{\tau^2+\sigma^2}$
   
 We generally don't believe independence within the same school environment holds.
 
+This type of covariance structure is often called *exchangeable* or *compound symmetric*.
+
 ##
 
 Why not treat school as a fixed effect?  That should handle the school heterogeneity.
