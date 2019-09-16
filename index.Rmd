@@ -70,10 +70,10 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | September 16  | Lab: Visualizing Estimates |    |
 | September 18  | Random Effects ANCOVA | Second lab report due  |
 | September 20  | Higher Level Multi-Level Models and Case Study 1 Introduction |   |
-| September 23  | Lab: Formulating and Fitting Hierarchical Bayes Models | Assignment 2 Due  |
+| September 23  | Lab: RE ANCOVA Practice | Assignment 2 Due  |
 | September 25  | Exam Review | Lab Report Due |
 | September 27  | Exam 1 (in class)  | Exam 1 (in class) |
-| September 30  |  Lab: Linear Mixed Effects Models I         | Group Lab Reports  |
+| September 30  |  Lab: Group Work on Case Study 1        |   |
 | October 2     | Linear Mixed Effects Models | Exam 1 Returned (my deliverable)  | 
 | October 4     | Lab: Help, I'm Behind! Hands-on Analysis and Q&A | Midsemester Grades Due (my deliverable)  |
 | October 7    | Fall break  |  |
