@@ -56,7 +56,7 @@ Historically these names had implications regarding the estimation methods used,
 
 ## Motivating Example: National Educational Longitudinal Study of Education (NELS)
 
-Hoff considers a subset of the NELS data that contains information on math scores of a random sample of 10th graders selected from a national sample of 100 large urban public schools. We plot the math scores $y_{ij}$ of the $n_j$ students in each school $j$, ranked by the average score.
+Hoff considers a subset of the NELS data that contains information on math scores of a random sample of 10th graders selected from a national sample of 685 large urban public schools. We plot the math scores $y_{ij}$ of the $n_j$ students in each school $j$, ranked by the average score.
 
 ##
 
@@ -107,7 +107,7 @@ abline(h=mean(avmscore.schools))
 
 ##
 
-- The school-specific averages range from 24 to 69, with 51 the average of all 100 school averages (weighting each school equally).
+- The school-specific averages range from 24 to 69, with 51 the average of all 685 school averages (weighting each school equally).
 
 - The school-specific variances range from 3 to 187 -- quite a wide range!
 
@@ -389,7 +389,7 @@ for(school in 1:length(id.schools))
 
 This model allows separate intercepts for each school but assumes a common slope. One concern is whether SES has the same relationship with math scores in all schools. For example, some schools may have less of a disparity in scores across levels of SES than others.
 
-As an initial step, we can examine at variation in slopes across 100 separate regression models fit separately in each school: $y_{ij}=\beta_{0,j}+\beta_{1,j}x_{ij}+\varepsilon_{ij}, ~~ \varepsilon_{ij} \sim N(0,\sigma^2_j)$, so that in each case $\widehat{\beta}_j=(X_j'X_j)^{-1}X_j'y_j$, where here $X_j$ contains a column of 1's for the intercept and a column containing the SES of each student.
+As an initial step, we can examine at variation in slopes across 685 separate regression models fit separately in each school: $y_{ij}=\beta_{0,j}+\beta_{1,j}x_{ij}+\varepsilon_{ij}, ~~ \varepsilon_{ij} \sim N(0,\sigma^2_j)$, so that in each case $\widehat{\beta}_j=(X_j'X_j)^{-1}X_j'y_j$, where here $X_j$ contains a column of 1's for the intercept and a column containing the SES of each student.
 
 
 ##
@@ -459,7 +459,7 @@ for(school in id.schools[order( avmscore.schools )[seq(1,length(avmscore.schools
 
 Line width is proportional to the number of students tested in each school. 
 
-Of the 100 schools, 81 slopes are positive and 19 are negative. The steepest slopes (positive and negative) tend to occur in the schools with smaller sample sizes.
+Among the schools, roughly 85% have positive slope estimates. The steepest slopes (positive and negative) tend to occur in the schools with smaller sample sizes.
 
 How do we get good estimates of the school-specific slopes?
 
@@ -640,7 +640,7 @@ s2.ols<-SSE/DF
 
 ```
 
-We can get a rough estimate of $\beta$ by averaging the estimates from our 100 school-specific regression models.
+We can get a rough estimate of $\beta$ by averaging the estimates from our 685 school-specific regression models.
 
 ```{r estbeta,cache=TRUE}
 apply(BETA.OLS,2,mean,na.rm=TRUE)
