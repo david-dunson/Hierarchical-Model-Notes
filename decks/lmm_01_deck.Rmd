@@ -39,11 +39,8 @@ Linear mixed effects models extend linear models to allow random effects, and in
   
 ## Mixed Effects Models for Longitudinal Data
 
-<<<<<<< HEAD
+
 In mixed effects models, the response depends on population parameters $\beta$ as well as subject-specific random effects.  These models are especially convenient when there are no set times for observation of outcomes in a longitudinal study, which makes it challenging to estimate a covariance matrix across time in a multivariate setting.
-=======
-In mixed effects models, the response depends on population parameters $\beta$ as well as some subject-specific random effects.  These models are especially convenient when there are no set times for observation of outcomes in a longitudinal study, which makes it challenging to estimate a covariance matrix across time in a multivariate setting.
->>>>>>> 9dcbfb7dac4a2118e58173ffa2e21ecdea73ba22
 
 <br>
 
@@ -51,11 +48,7 @@ NOTE: In the setting of longitudinal data, indices are typically the opposite of
 
 ##
 
-<<<<<<< HEAD
 Because of missing data, differential timing, and other factors, $\text{Var}(Y_{ij})$ may depend on $i$ and $j$.  Mixed effects models handle such structures naturally.
-=======
-Because of missing data, differential timing, etc., $\text{Var}(Y_{ij})$ may depend on $i$ and $j$.  Mixed effects models handle such structures naturally.
->>>>>>> 9dcbfb7dac4a2118e58173ffa2e21ecdea73ba22
 
 <br>
 
