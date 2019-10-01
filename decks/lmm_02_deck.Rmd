@@ -1,5 +1,5 @@
 ---
-title: Diagnostics
+title: Diagnostics and Influence Measures
 
 output: 
   revealjs::revealjs_presentation:
@@ -24,7 +24,15 @@ Residual analysis and diagnostic methods are well developed in the linear mixed 
 
 We'll consider the dental data with model $$Y_{ij}=\beta_0+\beta_1I(\text{male})_i+\beta_2t_j+\beta_3I(\text{male})_it_j + b_{0i} + b_{1i}t_j + \varepsilon_{ij}$$ where $\begin{pmatrix} b_{0i} \\ b_{1i} \end{pmatrix} \overset{iid}\sim N\left(0,\begin{pmatrix}d_{11} & d_{12} \\ d_{12} & d_{22}\end{pmatrix}\right) \perp \varepsilon_{ij} \overset{iid}\sim N(0,\sigma^2)$ for illustration.
 
+##
+
 ## Residuals
+
+*Residuals* $y_{ij}-\widehat{y}_{ij}$ can be helpful in flagging outliers and in assessing the adequacy of a fitted model. The definition of residuals is not always consistent in the case of mixed effects or hierarchical models:
+
+  - Many texts define residuals as $Y_i-X_i\widehat{\beta}$
+  - Many software implementations define residuals as $Y_i-X_i\widehat{\beta}-Z_i\widehat{b}_i$
+
 
 Unclear what the resid command is giving us
 
@@ -40,5 +48,17 @@ resid(m1)[1]
 26-t(c(18.95452,-1.032102,.5605691,.3048295))%*%c(1,1,8,8)
 #1.154393
 # so the resid function gives the estimate of epsilon rather than the Zb+epsilon
+##plot leverage vs residuals
+ggplot(data.frame(lev=hatvalues(m1),pearson=residuals(m1,type="pearson")),
+      aes(x=lev,y=pearson)) +
+    geom_point() +
+    theme_bw()
+library(car)
+infIndexPlot(influence(m1,"Subject"))
+carinf=influence(m1,"Subject")
+
+### this is probably the better package to use
+library(influence.ME)
+cooks.distance(m1)
 ```
 
