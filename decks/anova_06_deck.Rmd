@@ -1,0 +1,665 @@
+---
+title: Random Effects ANCOVA
+output: beamer_presentation
+#output: 
+#  revealjs::revealjs_presentation:
+#    theme: night
+#    highlight: espresso
+#    center: true
+#    transition: none
+#    css: styles.css
+#    fig_caption: true
+#    reveal_options:
+#      progress: true
+#      slideNumber: true
+      
+  
+---
+
+## ANCOVA
+
+
+```{r setup, echo=FALSE, warnings=FALSE}
+options(warn=-1)
+library(tufte)
+options(warn=0)
+```
+
+> "What's in a name? That which we call a rose  
+> By any other name would smell as sweet."
+> 
+> `r tufte::quote_footer('--- Romeo and Juliet II, ii, 1-2')`
+
+![Ancova moth, or snout moth](figures/ancovamoth.jpg){width=40%}
+
+ANOVA, ANCOVA, MANOVA -- what's the difference?
+
+##
+
+- ANOVA (Analysis of Variance): continuous outcome, categorical predictor(s)
+    - one-way ANOVA: one categorical predictor
+    - two-way ANOVA: two categorical predictors
+    - two-way ANOVA with interaction: you get the picture!
+  
+- ANCOVA (Analysis of Covariance): continuous outcome, categorical predictor(s), at least one continuous predictor that is generally considered a nuisance (not unlike the snout moths, which are often considered pests because they share our tastes in grains)
+
+- MANOVA (Multivariate ANOVA): multiple continuous outcomes, categorical predictor(s)
+
+Historically these names had implications regarding the estimation methods used, but that is no longer always the case.
+
+## Motivating Example: National Educational Longitudinal Study of Education (NELS)
+
+Hoff considers a subset of the NELS data that contains information on math scores of a random sample of 10th graders selected from a national sample of 100 large urban public schools. We plot the math scores $y_{ij}$ of the $n_j$ students in each school $j$, ranked by the average score.
+
+##
+
+```{r nelsplot1,echo=FALSE, cache=TRUE}
+load('data/nels_mathdat.Rdata')
+avmscore.schools<-tapply(nels_mathdat$mscore,nels_mathdat$school,mean,na.rm=TRUE)
+id.schools<-names(avmscore.schools)
+m<-length(id.schools)
+
+plot(c(1,m),range(nels_mathdat$mscore), type="n",ylab="math score", xlab="rank of  school-specific math score  average",cex=.7)
+
+for(school in id.schools[order( avmscore.schools )[seq(1,length(avmscore.schools),by=1)]])
+{
+  y<-nels_mathdat$mscore[nels_mathdat$school==school]
+  x<-rank(avmscore.schools)[ id.schools==school]
+  points( rep(x,length(y)), y,pch=16,cex=.6 ) 
+  points(x, mean(y),col="blue",pch=16,cex=.8) 
+  segments( x,min(y),x,max(y))
+}
+
+abline(h=mean(avmscore.schools))
+
+```
+
+##
+
+- The school-specific averages range from 36.58 to 65.02, with 48.13 the average of all 100 school averages (weighting each school equally).
+
+- The school-specific variances range from 21.81 to 179.69 -- quite a wide range!
+
+- The school with the highest average only contains 4 observations.
+
+
+## Which school is best?
+
+```{r nelsplot2,echo=FALSE,fig.height=4, cache=TRUE}
+g<-match(nels_mathdat$school , sort(unique(nels_mathdat$school))) 
+
+# school specific sample sizes
+n.g<-c(table(g) )
+
+names(g)<-NULL
+names(n.g)<-NULL
+
+## ----fig.height=3,fig.width=8--------------------------------------------
+# school specific mscore means
+ybar.g<-c(tapply(nels_mathdat$mscore,g,"mean"))
+
+plot(ybar.g~n.g,ylab="school average",xlab="sample size")
+abline(h=mean(ybar.g)) 
+
+```
+
+Note that the school with the highest average has the smallest sample size ($n_j=4$). Do we have strong evidence that the true mean in this school is substantially larger than that in other schools in the sample?  How might we answer this question?
+
+## ANOVA
+
+One approach would be to fit a fixed effects ANOVA model:
+
+```{r anova, cache=TRUE}
+m1=lm(nels_mathdat$mscore~as.factor(nels_mathdat$school)-1)
+anova(m1)
+```
+
+Here we see clear evidence of heterogeneity in math scores across schools.
+
+## ANOVA results
+
+```{r catplot,echo=TRUE, eval=FALSE}
+library(sjPlot)
+plot_model(m1,sort.est=TRUE)
+```
+
+##
+
+```{r catplot1, echo=FALSE,warning=FALSE,message=FALSE, cache=TRUE}
+library(sjPlot)
+plot_model(m1,sort.est=TRUE)
+```
+
+Based on these estimates, we might conclude that the school has higher performance than some, but not all, schools.
+
+## Random effects ANOVA
+
+Note in the prior plot that the highest estimated mean also has a very large variance. We may wish to use shrinkage estimation in order to stabilize that and other estimates for schools in which few students provide data.  A random effects ANOVA model is given by $$y_{ij}=\mu+\alpha_j+\varepsilon_{ij},$$ where $\varepsilon_{ij} \sim N(0,\sigma^2)$ and $\alpha_j \sim N(0,\tau^2)$.
+
+```{r ranef, eval=FALSE}
+library(lme4)
+m2=lmer(mscore~(1|school),data=nels_mathdat)
+summary(m2)
+library(sjstats)
+icc(m2)
+
+
+```
+
+##
+
+
+```{r ranef2, echo=FALSE, warning=FALSE,message=FALSE, cache=TRUE}
+library(lme4)
+m2=lmer(mscore~(1|school),data=nels_mathdat)
+summary(m2)
+library(sjstats)
+icc(m2)
+
+
+```
+
+
+##
+Here we examine the distribution of random effects.
+
+```{r plotre, eval=FALSE}
+library(merTools)
+plotREsim(REsim(m2,n.sims=100),stat='median',sd=TRUE)
+
+
+```
+
+##
+
+```{r plotre2, echo=FALSE,message=FALSE,warning=FALSE, cache=TRUE}
+library(merTools)
+plotREsim(REsim(m2,n.sims=100),stat='median',sd=TRUE)
+
+
+```
+
+##
+
+How do we conduct a formal test of heterogeneity in this random effects setting?  Well, this is a bit more complicated than in the fixed effects setting. In particular, no heterogeneity corresponds to the case in which $\tau^2=0 \iff \alpha_1=\ldots=\alpha_J=0$, so saying something about the single parameter $\tau^2$ has implications about the J parameters $\alpha_j$.
+
+A second problem is that $\tau^2$ cannot be $<0$, and we wish to test $H_0: \tau^2=0$, so we're conducting a hypothesis test at the boundary of the parameter space instead of in the interior (which would be the case for $H_0: \mu=0$).
+
+##
+
+As shown in Stram and Lee (1994), the approximate asymptotic null distribution for $H_0: \tau^2=0$ using a likelihood ratio test comparing our model to a model with out random effects ($y_{ij}=\mu+\varepsilon_{ij}$) in this case is a 50-50 mixture of a $\chi^2_0$ (point mass on 0) and a $\chi_1^2$ distribution.
+
+##
+
+In general, if we wish to compare a model with $q+1$ random effects (calculated as terms that have a random effect, not the number of groups) to a nested model with $q$ random effects, the asymptotic null distribution is a 50-50 mixture of $\chi^2_{q+1}$ and $\chi^2_q$ distributions.
+
+##
+
+Letting LR denote twice the difference in maximized log-likelihoods in the model with and without a single random effect, you can obtain the null density in R using $$0.5*(\text{dchisq}(x,q+1)+\text{dchisq}(x,q))$$ and the p-value via $$0.5*(1-\text{pchisq(LR,q+1)}+1-\text{pchisq}(LR,q)).$$
+
+
+##
+
+For the NELS data fit using a frequentist random effects model, we would calculate this as follows.
+
+```{r lrtest, cache=TRUE}
+m3=lmer(mscore~(1|school),data=nels_mathdat,REML=FALSE)
+m4=lm(mscore~1,data=nels_mathdat)
+LR=logLik(m3)-logLik(m4)
+0.5*(1-pchisq(LR[1],1)+1-pchisq(LR[1],0))
+
+```
+
+We conclude that there is significant heterogeneity across schools in the mean math scores.
+
+## Bringing SES into the mix
+
+NELS contains a measure of socioeconomic status (SES) for each student. We generally expect some degree of correlation between SES and math score (people who are good at math often can get good jobs, and then have kids who may inherit math talents; rich parents may have more time and resources to devote to their kids), though of course the relationship is not deterministic (there are plenty of math whizzes who did not have rich parents -- Gauss!, and there are plenty of rich parents who have kids who do not make good math scores -- college admissions scandal!).
+
+##
+
+Let's look overall at the association between SES and math score in NELS.
+
+```{r scatter,out.width='80%',echo=FALSE, cache=TRUE}
+nels_mathdat$sesstd=nels_mathdat$ses/sqrt(var(nels_mathdat$ses))
+plot(nels_mathdat$mscore~nels_mathdat$sesstd,xlab="SES (standardized)",ylab="Math Score")
+abline(lm(nels_mathdat$mscore~nels_mathdat$sesstd))
+```
+
+## Big Picture
+
+Consider schools, which we represent using red, green, and blue points on graphs, respectively. The schools we illustrate include one low SES school, one middle SES school, and one high SES school.
+
+Let's consider multiple ways in which we could obtain the marginal association between SES and math score on the previous slide.
+
+##
+
+```{r illustrateplot, echo=FALSE, out.width='60%', cache=TRUE}
+par(mfrow=c(2,2))
+n<-20
+x1<-rnorm(n,-1,.25) ; y1<-50+2*rnorm(n,x1,.15) 
+x2<-rnorm(n,0,.25)  ; y2<-50+2*rnorm(n,x2,.15)
+x3<-rnorm(n,1,.25)  ; y3<-50+2*rnorm(n,x3,.15)
+plot(range(c(x1,x2,x3)),range(y1,y2,y3),type="n",xlab="ses",ylab="y") 
+points(x1,y1,col="red") 
+points(x2,y2,col="green") 
+points(x3,y3,col="blue")
+
+abline( h=mean(y1) ,col="pink",lty=2)
+abline( h=mean(y2) ,col="lightgreen",lty=2)
+abline( h=mean(y3) ,col="lightblue",lty=2)
+
+## ----echo=FALSE,fig.height=4.5-------------------------------------------
+n<-20
+x1<-rnorm(n,-1,.2) ; y1<-51+2*rnorm(n,x1,.15)
+x2<-rnorm(n,0,.5)  ; y2<-50+2*rnorm(n,x2,.15)
+x3<-rnorm(n,1,.25)  ; y3<-49+2*rnorm(n,x3,.15)
+plot(range(c(x1,x2,x3)),range(y1,y2,y3),type="n",xlab="ses",ylab="y")
+points(x1,y1,col="red")
+points(x2,y2,col="green")
+points(x3,y3,col="blue")
+
+abline( h=mean(y1) ,col="pink",lty=2) 
+abline( h=mean(y2) ,col="lightgreen",lty=2)
+abline( h=mean(y3) ,col="lightblue",lty=2)
+
+## ----echo=FALSE,fig.height=4.5-------------------------------------------
+n<-20
+x1<-rnorm(n,-1,.25) ; y1<-50+2*mean(x1) + rnorm(n,0,.25)
+x2<-rnorm(n,0,.25)  ; y2<-50+2*mean(x2) + rnorm(n,0,.25)
+x3<-rnorm(n,1,.25)  ; y3<-50+2*mean(x3) + rnorm(n,0,.25)
+plot(range(c(x1,x2,x3)),range(y1,y2,y3),type="n",xlab="ses",ylab="y")
+points(x1,y1,col="red") 
+points(x2,y2,col="green") 
+points(x3,y3,col="blue") 
+
+abline( h=mean(y1) ,col="pink",lty=2)
+abline( h=mean(y2) ,col="lightgreen",lty=2)
+abline( h=mean(y3) ,col="lightblue",lty=2)
+
+## ----echo=FALSE,fig.height=4.5-------------------------------------------
+n<-20
+x1<-rnorm(n,-1,.25) ; y1<-50+2*mean(x1) + rnorm(n,0,.15) + x1
+x2<-rnorm(n,0,.25)  ; y2<-50+2*mean(x2) + rnorm(n,0,.15) -x2
+x3<-rnorm(n,1,.25)  ; y3<-50+2*mean(x3) + rnorm(n,0,.15)
+plot(range(c(x1,x2,x3)),range(y1,y2,y3),type="n",xlab="ses",ylab="y")
+points(x1,y1,col="red")
+points(x2,y2,col="green")
+points(x3,y3,col="blue")
+
+abline( h=mean(y1) ,col="pink",lty=2)
+abline( h=mean(y2) ,col="lightgreen",lty=2)
+abline( h=mean(y3) ,col="lightblue",lty=2)
+```
+
+We want our model to be able to help us understand how SES ($x_{ij}$) and math scores are related in schools. In the framework of the model $y_{ij}=\beta_{0,j}+\beta_{1,j}x_{ij} + \varepsilon_{ij}$, what values of $\beta_{j}$ are consistent with these figures?
+
+##
+
+
+One way to assess how SES is related to math score is to examine this association in an ANCOVA model, allowing school-specific intercepts while including SES as a covariate $x_{ij}$:
+
+$$y_{ij}=\beta_{0j}+\beta_1x_{ij} + \varepsilon_{ij}.$$
+
+In this model, we estimate the same effect of SES for each school.
+
+##
+
+```{r sameSES,warning=FALSE, message=FALSE, cache=TRUE}
+m5=lmer(mscore~sesstd+(1|school),data=nels_mathdat)
+summary(m5)
+```
+
+This is a pretty big effect of SES -- a 1 SD increase in SES is associated with a 2.7 point increase in math score on average.
+
+##
+
+
+```{r plotre3,warning=FALSE,message=FALSE,cache=TRUE}
+plot_model(m5,type='re')
+```
+
+
+##
+
+Let's plot the estimated school-specific lines from the random intercept model.
+
+```{r schoolspecific1a,eval=FALSE}
+xplot=seq(-2.9,2.3,by=.1)
+yplot=rep(60,length(xplot))
+plot(xplot,yplot,type="n",ylim=c(30,70),xlab="Standardized SES",ylab="Math Score")
+for(school in 1:length(id.schools))
+{
+  yplot=coef(m5)$school[school,1]+coef(m5)$school[school,2]*xplot
+  lines(xplot,yplot)
+}
+
+```
+
+
+
+##
+
+```{r schoolspecific1b,echo=FALSE,cache=TRUE}
+xplot=seq(-2.9,2.3,by=.1)
+yplot=rep(60,length(xplot))
+plot(xplot,yplot,type="n",ylim=c(30,70),xlab="Standardized SES",ylab="Math Score")
+for(school in 1:length(id.schools))
+{
+  yplot=coef(m5)$school[school,1]+coef(m5)$school[school,2]*xplot
+  lines(xplot,yplot)
+}
+
+```
+
+
+##
+
+This model allows separate intercepts for each school but assumes a common slope. One concern is whether SES has the same relationship with math scores in all schools. For example, some schools may have less of a disparity in scores across levels of SES than others.
+
+As an initial step, we can examine at variation in slopes across 100 separate regression models fit separately in each school: $y_{ij}=\beta_{0,j}+\beta_{1,j}x_{ij}+\varepsilon_{ij}, ~~ \varepsilon_{ij} \sim N(0,\sigma^2_j)$, so that in each case $\widehat{\beta}_j=(X_j'X_j)^{-1}X_j'y_j$, where here $X_j$ contains a column of 1's for the intercept and a column containing the SES of each student.
+
+
+##
+
+
+
+```{r schoolspecific2b,echo=FALSE, cache=TRUE}
+plot(xplot,yplot,type="n",ylim=c(15,90),xlab="Standardized SES",ylab="Math Score")
+for(school in 
+    id.schools[order( avmscore.schools )[seq(1,length(avmscore.schools), by=1)]])
+{
+  y<-nels_mathdat$mscore[nels_mathdat$school==school]
+  x<-nels_mathdat$sesstd[nels_mathdat$school==school]
+  m=lm(y~x)
+  yplot=coef(m)[1]+coef(m)[2]*xplot
+  lines(xplot,yplot,lwd=length(y)/30)
+}
+
+```
+
+
+
+This plot looks pretty different!
+
+
+
+## Histograms of school-specific intercepts and slopes
+
+```{r hist, echo=FALSE,cache=TRUE}
+B0B1<-NULL
+g.nels<-nels_mathdat$school
+g.nels<-match(g.nels,unique(g.nels)) 
+for(g in  unique(g.nels))
+{
+  fit<-lm(nels_mathdat$mscore[g.nels==g]~nels_mathdat$sesstd[g.nels==g]) 
+  B0B1<- rbind(B0B1,coef(fit)) 
+} 
+B0B1<-B0B1[ !is.na(apply(B0B1,1,sum)) , ] 
+n.nels<-c(table(g.nels))
+n.nels<-n.nels[n.nels>1]
+mpar<-function(...){par(mar=c(3,3,1,1),mgp=c(2,.75,0),tck=-.025,...)}
+mpar() ; par(mfrow=c(1,2))  
+hist(B0B1[,1],xlab="Intercepts",main="")
+hist(B0B1[,2],xlab="Slopes",main="")
+#plot(n.nels,B0B1[,1],xlab="sample size",ylab=expression(hat(beta)[0]))
+#abline(h=mean(B0B1[,1]) ) 
+#plot(n.nels,B0B1[,2], xlab="sample size",ylab=expression(hat(beta)[1]))  
+#abline(h=mean(B0B1[,2]) ) 
+
+```
+
+##
+
+```{r schoolspecific2c, echo=FALSE,out.width='50%',cache=TRUE}
+plot(xplot,yplot,type="n",ylim=c(15,90),xlab="Standardized SES",ylab="Math Score")
+for(school in id.schools[order( avmscore.schools )[seq(1,length(avmscore.schools),by=1)]])
+{
+  y<-nels_mathdat$mscore[nels_mathdat$school==school]
+  x<-nels_mathdat$sesstd[nels_mathdat$school==school]
+  m=lm(y~x)
+  yplot=coef(m)[1]+coef(m)[2]*xplot
+  lines(xplot,yplot,lwd=length(y)/30)
+}
+
+```
+
+
+
+Line width is proportional to the number of students tested in each school. 
+
+Of the 100 schools, 81 slopes are positive and 19 are negative. The steepest slopes (positive and negative) tend to occur in the schools with smaller sample sizes.
+
+How do we get good estimates of the school-specific slopes?
+
+## School-specific slopes
+
+Building on our knowledge of random intercept models, we could consider the following estimates.
+
+- $\widehat{\beta}_j=\widehat{\beta}_j^{OLS}=(X_j'X_j)^{-1}X_j'y_j$, relying only on the data from school $j$
+
+- $\widehat{\beta}_j=\widehat{\beta}^{POOL}=(X'X)^{-1}X'y$, using all the data and pooling across schools 
+
+- $\widehat{\beta}_j=w_j\widehat{\beta}_j^{OLS} + (1-w_j)\widehat{\beta}^{POOL}$, doing something in between
+
+
+## School-specific slopes
+
+One alternative to separate linear regression models for each school is fitting a single model with school-specific slopes and intercepts. These factors could be fixed or random effects. First, let's consider the fixed effects approach.
+
+$$y_{ij}=\beta_{0,j}+\beta_{1,j}x_{ij}+\varepsilon_{ij}, ~~~ \varepsilon_{ij} \sim N(0,\sigma^2)$$
+
+If we wish to evaluate whether there is heterogeneity across schools, an easy approach is to fit the model as a linear regression using indicator variables as follows.
+
+##
+
+$$y_{ij}=\beta_0+\alpha_jI(\text{school}=j) + \beta_1x_{ij} + \gamma_jx_{ij}I(\text{school}=j) + \varepsilon_{ij},$$ where we assume $\alpha_J=\gamma_J=0$ (reference cell coding).
+
+<br><br><br>
+
+In this case, a (J-1) df test can be used to evaluate the hypothesis
+
+<br>
+
+$$H_0: \gamma_j=0,~~~ j=1,\ldots,J-1,$$
+
+<br>
+
+which corresponds to a constant effect of SES, $\beta_1$, across groups.
+
+
+##
+
+```{r fixefslope,cache=TRUE}
+m6=lm(nels_mathdat$mscore~as.factor(nels_mathdat$school)+nels_mathdat$sesstd) #pooled slope
+m7=lm(nels_mathdat$mscore~as.factor(nels_mathdat$school)+nels_mathdat$sesstd+as.factor(nels_mathdat$school)*nels_mathdat$sesstd) #school-specific slopes
+LR=2*(logLik(m7)-logLik(m6))
+1-pchisq(LR,201-102)
+
+```
+
+Here we have evidence in favor of school-specific slopes in the fixed effects model. However, our estimates of school-specific slopes in small schools may have high variance.
+
+##
+
+
+
+```{r plotslopes, echo=FALSE,cache=TRUE}
+
+m7.coef=round(summary(m7)$coef,3)
+plot(xplot,yplot,type="n",ylim=c(15,90),xlab="Standardized SES",ylab="Math Score")
+yplot=m7.coef[1,1]+m7.coef[101,1]*xplot
+lines(xplot,yplot)
+for(i in 1:99)
+{
+  yplot=m7.coef[1,1]+m7.coef[i+1,1]+xplot*(m7.coef[101,1]+m7.coef[101+i,1])
+  lines(xplot,yplot)
+}
+```
+
+The only difference from the models used to obtain the prior lines is that in this case we estimated a common variance.
+
+##
+
+How should we estimate $\beta_j$? Is this pattern becoming familiar?
+
+```{r betasbyn, echo=FALSE,cache=TRUE}
+
+BETA<-NULL
+for(j in sort(unique(g.nels)))
+{ 
+  yj<-nels_mathdat$mscore[g.nels==j]  
+  xj<-nels_mathdat$sesstd[g.nels==j]  
+  fitj<-lm(yj~xj) 
+  BETA<-rbind(BETA,fitj$coef) 
+} 
+n.nels<-c(table(g.nels)) 
+par(mfrow=c(1,2))  
+plot( n.nels,BETA[,1],ylab=expression(beta[0]),xlab="n per school")  ; abline(h=mean(BETA[,1],na.rm=TRUE) )
+plot( n.nels,BETA[,2],ylab=expression(beta[1]),xlab="n per school")  ; abline(h=mean(BETA[,2],na.rm=TRUE) ) 
+
+```
+
+## Hierarchical Regression Models
+
+Our hierarchical normal model involves two levels: 
+
+  - within-group model $p(y_{1j},\ldots,y_{n_jj} \mid \theta_j)$ describing heterogeneity in group j
+  - among-groups model $p(\theta_1,\ldots,\theta_J)$
+    
+
+<br>
+
+Specifically, we let 
+
+  - $\theta_j=(\mu_j, \sigma^2)$
+  - $y_{1j}, \ldots y_{n_jj} \mid \theta \overset{iid}{\sim}N\left(\mu_j, \sigma^2\right)$
+  - $\mu_1,\ldots,\mu_j \overset{iid}{\sim}N\left(\mu, \tau^2\right)$
+  
+##
+  
+In the regression setting, we have
+
+  - $\theta_j=(\beta_j, \sigma^2)$
+  - $y_{ij}=\beta_j'x_{ij}+\varepsilon_{ij}, ~~ \varepsilon_{ij} \overset{iid}{\sim} N\left(0,\sigma^2\right)$
+  - $\beta_1, \ldots, \beta_J \overset{iid}{\sim} p(\beta_j)$
+  
+How should we model $p(\beta_j)$, the heterogeneity across groups in the vector of regression coefficients?
+
+##
+
+It is often the case that intercepts and slopes are correlated. 
+
+  - In a study of income over time, people who start off making more money may have larger raises over time.
+  - In a study of exercise, people who exercise a lot at the start of the study may have lower changes over time than those who exercise less
+  
+<br>
+
+A natural choice for the $\beta_j$ model is the multivariate normal distribution, which allows for correlation among the group-specific regression coefficients.
+
+##
+
+We can specify our model in the context of maximum likelihood estimation as
+
+  - $y_j \mid \beta_j \sim MVN(X_j\beta_j, \sigma^2I)$
+  - $\beta_j \sim MVN(\beta,\Sigma_\beta)$
+  
+$\beta_j \sim MVN(\beta,\Sigma_\beta) \iff \beta_j=\beta+b_j, ~~ b_j \sim MVN(0, \Sigma_\beta)$
+
+
+<br>
+
+The parameters are
+
+  - $\beta$, an across-group mean vector of regression coefficients
+  - $\Sigma_\beta$, a covariance matrix describing the variability of the $\beta_j$ around $\beta$
+  
+##
+
+We can combine terms and write the model as
+
+$$y_j=X_j\beta_j+\varepsilon_j=X_j(\beta+b_j)+\varepsilon_j=X_j\beta+x_jb_j+\varepsilon_j$$
+
+Here
+
+  - $\beta$ is sometimes called a fixed effect (fixed across all groups)
+  - $b_j$ is sometimes called a random effect (varies across groups and can be considered random if groups were randomly sampled)
+  - a model with both fixed and random effects is often called a mixed-effects model
+  
+## *Ad hoc* estimates
+
+```{r setupforslide, echo=FALSE,cache=TRUE}
+BETA.OLS<-NULL
+DF<-SSE<-0
+y.nels=nels_mathdat$mscore
+ses.nels=nels_mathdat$sesstd
+for(j in sort(unique(g.nels)))
+{
+  yj<-y.nels[g.nels==j]
+  xj<-ses.nels[g.nels==j]
+  fitj<-lm(yj~xj)
+  BETA.OLS<-rbind(BETA.OLS,fitj$coef) 
+  if(length(yj)>=2)  {SSE<-SSE+sum(fitj$res^2) ; DF<-DF+length(yj)-2 }
+}
+s2.ols<-SSE/DF
+
+```
+
+We can get a rough estimate of $\beta$ by averaging the estimates from our 100 school-specific regression models.
+
+```{r estbeta,cache=TRUE}
+apply(BETA.OLS,2,mean)
+```
+
+This estimator is not perfect -- it equally weights all the schools, regardless of size. We would prefer to assign a lower weight to schools with less data.
+
+## *Ad hoc* estimates
+
+We can get a *very rough* estimate of $\Sigma_\beta$:
+
+```{r roughsigma,cache=TRUE}
+cov(BETA.OLS,use="complete.obs") #dropped n=1 schools
+```
+
+This estimate not only ignores sample size differences, it also ignores the variability of $\widehat{\beta}_j$ around $\beta_j$:  $$\text{Var}[\widehat{\beta}_j\text{'s around }\widehat{\beta}] \approx \text{Var}[\beta_j\text{'s around }\beta]+\text{Var}[\widehat{\beta}_j\text{'s around }\beta_j\text{'s}]:$$
+
+basically, the sample covariance of the $\widehat{\beta}_j$'s is approximately $$\Sigma_\beta +  \text{estimation error}$$
+
+## Covariance within Groups
+
+$Cov(y_j)=E[(y_j-E(y_j))(y_j-E(y_j))']$
+
+In our model $$y_j=X_j\beta_j+\varepsilon_j=X_j(\beta+b_j)+\varepsilon_j=X_j\beta+x_jb_j+\varepsilon_j$$, $$y_j-E[y_j]=y_j-X_j\beta=X_jb_j+\varepsilon_j,~~ $b_j \sim N(0,\Sigma_\beta), ~~\varepsilon_j \sim N(0,\sigma^2I)$$ and because we specify $b_j \perp \varepsilon_j$,
+$$Cov(y_j)=E[(X_jb_j+\varepsilon_j)(X_jb_j+\varepsilon_j)']$$ $$=E[X_jb_jb_j'X_j']+E[\varepsilon_j\varepsilon_j']=X_j\Sigma_\beta X_j'+\sigma^2I.$$
+
+## Marginal and conditional distributions of $y$
+
+So conditional on $b_j$, $$y_j \sim MVN(X_j\beta+X_jb_j, \sigma^2I)$$ and unconditional on $b_j$ we have $$p(y_j \mid \beta, \Sigma_\beta, \sigma^2)=MVN(X_j\beta, X_j\Sigma_\beta X_j' + \sigma^2I).$$
+
+## Dependence and conditional independence
+
+Marginal dependence: If we don't know $\beta_j$ (or $b_j$), then knowing the response $y_{ij}$ gives me some information about $\beta_j$, which gives us some information about $y_{i'j}$, so the observations within a group are dependent.
+
+Conditional independence: If I do know $\beta_j$, then knowing $y_{ij}$ does not give me any extra information about $y_{i'j}$, and they are independent. My information about $y_{ij} \perp y_{i'j}$ if I know $\beta_j$.
+
+## Fitting the model
+
+```{r hlm,cache=TRUE}
+#recall g.nels is the sequential ID variable
+m8=lmer(nels_mathdat$mscore~nels_mathdat$sesstd+(nels_mathdat$sesstd|g.nels),REML=FALSE)
+summary(m8)
+```
+
+
+## Do we need the random slope in addition to the random intercept?
+
+Let's test whether the slope should be random or fixed -- this time the reference distribution is a 50-50 mixture of  $\chi^2_1$ and $\chi^2_2$ distributions. This is a test of the hypothesis that the variance of the random slope is zero.
+
+```{r lrvarslope,cache=TRUE}
+LR=logLik(lmer(mscore~(1|school),data=nels_mathdat,REML=FALSE))
+ -logLik(lmer(mscore~sesstd+(sesstd|school),
+              data=nels_mathdat,REML=FALSE))
+0.5*(1-pchisq(LR[1],2)+1-pchisq(LR[1],1))
+```
+
+Yes, looks like the random slope explains additional variance.

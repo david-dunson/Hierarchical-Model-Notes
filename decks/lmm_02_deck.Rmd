@@ -1,0 +1,44 @@
+---
+title: Diagnostics
+
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Diagnostics
+
+Residual analysis and diagnostic methods are well developed in the linear mixed models (c.f., Cook and Weisberg, 1982), and they are somewhat less developed for longitudinal data.
+
+## Example: Orthodontics Data
+
+We'll consider the dental data with model $$Y_{ij}=\beta_0+\beta_1I(\text{male})_i+\beta_2t_j+\beta_3I(\text{male})_it_j + b_{0i} + b_{1i}t_j + \varepsilon_{ij}$$ where $\begin{pmatrix} b_{0i} \\ b_{1i} \end{pmatrix} \overset{iid}\sim N\left(0,\begin{pmatrix}d_{11} & d_{12} \\ d_{12} & d_{22}\end{pmatrix}\right) \perp \varepsilon_{ij} \overset{iid}\sim N(0,\sigma^2)$ for illustration.
+
+## Residuals
+
+Unclear what the resid command is giving us
+
+```{r figureoutresid}
+coef(m1)
+# M01    18.95452 -1.032102 0.5605691   0.3048295
+fitted.values(m1)[1]
+#24.84561 
+t(c(18.95452,-1.032102,.5605691,.3048295))%*%c(1,1,8,8)
+#24.84561
+resid(m1)[1]
+#1.154392
+26-t(c(18.95452,-1.032102,.5605691,.3048295))%*%c(1,1,8,8)
+#1.154393
+# so the resid function gives the estimate of epsilon rather than the Zb+epsilon
+```
+

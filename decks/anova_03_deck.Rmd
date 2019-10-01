@@ -89,7 +89,7 @@ How does random effects ANOVA borrow information?
 
 The multilevel estimate
 
-$$\widehat{\alpha}_j \approx
+$$\widehat{\mu}_j \approx
 \frac{\frac{n_j}{\sigma^2}\overline{y}_j+\frac{1}{\tau^2}\overline{y}}{\frac{n_j}{\sigma^2}+\frac{1}{\tau^2}},$$
    
 where 
