@@ -13,17 +13,21 @@ library(tidyverse)
 
 - General framework of the linear mixed effects model
 
-- Hierarchical models with random intercepts and slopes
+- Linear mixed effects models for longitudinal data
 
-- Relaxing assumptions: nonconstant variance
+- Diagnostics
 
-<!--- - Would be good to have an elections case study here too -- pull in Mr. P?  So two case studies for the course -- one on election predictions, and one on hospital rankings?  Maybe election pred is case study but hospital rankings needs to be a series of homework assignments.... ---> 
+- Evaluating the need for random effects and selecting a covariance structure
+
+- Priors for Covariance Matrices
+
+
 
 
 
 # Resources
 
-- Hoff Chapters 5-6
+- Hoff Chapter 6-7
 
 - Gelman and Hill Chapters 12, 13, and 18
 
@@ -35,15 +39,17 @@ library(tidyverse)
 
 # Slides
 
-Coming soon!
 
-
-<!--- [Random Effects ANCOVA](decks/lme_01_deck.html) --->
-
+[Linear Mixed Effects Model](decks/lmm_01_deck.html)
+<!--- [Diagnostics for the Linear Mixed Effects Model](decks/lmm_02_deck.Rmd) --->
 
 
 
 # Homework
+
+Coming soon!
+
+# Labs
 
 Coming soon!
 
