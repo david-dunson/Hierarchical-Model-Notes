@@ -77,10 +77,10 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | October 2     | Linear Mixed Effects Models | Exam 1 Returned (my deliverable)  | 
 | October 4     | Lab: Help, I'm Behind! Hands-on Analysis and Q&A | Midsemester Grades Due (my deliverable)  |
 | October 7    | Fall break  |  |
-| October 9    |  Linear Mixed Effects Models |  |
+| October 9    |  Diagnostics and Influence Measures |  |
 | October 11    | Linear Mixed Effects Model for Longitudinal Data |   |
-| October 14    | Lab: Mixed Effects Models | Group Lab Reports  |
-| October 16    | Linear Mixed Effects Model for Longitudinal Data |  |
+| October 14    | Lab: Longitudinal Data |   |
+| October 16    | Linear Mixed Effects Model for Longitudinal Data | Group Lab Reports |
 | October 18    | Case Study Presentations |  Case Study 1 Due |
 | October 21    | Lab: Mixed Effects Models | Group Lab Reports  | 
 | October 23    | Case Study Presentations | |
