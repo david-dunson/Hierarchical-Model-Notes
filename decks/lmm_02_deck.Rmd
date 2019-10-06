@@ -16,49 +16,317 @@ output:
   
 ---
 
-## Diagnostics
+## Residuals
 
-Residual analysis and diagnostic methods are well developed in the linear mixed models (c.f., Cook and Weisberg, 1982), and they are somewhat less developed for longitudinal data.
+Residual analysis and diagnostic methods are well developed for linear regression models (c.f., Cook and Weisberg, 1982), and they are somewhat less developed for mixed effects models.
+
+<br>
+
+This set of notes is based on [Nieuwenhuis et al](https://journal.r-project.org/archive/2012-2/RJournal_2012-2_Nieuwenhuis~et~al.pdf).
 
 ## Example: Orthodontics Data
 
-We'll consider the dental data with model $$Y_{ij}=\beta_0+\beta_1I(\text{male})_i+\beta_2t_j+\beta_3I(\text{male})_it_j + b_{0i} + b_{1i}t_j + \varepsilon_{ij}$$ where $\begin{pmatrix} b_{0i} \\ b_{1i} \end{pmatrix} \overset{iid}\sim N\left(0,\begin{pmatrix}d_{11} & d_{12} \\ d_{12} & d_{22}\end{pmatrix}\right) \perp \varepsilon_{ij} \overset{iid}\sim N(0,\sigma^2)$ for illustration.
+We'll consider the dental data with model
 
-##
+<br>
+
+$$Y_{ij}=\beta_0+\beta_1I(\text{male})_i+\beta_2t_j+\beta_3I(\text{male})_it_j + b_{0i} + b_{1i}t_j + \varepsilon_{ij}$$ 
+
+<br>
+
+where 
+
+<br>
+
+$$\begin{pmatrix} b_{0i} \\ b_{1i} \end{pmatrix} \overset{iid}\sim N\left(0,\begin{pmatrix}d_{11} & d_{12} \\ d_{12} & d_{22}\end{pmatrix}\right) \perp \varepsilon_{ij} \overset{iid}\sim N(0,\sigma^2)$$ 
+
+<br>
+
+for illustration.
+
 
 ## Residuals
 
 *Residuals* $y_{ij}-\widehat{y}_{ij}$ can be helpful in flagging outliers and in assessing the adequacy of a fitted model. The definition of residuals is not always consistent in the case of mixed effects or hierarchical models:
 
-  - Many texts define residuals as $Y_i-X_i\widehat{\beta}$
-  - Many software implementations define residuals as $Y_i-X_i\widehat{\beta}-Z_i\widehat{b}_i$
+  - Many texts define residuals for subject/group $i$ as $Y_i-X_i\widehat{\beta}$
+  - Many software implementations define residuals as $Y_i-X_i\widehat{\beta}-Z_i\widehat{b}_i$ (nice because these can then be analyzed using standard methods)
 
+## 
 
-Unclear what the resid command is giving us
+We'll run through the code to get some standard diagnostics (qq plot, RxP plot) as well as some visualizations that allow us to examine residuals by group/individual.
 
-```{r figureoutresid}
-coef(m1)
-# M01    18.95452 -1.032102 0.5605691   0.3048295
-fitted.values(m1)[1]
-#24.84561 
-t(c(18.95452,-1.032102,.5605691,.3048295))%*%c(1,1,8,8)
-#24.84561
-resid(m1)[1]
-#1.154392
-26-t(c(18.95452,-1.032102,.5605691,.3048295))%*%c(1,1,8,8)
-#1.154393
-# so the resid function gives the estimate of epsilon rather than the Zb+epsilon
-##plot leverage vs residuals
-ggplot(data.frame(lev=hatvalues(m1),pearson=residuals(m1,type="pearson")),
-      aes(x=lev,y=pearson)) +
-    geom_point() +
-    theme_bw()
-library(car)
-infIndexPlot(influence(m1,"Subject"))
-carinf=influence(m1,"Subject")
-
-### this is probably the better package to use
-library(influence.ME)
-cooks.distance(m1)
+```{r resid, eval=FALSE}
+library(lattice)
+library(lme4)
+data(Orthodont,package="nlme")
+Orthodont$Sex=relevel(Orthodont$Sex,ref="Female")
+m1=lmer(distance~Sex+age+age*Sex+(1+age|Subject),data=Orthodont)
+#basic qqplot
+qqmath(resid(m1))
 ```
 
+
+##
+
+```{r resid1b, echo=FALSE, warning=FALSE, message=FALSE, out.width="80%"}
+library(lattice)
+library(lme4)
+data(Orthodont,package="nlme")
+m1=lmer(distance~Sex+age+age*Sex+(1+age|Subject),data=Orthodont)
+#basic qqplot
+qqmath(resid(m1))
+```
+
+##
+
+```{r resid2, out.width="70%"}
+#standardized residuals y-Xbeta-Zb versus fitted values by gender
+#standardized by the estimate of sigma=sqrt(var(epsilon))
+plot(m1,resid(.,scaled=TRUE)~fitted(.)|Sex,abline=0)
+```
+
+##
+
+```{r resid3, out.width="70%"}
+## boxplots of residuals by Subject
+plot(m1, Subject ~ resid(., scaled=TRUE))
+```
+
+##
+
+```{r resid4, out.width="70%"}
+## observed versus fitted values by Subject
+## fitted value is X_ibeta+Z_ib_i
+plot(m1, distance ~ fitted(.) | Subject, abline = c(0,1))
+```
+
+##
+
+```{r resid5, out.width="70%"}
+## residuals by age, separated by Subject
+plot(m1, resid(., scaled=TRUE) ~ age | Sex, abline = 0)
+```
+
+##
+
+```{r resid6, out.width="70%",warning=FALSE}
+library(ggplot2)
+m1F <- fortify.merMod(m1)
+# plot of raw residuals, use .scresid for scaled
+ggplot(m1F, aes(age,.resid)) + geom_point(colour="blue") + facet_grid(.~Sex) +
+        geom_hline(yintercept=0)+geom_line(aes(group=Subject),alpha=0.4)+geom_smooth(method="loess")
+## (warnings about loess are due to having only 4 unique x values)
+```
+
+
+##
+
+Residual analysis is not always a great tool for detecting *influential* cases:
+
+  - Cases with high residuals or high standardized residuals are called *outliers*
+  - Outliers may or may not be influential in the model fit
+  - An influential case may dominate the regression model so that the line is drawn more closely towards the case (making it an *inlier*)
+  
+## Influence
+
+We hope that all data points have some amount of influence on our parameter estimates. However, we may be concerned if a single case has disproportionate influence on model results. If so, one observation or group of observations may pull the estimated regression line towards the group. In such a case, excluding a single group might have a substantial effect on estimates. This idea is behind the development of many popular influence diagnostics, often termed *deletion* diagnostics.
+
+
+  
+## Leverage
+
+The degree to which an observation has the *potential* to be influential is closely related to the *leverage* of the case, which is a measure of how extreme the case is in the $X$ space. 
+
+<br>
+
+Leverage is not simply defined as an outlying value in $X$ space of a single variable but also in a multivariate sense. For example, in a study of pregnancy outcomes, it may be relatively common to have mothers who are 40, or fathers who are 20, but babies who have a 40 year old mother and a 20 year old father may be fairly uncommon.
+
+##
+
+It is not necessarily the case that outliers or cases with high leverage are influential. So, how do we detect influential cases?
+
+<br>
+
+One popular approach is to use the principle that when a single case is removed from the data entirely, we would like for models based on the data not to give vastly different conclusions.
+
+<br>
+
+If parameter estimates change a lot after a single individual is excluded, then the individual may be considered influential.
+
+## Multi-Level Influence
+
+Mixed effects and multilevel models estimate effects of lower-level and higher-level variables. It is thus possible that in some cases a higher-level group is influential (more likely when you don't have very many groups), while in others, a single observation within a group is influential. We will examine influence at both levels.
+
+## DFBETAS
+
+*DFBETAS* measures the level of influence observations have on single parameter estimates. It is calculated as the difference in magnitude of the parameter estimate between the model including and the model excluding the group (or individual in a longitudinal study), standardized by dividing by the standard error of the estimate that excludes the group (to prevent variance inflation from masking the level of influence).  
+
+<br>
+
+For group $i$ and parameter $k$, 
+
+$$\text{DFBETAS}_{ik}=\frac{\widehat{\gamma}_k-\widehat{\gamma}_{k(-i)}}{se(\widehat{\gamma}_{k(-i)})},$$ where $\widehat{\gamma}_k$ is the original estimate of the $k$th parameter, and $\widehat{\gamma}_{k(-i)}$ is the estimate of the same parameter after group $i$ has been excluded from the data.
+
+##
+
+Belsley (1980) recommends a cutoff of $\frac{2}{\sqrt{n}}$ for identifying overly influential observations. Here $n$ is defined as the number of groups at the level of removal $(-i)$ for the calculation. (For the dental data we have 27 kids and 4 observations per kid, so at the group level $k=27$.)
+
+```{r dfbetas,eval=FALSE}
+library(influence.ME)
+m1.inf=influence(m1,"Subject")
+print(2/sqrt(length(unique(Orthodont$Subject))))
+dfbetas(m1.inf)
+```
+
+##
+
+```{r dfbetas2,echo=FALSE,warning=FALSE,message=FALSE}
+library(influence.ME)
+m1.inf=influence(m1,"Subject")
+print(2/sqrt(length(unique(Orthodont$Subject))))
+dfbetas(m1.inf)
+```
+
+Here we see that M04 and M13 are influential on some of our estimates. What did these kids look like?
+
+##
+
+
+
+
+```{r plotdfbetas}
+plot(m1.inf,which="dfbetas",xlab="DFBETAS",ylab="Student")
+
+```
+  
+##
+
+```{r m0413,out.width="45%",message=FALSE,warning=FALSE}
+Orthodont$distance[Orthodont$Subject=="M04"]
+Orthodont$distance[Orthodont$Subject=="M13"]
+plot(m1, distance ~ fitted(.) | Subject, abline = c(0,1))
+```
+
+
+##
+
+```{r reminder,echo=FALSE}
+Orthodont$distance[Orthodont$Subject=="M04"]
+Orthodont$distance[Orthodont$Subject=="M13"]
+
+
+```
+
+ID    Int   Fem   Age   AbyF 
+----- ----- ----- ----- -----
+M04   0.58  -0.38 -0.49 0.32 
+M13   -1.05 0.68  1.08  -0.70
+
+
+
+  - M04 had large measurements without a lot of growth over time -- pulling him out of the model reduced the intercept for boys and also decreased their slope.
+  
+  - M13 had a small measure at age 8 and then grew substantially. Leaving him out of the model changed the estimates significantly, greatly increasing the intercept for boys and also reducing the slope among boys.
+  
+
+##
+
+When the number of observations or predictors is large, it may take a while to wade through all the DFBETAS. *Cook's distance* is a summary measure for influence on all parameter estimates.  It is defined as
+
+$$C_i=\frac{1}{p}(\widehat{\gamma}-\widehat{\gamma}_{(-i)})'\widehat{\Sigma}_{(-i)}^{-1}(\widehat{\gamma}-\widehat{\gamma}_{(-i)})$$
+
+
+where $p$ is the length of $\beta$, and $\widehat{\Sigma}_{(-i)}$ is the covariance matrix of the parameter estimates excluding group $i$. Van der Meer et al (2010) recommends a cutoff of $\frac{4}{n}$ where again $n$ is the number of groups in the grouping factor being evaluated.
+
+If there is just one parameter in the model, then Cook's distance is the DFBETAS squared for that parameter.
+
+##
+
+```{r cd,eval=FALSE}
+print(4/length(unique(Orthodont$Subject)))
+cooks.distance(m1.inf,sort=TRUE)
+plot(m1.inf,which="cook",cutoff=4/length(unique(Orthodont$Subject)), 
+     sort=TRUE,xlab="Cook's D",ylab="Subject")
+```
+
+
+
+```{r cd2,echo=FALSE}
+print(4/length(unique(Orthodont$Subject)))
+cooks.distance(m1.inf,sort=TRUE)
+```
+
+##
+
+```{r cd3,echo=FALSE}
+plot(m1.inf,which="cook",cutoff=4/length(unique(Orthodont$Subject)), 
+     sort=TRUE,xlab="Cook's D",ylab="Subject")
+```
+
+It's M13 again.
+
+##
+
+Other metrics for evaluating influence include *percentile change* and *changes in significance*. 
+
+<br>
+
+*Percentile change* is defined as $$\frac{\widehat{\gamma}-\widehat{\gamma}_{(-i)}}{\widehat{\gamma}}\times 100%$$
+
+##
+
+```{r pchange}
+plot(m1.inf,which="pchange",xlab="%ile Change",ylab="Student")
+
+```
+
+No surprise here!
+
+##
+
+Another metric is evaluating whether excluding a group changes the statistical significance of any of the estimates in the model. The user sets the critical value, and estimates that did not exceed it but do so when the group is removed, or *vice versa*, are flagged.
+
+##
+
+```{r sigtest}
+#coding is a bit awkward here
+sigtest(m1.inf,test=-2)
+sigtest(m1.inf,test=2)
+```
+
+## Influence of Lower-Level Observations
+
+We can also look at the influence of single lower-level observations; they could be impactful in longitudinal data for example, when we have relatively few observations per individual. Note however that the computational complexity of these deletion diagnostics will be increased in this case.
+
+##
+
+Here we look at Cook's Distance for the dental data on the individual observation level.
+
+```{r cookindiv,eval=FALSE}
+m1.inf.indiv=influence(m1,obs=TRUE)
+m1.cook=cooks.distance(m1.inf.indiv)
+which(m1.cook>4/length(Orthodont$distance))
+```
+
+##
+
+```{r cookindiv2,echo=FALSE,message=FALSE,warning=FALSE}
+m1.inf.indiv=influence(m1,obs=TRUE)
+m1.cook=cooks.distance(m1.inf.indiv)
+infindiv=m1.cook>4/length(Orthodont$distance)
+data.frame(Orthodont$Subject,m1.cook,infindiv)
+
+```
+
+M13 once again!
+
+## Dealing with Influential Data
+
+What to do with influential data is a much harder problem. Reasonable strategies may include the following.
+
+  - Verify data recorded correctly
+  - Consider robust models
+  - Determine whether any lurking predictors should be added to the model
+  - Report results with and without overly influential results
+  
