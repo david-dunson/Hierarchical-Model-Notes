@@ -78,20 +78,20 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | October 4     | Lab: Help, I'm Behind! Hands-on Analysis and Q&A | Midsemester Grades Due (my deliverable)  |
 | October 7    | Fall break  |  |
 | October 9    |  Diagnostics and Influence Measures |  |
-| October 11    | Linear Mixed Effects Model for Longitudinal Data |   |
+| October 11    | Bayesian Linear Mixed Effects Model for Longitudinal Data |   |
 | October 14    | Lab: Longitudinal Data |   |
-| October 16    | Linear Mixed Effects Model for Longitudinal Data | Group Lab Reports |
+| October 16    | GLM | Group Lab Reports |
 | October 18    | Case Study Presentations |  Case Study 1 Due |
-| October 21    | Lab: Mixed Effects Models | Group Lab Reports  | 
-| October 23    | Case Study Presentations | |
-| October 25    | Case Study Presentations  |  | 
-| October 28    | Lab: Mixed Effects Models  | Assignment 3 Due; Group Lab Reports  | 
-| October 30    | Generalized Linear Models and Case Study 2 Introduction  |    |
+| October 21    | Case Study Presentations |   | 
+| October 23    | Case Study Presentations |  |
+| October 25    | Case Study Presentations, GLM  | Reproducibility Evaluations Due  | 
+| October 28    | Lab: Mixed Effects Models  | Assignment 3 Due  | 
+| October 30    | Generalized Linear Mixed Effects Models and Case Study 2 Introduction  |    |
 | November 1    | Generalized Linear Mixed Effects Models |  |
-| November 4    | Lab: Hierarchical Logistic Regression | Group Lab Reports  | 
-| November 6    | GLMM and Case Study 2 Introduced |  |
-| November 8    | GLMM in Practice  |  |
-| November 11   | Lab: Bayesian GLMM | Group Lab Reports  |
+| November 4    | Lab: Hierarchical Logistic Regression |   | 
+| November 6    | Application: Election Prediction; Non-Nested Random Effects | Group Lab Reports |
+| November 8    | Application: Election Prediction  |  |
+| November 11   | Lab: Election Prediction | Group Lab Reports  |
 | November 13   | Bayesian Estimation with Missing Data |  |
 | November 15   | Bayesian Estimation with Missing Data | Assignment 4 Due |
 | November 18   | Lab: Estimation with Missing Data | Group Lab Reports  |
