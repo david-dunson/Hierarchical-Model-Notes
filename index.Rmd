@@ -82,7 +82,7 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | October 14    | Lab: Longitudinal Data |   |
 | October 16    | GLM | Group Lab Reports |
 | October 18    | Case Study Presentations |  Case Study 1 Due |
-| October 21    | Case Study Presentations |   | 
+| October 21    | Lab |   | 
 | October 23    | Case Study Presentations |  |
 | October 25    | Case Study Presentations, GLM  | Reproducibility Evaluations Due  | 
 | October 28    | Lab: Mixed Effects Models  | Assignment 3 Due  | 
