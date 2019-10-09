@@ -54,7 +54,7 @@ Coming soon!
 
 # Labs
 
-[October 14: Child Growth in the Philippines](labs/lab4.html)
+[October 14: Child Growth in the Philippines](labs/lab3.html)
 
 
 
