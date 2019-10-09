@@ -2,30 +2,37 @@
 title: "Lab 3"
 ---
 
-### BIC in R
+### Child Growth
 
-Investigate how the BIC is calculated for mixed effects models in the R function lmer(). In particular, how does R calculate the number of parameters and sample size used to penalize the log-likelihood?  Provide a justification for the method R uses and discuss pros and cons of potential alternatives.
+In this lab, we consider data on growth of young children in the Philippines. These children were at high risk of stunting due to malnutrition (the Philippines is among the top (or bottom, depending on your point of view) 10 countries for stunting in children under 5). 
 
-### Hospital Rankings
+Your job is to explore factors related to height in children followed from birth to age 2. Variables in the data file available on Sakai, cebu.xlsx, include the following.
 
-For the next two labs, we will consider [data  from the Centers for Medicare and Medicaid Services on hospital costs and profit from the 2014 fiscal year](hc2014.RData). Our interest is in examining variability of net hospital income across states. 
+  - ID: unique child identifier
+  - VISIT: provides ordering of bimonthly height measurements (0=birth,...,12=last measurement around 2 years)
+  - AGE: exact age of the child (in months) at the time of the height measurement
+  - WEIGHT: weight of child (g): do not use this variable in your model
+  - HEIGHT: length or height of child (cm)
+  - BF: whether the mother was breastfeeding the child at the age of the height measurement (breastfeeding is related to child growth)
+  - MOMHTC: mother's height (cm), centered at 150cm (height has a strong genetic component)
+  - RURAL: 1 if lives in rural area, 0 otherwise (may be related to nutritional status of the child)
+  - MALE: 1 if male, 0 if female (may be related to size)
 
-One primary item of interest is the ranking of states by net income of hospitals. 
+Our interest is in examining child growth in this study.  All predictors (except weight and visit) should be considered as important potential explanatory factors that may influence height or the pattern of growth over time. Continuous variables like the child's age or mother's height may have nonlinear effects on height, so be sure to explore appropriate functional forms.
 
-It is important to control for the potential influence of hospital ownership (in the variable called control) and of the number of beds (a proxy for hospital size). The ownership categories include Voluntary Nonprofit-Church, Voluntary Nonprofit-Other, Proprietary-Individual, Proprietary-Corporation, Proprietary-Partnership, Proprietary-Other, Governmental-Federal, Governmental-City-County, Governmental-County, Governmental-State, Governmental-Hospital District, Governmental-City, and Governmental-Other.
+Prepare a written report that describes the factors related to growth of children over time.  Your report should include the following.
 
-Prepare a written report that describes the association between ownership type and income, as well as the association between the number of beds and income. Your report should also describe variability in net income across states and provide information about the ranking of states with respect to net income. Ranking information should include not only an estimated ranking but also some characterization of uncertainty. Your report should also include the following.
-
-1.  Clear specification of any models (using equations) used to explore the associations of interest
-2.  Clearly-labeled tables and graphical displays describing the data and communicating your findings
+1.  Clear specification of any models (using equations) used to explore the associations of interest, including prior distributions if applicable
+2.  Clearly-labeled tables and graphical displays describing the data and communicating your findings (graphs are especially important if some predictors are best modeled using splines, polynomials, or other nonlinear forms)
 3.  Uncertainty quantification around estimates of interest (no point estimates without uncertainty!)
-4.  Evidence of adequacy of model fit and evaluation of suitability of modeling assumptions
-5.  Clear description of results in language accessible to a general scientifically-savvy reader (e.g., someone reading a science article in the BBC or CNN apps)
-6.  Reproducible R code for your entire analysis (ideally a single .Rmd will produce your entire report)
+4.  Illustrative growth trajectories of a "typical child" as well as of children at roughly the 5th, 10th, 25th, 75th, 90th, and 95th %iles of height (please explain how you determined these percentiles in your report).
+5.  Evidence of adequacy of model fit and evaluation of suitability of modeling assumptions
+6.  Clear description of results in language accessible to a general scientifically-savvy reader (e.g., someone reading a science article in the BBC or CNN apps)
+7.  Reproducible R code for your entire analysis (ideally a single .Rmd will produce your entire report)
 
-This report is due by the beginning of class on Wednesday, September 18 via upload to Sakai (one submission per group).  The minimum font size is 11 point and maximum number of pages is 5.
+This report is due by the beginning of class on Friday, October 18 via upload to Sakai (one submission per group).  The minimum font size is 11 point and maximum number of pages is 6.
 
-Suggested strategy: on September 11, develop and fit a model involving just state effects, ignoring (for this week) potential effects of number of beds and ownership of the hospital. Obtain preliminary results on the rankings. Then in the following week's lab on September 16, incorporate those covariates into the model and explore how controlling for those covariates affects the state rankings.
+
 
  
 
