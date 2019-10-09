@@ -43,7 +43,8 @@ library(tidyverse)
 
 
 [Linear Mixed Effects Model](decks/lmm_01_deck.html)
-<!--- [Diagnostics for the Linear Mixed Effects Model](decks/lmm_02_deck.Rmd) --->
+
+[Diagnostics for the Linear Mixed Effects Model](decks/lmm_02_deck.html)
 
 
 
