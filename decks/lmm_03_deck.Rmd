@@ -1,31 +1,30 @@
 ---
 title: Bayesian Linear Mixed Effects Models
-output: beamer_presentation #NOTE THIS ACTUALLY WORKS FOR PDF
+#output: beamer_presentation #NOTE THIS ACTUALLY WORKS FOR PDF
 
-#output: 
+output: 
 
- # revealjs::revealjs_presentation:
-  #  theme: night
-   # highlight: espresso
-  #  center: true
-  #  transition: none
-  #  css: styles.css
-  #  fig_caption: true
-  #  reveal_options:
-  #    progress: true
-  #    slideNumber: true
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
       
   
 ---
 
 ## Bayesian Inference in the Linear Mixed Effects Model
 
-Recall our model is $${ Y}_i={X}_i\beta+{Z}_i{b}_i+\varepsilon_i,$$ 
-where ${b}_i \overset{iid}\sim N({0}, {D})$, $\varepsilon_i \overset{iid}{\sim} N(0, R_i)$, and $b_i \perp \varepsilon_i$.
 
-For purposes of prior specification, it will be convenient to express our model as $$Y_{ij}=X_{ij}\beta_i+\varepsilon_{ij}$$ with 
-$$\beta_i = \theta+\gamma_i$$
-Often we assume $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$, $\gamma_i \overset{iid}{\sim} N(0,\Sigma)$, and we often write $\beta_i \mid \theta \sim N(\theta, \Sigma)$.  The parameters $\theta$ are fixed effects and the parameters $\gamma_i$ are random effects.
+For purposes of prior specification, it will be convenient to express our model as $$Y_{ij}=X_{ij}\beta_i+\varepsilon_{ij} ,~~~~~~~ \beta_i = \theta+b_i$$
+Often we assume $\varepsilon_{ij} \overset{iid}{\sim} N(0,\sigma^2)$, $b_i \overset{iid}{\sim} N(0,D)$, and we often write $\beta_i \mid \theta \sim N(\theta, D)$.  The parameters $\theta$ are fixed effects and the parameters $b_i$ are random effects.
+
+Let $i=1,\ldots,m$ index groups, with group $i$ having $n_i$ observations.
 
 
 <!--- nice paper motivating separation of corr and vars in covariance modeling by meng and barnard  http://www3.stat.sinica.edu.tw/statistica/oldpdf/A10n416.pdf --->
@@ -37,7 +36,7 @@ A conditionally-conjugate prior specification is given by
 
 $\theta \sim N(\mu_0,\Lambda_0)$, 
 
-$\Sigma \sim\text{inverse-Wishart}(\eta_0, S_0^{-1})$, 
+$D \sim\text{inverse-Wishart}(\eta_0, S_0^{-1})$, 
 
 
 $\sigma^2 \sim \text{inverse-gamma}\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$
@@ -55,20 +54,20 @@ chosen for the variance $\sigma^2$
 
 ## 
 
-  - One complication is that the covariance $\Sigma$ must be {\em positive definite} and symmetric
+  - One complication is that the covariance $D$ must be *positive definite* and symmetric
 
-  - Ensures that the diagonal elements of $\Sigma$ (corresponding to the marginal variances $\sigma_l^2$) 
+  - Ensures that the diagonal elements of $D$ (corresponding to the marginal variances $d_l^2$) 
 are positive
 
   - Also, ensures that the correlation coefficients for each pair of variables are between -1 and 1.
 
-  - Prior for $\Sigma$ must assign probability one to set of positive definite matrices
+  - Prior for $D$ must assign probability one to set of positive definite matrices
   
 ## Intuition Behind the Wishart: Empirical Covariance Matrices
 
 The *sum of squares* matrix of a collection of multivariate vectors $z_1, \ldots, z_n$ is given by $\sum_{i=1}^n z_iz_i'=Z'Z,$ where $Z$ is the $n \times p$ matrix whose $i$th row is $z_i'$.  Note
 
-$$z_iz_i'=\begin{pmatrix} z_{i1}^2 & z_{i1}z_{i2} & \cdots & z_{i1}z_{ip} \\ z_{i2}z_{i1} & z_{i,2}^2 & \cdots & z_{i2}z_{ip} \\ \vdots & & & \vdots \\
+$$z_iz_i'=\begin{pmatrix} z_{i1}^2 & z_{i1}z_{i2} & \cdots & z_{i1}z_{ip} \\ z_{i2}z_{i1} & z_{i2}^2 & \cdots & z_{i2}z_{ip} \\ \vdots & & & \vdots \\
 z_{ip}z_{i1} & z_{ip}z_{i2} & \cdots & z_{ip}^2 \end{pmatrix}.$$
 
 ##
@@ -133,7 +132,7 @@ Using the prior specification
 
 $\theta \sim N(\mu_0,\Lambda_0)$, 
 
-$\Sigma \sim\text{inverse-Wishart}(\eta_0, S_0^{-1})$, and 
+$D \sim\text{inverse-Wishart}(\eta_0, S_0^{-1})$, and 
 
 
 $\sigma^2 \sim \text{inverse-gamma}\left(\frac{\nu_0}{2},\frac{\nu_0\sigma_0^2}{2}\right)$,
@@ -142,25 +141,25 @@ a simple Gibbs sampler can be used for posterior computation.
 
 ## 
 
-$$\beta_i \mid y_i, X_i, \theta, \Sigma, \sigma^2 \sim N(\mu_{\beta_i}, \Sigma_{\beta_i}),$$ where 
-$$\Sigma_{\beta_i}=\left(\Sigma^{-1}+\frac{X_i'X_i}{\sigma^2}\right)^{-1}$$ and
-$$\mu_{\beta_i}=\left(\Sigma^{-1}+\frac{X_i'X_i}{\sigma^2}\right)^{-1}\left(\Sigma^{-1}\theta+\frac{X_i'y_i}{\sigma^2}\right).$$
+$$\beta_i \mid y_i, X_i, \theta, D, \sigma^2 \sim N(\mu_{\beta_i}, \Sigma_{\beta_i}),$$ where 
+$$\Sigma_{\beta_i}=\left(D^{-1}+\frac{X_i'X_i}{\sigma^2}\right)^{-1}$$ and
+$$\mu_{\beta_i}=\left(D^{-1}+\frac{X_i'X_i}{\sigma^2}\right)^{-1}\left(D^{-1}\theta+\frac{X_i'y_i}{\sigma^2}\right).$$
 
 ##
 
-$$\theta \mid \beta_1, \ldots, \beta_m, \Sigma \sim N(\mu_\theta, \Lambda_\theta),$$ where 
-$\Lambda_\theta=\left(\Lambda_0^{-1}+m\Sigma^{-1}\right)^{-1}$, 
-$\mu_\theta = \Lambda_\theta\left(\Lambda_0^{-1}\mu_0+m\Sigma^{-1}\bar{\beta}\right)$, 
+$$\theta \mid \beta_1, \ldots, \beta_m, D \sim N(\mu_\theta, \Lambda_\theta),$$ where 
+$\Lambda_\theta=\left(\Lambda_0^{-1}+mD^{-1}\right)^{-1}$, 
+$\mu_\theta = \Lambda_\theta\left(\Lambda_0^{-1}\mu_0+mD^{-1}\bar{\beta}\right)$, 
 and $\bar{\beta}$ is the vector average $\frac{1}{m}\sum \beta_i$.
 
 
 ##
 
-$$\Sigma \mid \theta, \beta_1, \ldots, \beta_m \sim \text{inverse-Wishart}\left(\eta_0+m, \left[S_0+S_\theta\right]^{-1}\right),$$ where $$S_\theta=\sum_{j=1}^m (\beta_j-\theta)(\beta_j-\theta)'$$
+$$D \mid \theta, \beta_1, \ldots, \beta_m \sim \text{inverse-Wishart}\left(\eta_0+m, \left[S_0+S_\theta\right]^{-1}\right),$$ where $$S_\theta=\sum_{i=1}^m (\beta_i-\theta)(\beta_i-\theta)'$$
 
 <br>
 
-$$\sigma^2 \mid \beta_1, \ldots, \beta_m \sim \text{inverse-gamma}\left(\frac{\nu_0+\sum n_j}{2}, \frac{\nu_0\sigma_0^2+SSR}{2}\right),$$
+$$\sigma^2 \mid \beta_1, \ldots, \beta_m \sim \text{inverse-gamma}\left(\frac{\nu_0+\sum n_i}{2}, \frac{\nu_0\sigma_0^2+SSR}{2}\right),$$
 where $$SSR=\sum_{i=1}^m \sum_{j=1}^{n_i} (y_{ij}-x_{ij}\beta_i)^2.$$
 
 ## Motivation for Other Covariance Priors
@@ -185,7 +184,7 @@ For example, we may believe in advance that the regression coefficients for one 
 
 ##
 
-A popular alternative approach is to decompose the covariance matrix $\Sigma$ into a correlation matrix and a diagonal matrix of standard deviations:  $$\Sigma=\begin{pmatrix} \tau_{1} & 0 & \cdots & 0 \\ 0 & \tau_2 & \cdots & 0 \\ 0 & \vdots & \cdots & \vdots \\ 0 & \cdots & \cdots & \tau_m \end{pmatrix} \Omega \begin{pmatrix} \tau_{1} & 0 & \cdots & 0 \\ 0 & \tau_2 & \cdots & 0 \\ 0 & \vdots & \cdots & \vdots \\ 0 & \cdots & \cdots & \tau_m \end{pmatrix},$$ 
+A popular alternative approach is to decompose the covariance matrix $\Sigma$ into a correlation matrix and a diagonal matrix of standard deviations:  $$\Sigma=\begin{pmatrix} \tau_{1} & 0 & \cdots & 0 \\ 0 & \tau_2 & \cdots & 0 \\ 0 & \vdots & \cdots & \vdots \\ 0 & \cdots & \cdots & \tau_K \end{pmatrix} \Omega \begin{pmatrix} \tau_{1} & 0 & \cdots & 0 \\ 0 & \tau_2 & \cdots & 0 \\ 0 & \vdots & \cdots & \vdots \\ 0 & \cdots & \cdots & \tau_K \end{pmatrix},$$ 
 
 where $\tau_k=\sqrt{\Sigma_{k,k}}$ and $\Omega_{i,j}=\frac{\Sigma_{i,j}}{\tau_i\tau_j}$.
 
@@ -206,7 +205,7 @@ In this parameterization, any reasonable prior for scale parameters can be given
 
 A nice choice for the correlation matrix is the LKJ prior, which is like an extension of the beta distribution.  This prior is
 
-$$\text{LkjCorr}(\Omega \mid \eta) \propto \text{det}(\Omega)^{\eta-1},$$
+$$\text{LkjCorr}(\Omega \mid \eta) \propto |\Omega|^{\eta-1},$$
 
 which for $\eta=1$ is the joint uniform distribution (note the marginals here are not uniform but favor more mass around 0).  For $\eta>1$, the density concentrates increasing mass around the identiy (favoring lower correlation), and for $\eta<1$, mass is increasingly spread towards more extreme values.
 
@@ -216,7 +215,7 @@ Plot the LKJ density for a given correlation (unnormalized is ok) for a variety 
 
 <br>
 
-Big hint: you may find [this link](https://www.rdocumentation.org/packages/rethinking/versions/1.59/topics/dlkjcorr) quite useful along with [instructions for installing the rethinking package](http://xcelab.net/R/rethinking_package.pdf).1
+Big hint: you may find [this link](https://www.rdocumentation.org/packages/rethinking/versions/1.59/topics/dlkjcorr) quite useful along with [instructions for installing the rethinking package](http://xcelab.net/R/rethinking_package.pdf).
 
 
 
@@ -224,14 +223,14 @@ Big hint: you may find [this link](https://www.rdocumentation.org/packages/rethi
 
 We use an example from McElreath's book *Statistical Rethinking* about a coffee robot. While these are simulated data, they provide an interesting application as well as great code should you need to simulate hierarchical data in the future!
 
-Suppose we have a coffee-making robot that moves among cafe's to order coffee and record the wait time. The robot also records the time of the visit because the average wait time in the morning tends to be longer than in the afternoon due to the fact that the cafes are busier in the mornings. The robot learns more efficiently about wait times when it pools information across different cafes.
+Suppose we have a coffee-making robot that moves among cafe's to order coffee and record the wait time. The robot also records the time of day of the visit because the average wait time in the morning tends to be longer than in the afternoon due to the fact that the cafes are busier in the mornings. The robot learns more efficiently about wait times when it pools information across different cafes.
 
 ##
 
   - We can use varying intercepts to pool information across coffee shops
   - Coffee shops vary in average wait times due to a number of factors (e.g., barista skill, number of baristas)
   - Coffee shops also vary in differences between morning and afternoon
-  - Varying intercepts for cafes and slopes for the afternoon effect make for a reasonable model
+  - Varying intercepts for cafes and "slopes" for the afternoon effect make for a reasonable model
   - In this example we use a mixed model but ignore the longitudinal nature of the data, focusing on the cafe as a grouping factor
   
   
@@ -239,9 +238,9 @@ Suppose we have a coffee-making robot that moves among cafe's to order coffee an
   
 Model:  $$y_{ij}=\beta_{0,i}+\beta_{1,i}A_{ij}+\varepsilon_{ij}$$
 
-$$\beta_{0,i}=\alpha_0+b_{0,i} ~~~ \beta_{1,i}=\alpha_1+b_{1,i}$$
+$$\beta_{0,i}=\beta_0+b_{0,i} ~~~ \beta_{1,i}=\beta_1+b_{1,i}$$
 
-$$\varepsilon_i \overset{iid}\sim N(0,\sigma^2)~\perp~b_i \overset{iid}\sim N(0,D),~~~D=\begin{pmatrix} \tau_0 & 0 \\ 0 & \tau_1 \end{pmatrix}\Upsilon\begin{pmatrix} \tau_0 & 0 \\ 0 & \tau_1 \end{pmatrix}$$
+$$\varepsilon_i \overset{iid}\sim N(0,\sigma^2I)~\perp~b_i \overset{iid}\sim N(0,D),~~~D=\begin{pmatrix} \tau_0 & 0 \\ 0 & \tau_1 \end{pmatrix}\Upsilon\begin{pmatrix} \tau_0 & 0 \\ 0 & \tau_1 \end{pmatrix}$$
 
 Priors:
 

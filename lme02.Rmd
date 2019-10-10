@@ -46,7 +46,7 @@ library(tidyverse)
 
 [Diagnostics for the Linear Mixed Effects Model](decks/lmm_02_deck.html)
 
-
+[Bayesian Linear Mixed Effects Models](decks/lmm_03_deck.html)
 
 # Homework
 
