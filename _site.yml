@@ -15,7 +15,7 @@ navbar:
   - text: LMM
     href: lme02.html
   - text: GLMM
-  - text: Missing Data
+  - href: glmm03.html
 
 output:
   html_document:

@@ -223,7 +223,7 @@ Big hint: you may find [this link](https://www.rdocumentation.org/packages/rethi
 
 We use an example from McElreath's book *Statistical Rethinking* about a coffee robot. While these are simulated data, they provide an interesting application as well as great code should you need to simulate hierarchical data in the future!
 
-Suppose we have a coffee-making robot that moves among cafe's to order coffee and record the wait time. The robot also records the time of day of the visit because the average wait time in the morning tends to be longer than in the afternoon due to the fact that the cafes are busier in the mornings. The robot learns more efficiently about wait times when it pools information across different cafes.
+Suppose we have a coffee-making robot that moves among cafes to order coffee and record the wait time. The robot also records the time of day of the visit because the average wait time in the morning tends to be longer than in the afternoon due to the fact that the cafes are busier in the mornings. The robot learns more efficiently about wait times when it pools information across different cafes.
 
 ##
 
@@ -517,7 +517,7 @@ Note shrinkage is toward the center of the ellipse.
 
 ```{r genfigures, echo=FALSE,warning=FALSE,message=FALSE,cache=TRUE}
 partially_pooled_params <-
-  # with this line we select each of the 20 cafe's posterior mean (i.e., Estimate)
+  # with this line we select each of the 20 cafes posterior mean (i.e., Estimate)
   # for both `Intercept` and `afternoon`
   coef(b13.1)$cafe[ , 1, 1:2] %>%
   as_tibble() %>%               # convert the two vectors to a tibble

@@ -80,12 +80,12 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | October 9    |  Diagnostics and Influence Measures |  |
 | October 11    | Bayesian Linear Mixed Effects Model for Longitudinal Data |   |
 | October 14    | Lab: Longitudinal Data |   |
-| October 16    | GLM | Group Lab Reports; HW3 Released |
+| October 16    | Generalized Linear Mixed Effects Models | Group Lab Reports; HW3 Released |
 | October 18    | Case Study Presentations |  Case Study 1 Due |
 | October 21    | Lab |   | 
 | October 23    | Case Study Presentations |  |
 | October 25    | Case Study Presentations, GLM  | Reproducibility Evaluations Due  | 
-| October 28    | Lab: Mixed Effects Models  | Assignment 3 Due  | 
+| October 28    | Lab | Assignment 3 Due  | 
 | October 30    | Generalized Linear Mixed Effects Models and Case Study 2 Introduction  |    |
 | November 1    | Generalized Linear Mixed Effects Models |  |
 | November 4    | Lab: Hierarchical Logistic Regression |   | 
