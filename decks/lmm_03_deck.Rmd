@@ -240,7 +240,7 @@ Model:  $$y_{ij}=\beta_{0,i}+\beta_{1,i}A_{ij}+\varepsilon_{ij}$$
 
 $$\beta_{0,i}=\beta_0+b_{0,i} ~~~ \beta_{1,i}=\beta_1+b_{1,i}$$
 
-$$\varepsilon_i \overset{iid}\sim N(0,\sigma^2I)~\perp~b_i \overset{iid}\sim N(0,D),~~~D=\begin{pmatrix} \tau_0 & 0 \\ 0 & \tau_1 \end{pmatrix}\Upsilon\begin{pmatrix} \tau_0 & 0 \\ 0 & \tau_1 \end{pmatrix}$$
+$$\varepsilon_i \overset{iid}\sim N(0,\sigma^2I)~~\perp~~b_i \overset{iid}\sim N(0,D),~~~D=\begin{pmatrix} \tau_0 & 0 \\ 0 & \tau_1 \end{pmatrix}\Upsilon\begin{pmatrix} \tau_0 & 0 \\ 0 & \tau_1 \end{pmatrix}$$
 
 Priors:
 

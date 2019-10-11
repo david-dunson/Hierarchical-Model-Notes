@@ -35,9 +35,6 @@ library(tidyverse)
 
 [George et al paper](https://arxiv.org/pdf/1510.00842v2.pdf)
 
-[Hospital data](https://github.com/donnemartin/hospital-quality)
-
-[More on hospital compare data](https://rpubs.com/D_Cypher/BestHospitals)
 
 # Slides
 
