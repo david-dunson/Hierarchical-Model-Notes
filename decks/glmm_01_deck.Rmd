@@ -1,0 +1,733 @@
+---
+title: Generalized Linear Mixed Effects Models
+#output: beamer_presentation #NOTE THIS ACTUALLY WORKS FOR PDF
+
+output: 
+
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Generalized Linear Mixed Effects Model (GLMM)
+
+We now discuss the incorporation of random effects into generalized linear models.  The basic idea is that we assume there is natural heterogeneity across groups in a subset of the regression coefficients.  These coefficients are assumed to vary across groups according to some distribution.
+
+<br> 
+
+Conditional on the random effects, we assume the responses for a single subject are independent observations from a distribution in the exponential family.
+
+##
+
+In the GLMM, we assume the conditional distribution of each $Y_{ij}$, conditional on ${\bf b}_i$, belongs to the exponential family with conditional mean $$g(E[Y_{ij} \mid {\bf b}_i])={\bf X}_{ij}'\boldsymbol{\beta}+{\bf Z}_{ij}'{\bf b}_i,$$ where $g(\cdot)$ is a known link function.
+
+Assume the ${\bf b}_i$ are independent across subjects with ${\bf b}_i \sim N({\bf 0}, {\bf D})$.  We also assume that given ${\bf b}_i$, the responses $Y_{i1}, \ldots, Y_{in}$ are mutually independent.
+
+## Example: Multilevel Linear Regression
+
+$$Y_{ij}={\bf X}_{ij}'\boldsymbol{\beta}+b_i + \varepsilon_{ij},$$ where $b_i\overset{iid}\sim N(0,\sigma_b^2) \perp \varepsilon_{ij} \overset{iid}\sim N(0,\sigma_e^2)$
+
+and $E(Y_{ij} \mid b_i)={\bf X}_{ij}'\boldsymbol{\beta}+b_i$
+
+## Example: Multilevel logistic model with random intercepts
+
+$$\text{logit}(E(Y_{ij} \mid b_i))={\bf X}_{ij}'\boldsymbol{\beta}+b_i,$$ where $b_i\sim N(0,\sigma^2)$
+
+<br>
+
+Question:  what happened to $\varepsilon_{ij}$?
+
+
+## Example: Random coefficients Poisson regression
+
+$$\log(E(Y_{ij} \mid {\bf b}_i))={\bf X}_{ij}'\boldsymbol{\beta}+{\bf Z}_{ij}'{\bf b}_i,$$ with ${\bf X}_{ij}={\bf Z}_{ij}=[1,t_{ij}]$ (random slopes and intercepts) and ${\bf b}_i \sim N({\bf 0}, {\bf D})$.
+
+
+## Interpretation of GLMM Estimates
+
+In the model $$\text{logit}(E[Y_{ij} \mid b_i])={\bf X}_{ij}'\boldsymbol{\beta}+b_i,$$ with $b_i \sim N(0,\sigma^2)$, each element of $\boldsymbol{\beta}$ measures the change in the log odds of a 'positive' response per unit change in the respective covariate, in a specific group that has an underlying propensity to respond positively given by $b_i$.
+
+<br>
+
+That is, we need to hold the group membership constant when interpreting $\beta_k$, just as we would hold the values of $\bf{x}_{i,(-k)}$ constant when interpreting $\beta_k$
+
+##
+
+Note also that with a non-linear link function, a non-linear contrast of the
+averages is not equal to the average of non-linear contrasts, so that
+the parameters do not in general have population-average interpretations (as
+they would in a linear mixed effects model, which has identity link).  So
+while in the lmm $$g(E(Y_{ij} \mid {\bf X}_{ij}, {\bf b}_i))={\bf X}_{ij}'\boldsymbol{\beta}+{\bf Z}_{ij}'{\bf b}_i$$ so that $E(Y_{ij} \mid {\bf X}_{ij})={\bf X}_{ij}'\boldsymbol{\beta}$, when $g(\cdot)$ is non-linear (say the logit), then $$g(E(Y_{ij} \mid {\bf X}_{ij}))\neq {\bf X}_{ij}'\boldsymbol{\beta}$$ for all $\boldsymbol{\beta}$ when averaged over the distribution of the random effects.
+
+## Estimation using ML
+
+The joint probability density function is given by $$f({\bf Y}_i \mid {\bf X}_i, {\bf b}_i)f({\bf b}_i).$$  However, recall that the ${\bf b}_i$ are unobserved.  How then do we handle the ${\bf b}_i$ in the maximization? 
+
+<br>
+
+Typically, we base frequentist inferences on the marginal (integrated) likelihood function, given by $$\prod_{i=1}^N \int f({\bf Y}_i \mid {\bf X}_i, {\bf b}_i)f({\bf b}_i) d{\bf b}_i.$$  Estimation using maximum likelihood involves a two-step procedure.
+
+## ML Estimation Steps
+
+
+  - Obtain ML estimates of $\boldsymbol{\beta}$ and ${\bf D}$ based on the marginal likelihood of the data.  While this may sound simple, numerical or Monte Carlo integration techniques are typically required, and the techniques used may have substantial impacts on resulting inferences.
+
+  - Given estimates of $\boldsymbol{\beta}$ and ${\bf D}$, predict the random effects as $$\widehat{{\bf b}}_i=E({\bf b}_i \mid {\bf Y}_i, \widehat{\boldsymbol{\beta}}, \widehat{{\bf D}}).$$  Again, simple analytic solutions are rarely available.
+
+
+<br>
+
+Even when the burden of integration is not that great, the optimization problem may be difficult to solve.
+
+## Random Effects Logistic Regression
+
+The National Institute of Mental Health (NIMH) conducted a study of three active treatments versus placebo among individuals with schizophrenia.  Schizophrenia is a complex mental disorder that makes it difficult to tell the difference between real and unreal experiences, to think logically, to have normal emotional responses, and to behave normally in social situations.
+
+[This Institute is the evil NIMH from the kids' book and movie!](https://en.wikipedia.org/wiki/Mrs._Frisby_and_the_Rats_of_NIMH) ![movie](figures/nimh.jpg){width='30%'}
+
+##
+
+Our data combine all three active treatment groups. The outcome is coded 1-4, with 1 indicating normal mental health and increasing numbers indicating more severe illness.
+
+Measures were taken weekly at baseline at three planned follow-up visits, though there was some variation in timing of the follow-up as shown below.
+
+|Group           | Week 0 | Week 1 | Week 2 | Week 3 | Week 4 | Week 5 | Week 6 | 
+| ----------  | --- | --- | --- | --- | --- |  --- | --- |
+| Placebo | 107 | 105 | 5 | 87 | 2 | 2 | 70 |
+| Active Tx | 327 | 321 | 9 | 287 | 9 | 7 | 265 |
+
+Note there is significant loss to follow-up, with 65% of those on placebo completing the study and 81% of those on treatment completing the study. We will return to the issue of missing data -- this could be problematic (maybe those on placebo are more likely to drop out due to feeling they are not improving).
+
+##
+
+The question of interest in the study is whether the response trajectory on active treatment differs from that on placebo.
+
+  - Let $t_j$ denote the square-root transformed week
+  - Let $x_i$ take value 1 if the participant is on active treatment and 0 otherwise (treatment is fixed for the duration of the study)
+  - Let $Y_{ij}$ take value 1 if the symptom severity is moderately ill or worse and take value 0 otherwise (levels 3 and 4 of the outcome)
+  
+We consider the model 
+
+$$\text{logit}(Pr(Y_{ij}=1))=\beta_0+\beta_1x_i+\beta_2t_j+\beta_3x_it_j+b_i$$
+
+##
+
+$$\text{logit}(Pr(Y_{ij}=1))=\beta_0+\beta_1x_i+\beta_2t_j+\beta_3x_it_j+b_i$$
+
+  - $\beta_0$ is the log odds of response for a 'typical' sybject ($b_i=0$) at baseline on placebo 
+  - $\beta_1$ is the log odds ratio (OR) associated with a unit change in $x_i$ for a given subject at baseline (same $b_i$ value); it tells us about how a subject's response probability changes if the value of $x_i$ were to change (this is a randomized study, so $\beta_1$ should be close to zero)
+  - $\beta_2$ is the log OR describing the time trend of symptoms for those on placebo
+  - $\beta_3$ gets at the real treatment effect here; it tells us how the log OR over time differs for those on treatment versus those on placebo
+  - $\text{Var}(b_i)$ tells us about the degree of heterogeneity across subjects in the population that is not attributable to covariates
+
+## Estimation
+
+ML estimation is carried out typically using adaptive Gaussian quadrature. To improve accuracy over many package defaults (Laplace approximation), increase the number of quadrature points to be greater than one. Noe that some software require Laplace approximation with Gaussian quadrature if the number of random effects is more than 1 for the sake of computational efficiency.
+
+##
+
+
+```{r schiz1,warning=FALSE,message=FALSE}
+library(lme4)
+schiz=read.table(file='schiz.txt',header=T)
+schiz$threefour=as.numeric(schiz$Y>2) #worst two categories
+schiz$sqrtwk=sqrt(schiz$WK) #recommended by researchers
+m1=glmer(threefour~TX+sqrtwk+TX*sqrtwk+(1|ID),family=binomial,data=schiz,nAGQ=50) #default nAGQ=1 is Laplace approx
+schiz$slopeplac=schiz$sqrtwk*(1-schiz$TX)
+schiz$slopetx=schiz$sqrtwk*schiz$TX
+m2=glmer(threefour~TX+slopeplac+slopetx+(1|ID),family=binomial,data=schiz,nAGQ=50) #get slopes by trt
+
+```
+
+##
+
+```{r schiz2}
+summary(m1)
+```
+
+##
+
+```{r schiz3}
+summary(m2)
+```
+
+## Interpreting Results
+
+  - Because the interaction term is significantly different from zero, we can say that for any given individual, active treatment is associated with lower odds of moderate to severe symptoms over time.
+  - Because the main effect term for square root of week is significantly different from zero, we can say that placebo patients also saw a decline in symptoms over time.
+  - In particular, for a given participant on treatment, an increase in 1 of square root of week (say, from week 0 to week 1), is associated with odds of having moderate to severe symptoms that are only $\text{exp}(-2.2674)=0.10~~~~~~$ $(e^{-2.2674-1.96(0.1608)},e^{-2.2674+1.1(*0.1608)})$=(0.08,0.14) times the odds of symptoms before. The corresponding odds ratio for placebo patients is 0.30 (0.20, 0.45).
+
+
+##
+
+How do we characterize the size of the random effects variance $\sigma^2$?  
+
+$\text{logit}(Pr(Y_{ij}=1))={\bf X}_{ij}'\boldsymbol{\beta}+b_i,$ where $b_i\sim N(0,\sigma^2)$
+
+<br>
+
+Suppose ${\bf X}_{ij}'\boldsymbol{\beta}=0$.  
+
+  - If $\sigma^2=1$, then a subject with $b_i=0$ ('typical' subject) has $Pr(Y=1)=\frac{\exp(0)}{1+\exp(0)}=0.5$.  
+  - A subject with $b_i$ one standard deviation above the mean would have $Pr(Y=1)=\frac{\exp(1)}{1+\exp(1)}=0.73$
+  - A subject with $b_i$ one standard deviation below the mean would have $Pr(Y=1)=\frac{\exp(-1)}{1+\exp(-1)}=0.27$.  
+
+
+
+So $\sigma^2=1$ gives us large variation across subjects.
+
+## Intraclass Correlation
+
+Consider an unobserved continuous variable $W_{ij}$.  $W_{ij}$ is related to $Y_{ij}$ in the following manner: $Y_{ij}=1$ if $W_{ij}<c$, and $Y_{ij}=0$  otherwise.
+
+<br>
+
+The location of $c$ and the distribution of $W$ govern the probability that $Y=1$.
+
+##
+
+Useful way of thinking about model but not an essential assumption:
+$$W_{ij}= {\bf X}_{ij}'\boldsymbol{\beta}+b_i+\varepsilon_{ij} $$
+
+  - $\varepsilon_{ij} \sim N(0,1)$:  probit regression
+  - $\varepsilon_{ij} \sim$ standard logistic (mean 0, variance $\frac{\pi^2}{3}$):  logistic regression
+
+<br>
+
+We can use this framework to calculate ICC's:
+  
+  - $ICC=\frac{\sigma^2}{\sigma^2+1} ~~~ \text{for probit}$
+  
+  - $ICC=\frac{\sigma^2}{\sigma^2+\frac{\pi^2}{3}} ~~~ \text{for logistic}$
+
+<br>
+
+What is the ICC in the schizophrenia data?
+
+
+##
+
+
+We next will consider time trends for a variety of subjects in the study, starting with a typical ($b_i=0$) subject.
+
+```{r trendb0,eval=FALSE}
+timevec=seq(0,sqrt(6),by=.1); t2=timevec*timevec;
+plotnull=rep(0,length(t2))
+predplac0=fixef(m1)[1]+fixef(m1)[3]*timevec
+predtrt0=fixef(m1)[1]+fixef(m1)[2]+(fixef(m1)[3]+fixef(m1)[4])*timevec
+probplac0=exp(predplac0)/(1+exp(predplac0))
+probtrt0=exp(predtrt0)/(1+exp(predtrt0))
+par(mfrow=c(1,3))
+
+plot(timevec,plotnull,type='n',ylim=c(-2.2,.5),xlab='Sqrt(Weeks)',ylab='Logit',main='Typical subject')
+lines(timevec,predplac0,col=2)
+lines(timevec,predtrt0,col=3)
+
+
+plot(timevec,plotnull,type='n',ylim=c(0,1),xlab='Sqrt(Weeks)',
+  ylab='Probability',main='Typical subject')
+lines(timevec,probplac0,col=2)
+lines(timevec,probtrt0,col=3)
+
+plot(t2,plotnull,type='n',ylim=c(0,1),xlab='Weeks',
+  ylab='Probability',main='Typical subject')
+lines(t2,probplac0,col=2)
+lines(t2,probtrt0,col=3)
+
+
+```
+
+##
+ Red: placebo and green: treatment
+ 
+```{r trendb0b,echo=FALSE}
+timevec=seq(0,sqrt(6),by=.1); t2=timevec*timevec;
+plotnull=rep(0,length(t2))
+predplac0=fixef(m1)[1]+fixef(m1)[3]*timevec
+predtrt0=fixef(m1)[1]+fixef(m1)[2]+(fixef(m1)[3]+fixef(m1)[4])*timevec
+probplac0=exp(predplac0)/(1+exp(predplac0))
+probtrt0=exp(predtrt0)/(1+exp(predtrt0))
+
+par(mfrow=c(1,3))
+
+
+plot(timevec,predplac0,type='n',ylim=c(-4,4),xlab='Sqrt(Weeks)',ylab='Logit',main='Typical subject')
+lines(timevec,predplac0,col=2)
+lines(timevec,predtrt0,col=3)
+
+plot(timevec,plotnull,type='n',ylim=c(0,1),xlab='Sqrt(Weeks)',
+  ylab='Probability',main='Typical subject')
+lines(timevec,probplac0,col=2)
+lines(timevec,probtrt0,col=3)
+legend(0,2,c('Plac','Trt'),col=c(2,3),lty=c(1,1)) 
+
+plot(t2,plotnull,type='n',ylim=c(0,1),xlab='Weeks',
+  ylab='Probability',main='Typical subject')
+lines(t2,probplac0,col=2)
+lines(t2,probtrt0,col=3)
+legend(3,6,c('Plac','Trt'),col=c(2,3),lty=c(1,1)) 
+
+
+```
+
+##
+
+Now let's look at a subject with $b_i$ 1 SD above the mean and a subject with $b_i$ 1 SD below the mean.
+
+```{r trendb1sd,eval=FALSE}
+predplac1up=fixef(m1)[1]+fixef(m1)[3]*timevec+sqrt(VarCorr(m1)$ID[,1])
+predtrt1up=fixef(m1)[1]+fixef(m1)[2]+(fixef(m1)[3]+fixef(m1)[4])*timevec+sqrt(VarCorr(m1)$ID[,1])
+probplac1up=exp(predplac1up)/(1+exp(predplac1up))
+probtrt1up=exp(predtrt1up)/(1+exp(predtrt1up))
+
+predplac1dn=fixef(m1)[1]+fixef(m1)[3]*timevec-sqrt(VarCorr(m1)$ID[,1])
+predtrt1dn=fixef(m1)[1]+fixef(m1)[2]+(fixef(m1)[3]+fixef(m1)[4])*timevec-sqrt(VarCorr(m1)$ID[,1])
+probplac1dn=exp(predplac1dn)/(1+exp(predplac1dn))
+probtrt1dn=exp(predtrt1dn)/(1+exp(predtrt1dn))
+
+par(mfrow=c(1,2))
+
+
+plot(timevec,predplac1up,type='n',ylim=c(0,1),xlab='Sqrt(Weeks)',ylab='Probability',main='1SD Above Mean')
+lines(timevec,probplac1up,col=2)
+lines(timevec,probtrt1up,col=3)
+
+plot(timevec,plotnull,type='n',ylim=c(0,1),xlab='Sqrt(Weeks)',
+  ylab='Probability',main='1 SD Below Mean')
+lines(timevec,probplac1dn,col=2)
+lines(timevec,probtrt1dn,col=3)
+legend(0,2,c('Plac','Trt'),col=c(2,3),lty=c(1,1)) 
+```
+
+##
+
+
+```{r trendb1sdb,echo=FALSE,message=FALSE,warning=FALSE}
+predplac1up=fixef(m1)[1]+fixef(m1)[3]*timevec+sqrt(VarCorr(m1)$ID[,1])
+predtrt1up=fixef(m1)[1]+fixef(m1)[2]+(fixef(m1)[3]+fixef(m1)[4])*timevec+sqrt(VarCorr(m1)$ID[,1])
+probplac1up=exp(predplac1up)/(1+exp(predplac1up))
+probtrt1up=exp(predtrt1up)/(1+exp(predtrt1up))
+
+predplac1dn=fixef(m1)[1]+fixef(m1)[3]*timevec-sqrt(VarCorr(m1)$ID[,1])
+predtrt1dn=fixef(m1)[1]+fixef(m1)[2]+(fixef(m1)[3]+fixef(m1)[4])*timevec-sqrt(VarCorr(m1)$ID[,1])
+probplac1dn=exp(predplac1dn)/(1+exp(predplac1dn))
+probtrt1dn=exp(predtrt1dn)/(1+exp(predtrt1dn))
+
+par(mfrow=c(1,2))
+
+
+plot(timevec,predplac1up,type='n',ylim=c(0,1),xlab='Sqrt(Weeks)',ylab='Probability',main='1SD Above Mean')
+lines(timevec,probplac1up,col=2)
+lines(timevec,probtrt1up,col=3)
+
+plot(timevec,plotnull,type='n',ylim=c(0,1),xlab='Sqrt(Weeks)',
+  ylab='Probability',main='1 SD Below Mean')
+lines(timevec,probplac1dn,col=2)
+lines(timevec,probtrt1dn,col=3)
+legend(0,2,c('Plac','Trt'),col=c(2,3),lty=c(1,1)) 
+```
+
+##
+
+With multiple random effects, the glmer function forces us to use Laplace approximation (e.g., 1 quadrature point). I tweaked the optimizer a bit to get convergence here - you can read more about the [BOBYQA](https://en.wikipedia.org/wiki/BOBYQA) optimizer at your leisure.
+
+```{r schizb1,eval=FALSE}
+
+m2=glmer(threefour~TX+sqrtwk+TX*sqrtwk+(1+sqrtwk|ID),family=binomial,
+         control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)),data=schiz)
+summary(m2)
+```
+
+##
+
+How do we interpret the output of this model?
+
+```{r schizb1b,echo=FALSE}
+
+m2=glmer(threefour~TX+sqrtwk+TX*sqrtwk+(1+sqrtwk|ID),family=binomial,
+         control=glmerControl(optimizer="bobyqa", optCtrl=list(maxfun=2e5)),data=schiz)
+summary(m2)
+```
+
+## Case Study: Berkeley Admissions 
+
+In fall 1973, the University of California, Berkeley’s graduate division admitted 44% of male applicants and 35% of female applicants. School administrators were concerned about the potential for bias (and lawsuits!) and asked statistics professor Peter Bickel to examine the data more carefully.
+
+<br>
+
+We have a subset of the admissions data for 6 departments. 
+
+##
+
+```{r loaddata}
+library(rethinking)
+data(UCBadmit)
+d <- UCBadmit
+detach(package:rethinking,unload=T)
+library(tidyverse)
+library(brms)
+d <-
+  d%>%
+  mutate(male=ifelse(applicant.gender=="male",1,0),
+         dept_id = rep(1:6, each = 2))
+d$successrate=d$admit/d$applications
+sum(d$admit[d$male==1])/sum(d$applications[d$male==1])
+sum(d$admit[d$male==0])/sum(d$applications[d$male==0])
+```
+
+We see in this subset of departments that roughly 45% of male applicants were admitted, while only 30% of female applicants were admitted.
+
+##
+
+Because admissions decisions for graduate school are made on a departmental level (not at the school level), it makes sense to examine results of applications by department.
+
+```{r explore}
+d[,c(1,2,3,4,7)]
+```
+
+Hmm, what's going on here?
+
+##
+
+Following McElreath's analysis in *Statistical Rethinking*, we start fitting a simple logistic regression model and examine diagnostic measures.
+
+The model for department $i$ and gender $j$ with $n_{admit,ij}$ of $n_{ij}$ applicants admitted is given as:
+
+$n_{admit,ij} \sim \text{Binomial}(n_{ij},p_{ij})~~~$
+$\text{logit}(p_{ij})=\alpha+\beta\text{male}_{j}$
+$\alpha \sim N(0,10)$ and $\beta \sim N(0,1)$
+
+##
+
+```{r logreg,cache=TRUE,message=FALSE}
+adm1 <-
+  brm(data = d, family = binomial,
+      admit | trials(applications) ~ 1 + male ,
+      prior = c(prior(normal(0, 10), class = Intercept),
+                prior(normal(0, 1), class = b)),
+      iter = 2500, warmup = 500, cores = 2, chains = 2,
+      seed = 10)
+summary(adm1)
+```
+
+Here it appears male applicants have $e^{0.61}=1.8$ (95% credible interval (1.6, 2.1)) times the odds of admission as female applicants.
+
+##
+
+We can also put this on the probability scale.
+
+```{r probscale,cache=TRUE}
+post <- posterior_samples(adm1)
+
+post %>%
+  mutate(p_admit_male   = inv_logit_scaled(b_Intercept + b_male),
+         p_admit_female = inv_logit_scaled(b_Intercept),
+         diff_admit     = p_admit_male - p_admit_female) %>%
+  summarise(`2.5%`  = quantile(diff_admit, probs = .025),
+            `50%`   = median(diff_admit),
+            `97.5%` = quantile(diff_admit, probs = .975))
+```
+
+Overall it appears the median probability of admission was 14 percentage points higher for males.
+
+## Model Checking
+
+Here we take some posterior predictions and plot against the observed proportions in the data. 
+
+```{r modcheck,eval=FALSE}
+library(wesanderson)
+library(dutchmasters)
+library(ggplot2)
+d <-
+  d %>%
+  mutate(case = factor(1:12))
+
+p <- 
+  predict(adm1) %>% 
+  as_tibble() %>% 
+  bind_cols(d)
+
+d_text <-
+  d %>%
+  group_by(dept) %>%
+  summarise(case  = mean(as.numeric(case)),
+            admit = mean(admit / applications) + .05)
+
+ggplot(data = d, aes(x = case, y = admit / applications)) +
+  geom_pointrange(data = p, 
+                  aes(y    = Estimate / applications,
+                      ymin = Q2.5     / applications ,
+                      ymax = Q97.5    / applications),
+                  color = wes_palette("Moonrise2")[1],
+                  shape = 1, alpha = 1/3) +
+  geom_point(color = wes_palette("Moonrise2")[2]) +
+  geom_line(aes(group = dept),
+            color = wes_palette("Moonrise2")[2]) +
+  geom_text(data = d_text,
+            aes(y = admit, label = dept),
+            color = wes_palette("Moonrise2")[2],
+            family = "serif") +
+  coord_cartesian(ylim = 0:1) +
+  labs(y     = "Proportion admitted",
+       title = "Posterior validation check") +
+  theme(axis.ticks.x = element_blank())
+
+```
+
+##
+
+
+```{r modcheck2,echo=FALSE,out.width="60%"}
+library(wesanderson)
+library(dutchmasters)
+library(ggplot2)
+d <-
+  d %>%
+  mutate(case = factor(1:12))
+
+p <- 
+  predict(adm1) %>% 
+  as_tibble() %>% 
+  bind_cols(d)
+
+d_text <-
+  d %>%
+  group_by(dept) %>%
+  summarise(case  = mean(as.numeric(case)),
+            admit = mean(admit / applications) + .05)
+
+ggplot(data = d, aes(x = case, y = admit / applications)) +
+  geom_pointrange(data = p, 
+                  aes(y    = Estimate / applications,
+                      ymin = Q2.5     / applications ,
+                      ymax = Q97.5    / applications),
+                  color = wes_palette("Moonrise2")[1],
+                  shape = 1, alpha = 1/3) +
+  geom_point(color = wes_palette("Moonrise2")[2]) +
+  geom_line(aes(group = dept),
+            color = wes_palette("Moonrise2")[2]) +
+  geom_text(data = d_text,
+            aes(y = admit, label = dept),
+            color = wes_palette("Moonrise2")[2],
+            family = "serif") +
+  coord_cartesian(ylim = 0:1) +
+  labs(y     = "Proportion admitted",
+       title = "Posterior validation check") +
+  theme(axis.ticks.x = element_blank())
+
+```
+
+The orange lines connect observed proportions admitted in each department (odd numbers indicate males; even females). The grey circles indicate point and interval estimates of the model-predicted proportion admitted. Clearly the model fits the data poorly.
+
+## Varying Intercepts
+
+Based on the plot, we have some big departmental differences. Let's specify department as a random effect in the model.
+
+
+$n_{admit,ij} \sim \text{Binomial}(n_{ij},p_{ij})~~~$
+$\text{logit}(p_{ij})=\alpha_{0i}+\beta\text{male}_{j}$
+$\alpha_{0i} \sim N(\alpha,\sigma) ~~~ \sigma \sim \text{HalfCauchy}(0,1)$
+$\alpha \sim N(0,10)$ and $\beta \sim N(0,1)$
+
+##
+
+```{r admrint,eval=FALSE}
+adm2 <- 
+  brm(data = d, family = binomial,
+      admit | trials(applications) ~ 1 + male + (1 | dept_id),
+      prior = c(prior(normal(0, 10), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(cauchy(0, 1), class = sd)),
+      iter = 4500, warmup = 500, chains = 3, cores = 3,
+      seed = 13,
+      control = list(adapt_delta = 0.99))
+```
+
+
+##
+
+
+```{r admrint2,echo=FALSE,cache=TRUE}
+adm2 <- 
+  brm(data = d, family = binomial,
+      admit | trials(applications) ~ 1 + male + (1 | dept_id),
+      prior = c(prior(normal(0, 10), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(cauchy(0, 1), class = sd)),
+      iter = 4500, warmup = 500, chains = 3, cores = 3,
+      seed = 13,
+      control = list(adapt_delta = 0.99))
+adm2$fit #will give estimates of alpha, beta, sigma, b_{0i}=\alpha_{0i}-\alpha
+```
+
+In this model we see no evidence of a difference in admissions probabilities by gender though we do see big departmental variability. 
+
+##
+
+Let's evaluate whether we need a random effect for gender.
+
+```{r gendeff,eval=FALSE}
+adm3 <- 
+  brm(data = d, family = binomial,
+      admit | trials(applications) ~ 1 + male + (1 + male | dept_id),
+      prior = c(prior(normal(0, 10), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(cauchy(0, 1), class = sd),
+                prior(lkj(2), class = cor)),
+      iter = 5000, warmup = 1000, chains = 4, cores = 4,
+      seed = 13,
+      control = list(adapt_delta = .99,
+                     max_treedepth = 12))
+adm3$fit
+```
+
+##
+
+```{r gendeffb,echo=FALSE,cache=TRUE}
+adm3 <- 
+  brm(data = d, family = binomial,
+      admit | trials(applications) ~ 1 + male + (1 + male | dept_id),
+      prior = c(prior(normal(0, 10), class = Intercept),
+                prior(normal(0, 1), class = b),
+                prior(cauchy(0, 1), class = sd),
+                prior(lkj(2), class = cor)),
+      iter = 5000, warmup = 1000, chains = 4, cores = 4,
+      seed = 13,
+      control = list(adapt_delta = .99,
+                     max_treedepth = 12))
+adm3$fit
+```
+
+##
+
+Before we get too excited let's look at some diagnostics.
+
+```{r diag, eval=FALSE}
+post <- posterior_samples(adm3, add_chain = T)
+
+post %>% 
+  select(-lp__) %>% 
+  gather(key, value, -chain, -iter) %>% 
+  mutate(chain = as.character(chain)) %>% 
+
+  ggplot(aes(x = iter, y = value, group = chain, color = chain)) +
+  geom_line(size = 1/15) +
+  scale_color_manual(values = c("#80A0C7", "#B1934A", "#A65141", "#EEDA9D")) +
+  scale_x_continuous(NULL, breaks = c(1001, 5000)) +
+  ylab(NULL) +
+  theme_pearl_earring +
+  theme(legend.position  = c(.825, .06),
+        legend.direction = "horizontal") +
+  facet_wrap(~key, ncol = 3, scales = "free_y")
+```
+
+##
+
+```{r diag2, echo=FALSE,cache=TRUE}
+#our friend Kurz's code
+theme_pearl_earring <-
+  theme(text       = element_text(color = "#E8DCCF", family = "Courier"),
+        strip.text = element_text(color = "#E8DCCF", family = "Courier"),
+        axis.text  = element_text(color = "#E8DCCF"),
+        axis.ticks = element_line(color = "#E8DCCF"),
+        line       = element_line(color = "#E8DCCF"),
+        plot.background   = element_rect(fill = "#100F14", color = "transparent"),
+        panel.background  = element_rect(fill = "#100F14", color = "#E8DCCF"),
+        strip.background  = element_rect(fill = "#100F14", color = "transparent"),
+        panel.grid = element_blank(),
+        legend.background = element_rect(fill = "#100F14", color = "transparent"),
+        legend.key        = element_rect(fill = "#100F14", color = "transparent"),
+        axis.line = element_blank())
+
+post <- posterior_samples(adm3, add_chain = T)
+
+post %>% 
+  select(-lp__) %>% 
+  gather(key, value, -chain, -iter) %>% 
+  mutate(chain = as.character(chain)) %>% 
+
+  ggplot(aes(x = iter, y = value, group = chain, color = chain)) +
+  geom_line(size = 1/15) +
+  scale_color_manual(values = c("#80A0C7", "#B1934A", "#A65141", "#EEDA9D")) +
+  scale_x_continuous(NULL, breaks = c(1001, 5000)) +
+  ylab(NULL) +
+  theme_pearl_earring +
+  theme(legend.position  = c(.825, .06),
+        legend.direction = "horizontal") +
+  facet_wrap(~key, ncol = 3, scales = "free_y")
+```
+
+##
+
+```{r plots,eval=FALSE}
+rbind(coef(adm3)$dept_id[, , 1],
+      coef(adm3)$dept_id[, , 2]) %>% 
+  as_tibble() %>% 
+  mutate(param   = c(paste("Intercept", 1:6), paste("male", 1:6)),
+         reorder = c(6:1, 12:7)) %>% 
+
+  # plot
+  ggplot(aes(x = reorder(param, reorder))) +
+  geom_hline(yintercept = 0, linetype = 3, color = "#8B9DAF") +
+  geom_pointrange(aes(ymin = Q2.5, ymax = Q97.5, y = Estimate, color = reorder < 7),
+                  shape = 20, size = 3/4) +
+  scale_color_manual(values = c("#394165", "#A65141")) +
+  xlab(NULL) +
+  coord_flip() +
+  theme_pearl_earring +
+  theme(legend.position = "none",
+        axis.ticks.y    = element_blank(),
+        axis.text.y     = element_text(hjust = 0))
+```
+
+
+##
+
+```{r plots2,echo=FALSE}
+rbind(coef(adm3)$dept_id[, , 1],
+      coef(adm3)$dept_id[, , 2]) %>% 
+  as_tibble() %>% 
+  mutate(param   = c(paste("Intercept", 1:6), paste("male", 1:6)),
+         reorder = c(6:1, 12:7)) %>% 
+
+  # plot
+  ggplot(aes(x = reorder(param, reorder))) +
+  geom_hline(yintercept = 0, linetype = 3, color = "#8B9DAF") +
+  geom_pointrange(aes(ymin = Q2.5, ymax = Q97.5, y = Estimate, color = reorder < 7),
+                  shape = 20, size = 3/4) +
+  scale_color_manual(values = c("#394165", "#A65141")) +
+  xlab(NULL) +
+  coord_flip() +
+  theme_pearl_earring +
+  theme(legend.position = "none",
+        axis.ticks.y    = element_blank(),
+        axis.text.y     = element_text(hjust = 0))
+```
+
+We see much more variability in the random intercepts than in the random slopes.
+
+## What happened at Berkeley?
+
+What happened at Berkeley?  It actually doesn't require too much sophisticated modeling. What we're seeing is Simpson's paradox.
+
+```{r datapeek}
+d[,c(1,2,3,4,8)]
+```
+
+##
+
+In the raw data, women had higher acceptance probabilities in 4 of the 6 departments. However, the departments to which they applied in higher numbers were the departments that had lower overall acceptance rates. 
+
+<br>
+
+What happened is that women were more likely to apply do departments like English, which have trouble supporting grad students, and they were less likely to apply to STEM departments, which had more plentiful funding for graduate students. The men, on the other hand, were much more likely to apply to the STEM departments that had higher acceptance rates.
+
