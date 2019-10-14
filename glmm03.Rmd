@@ -1,5 +1,8 @@
 ---
 title: "Generalized Linear Mixed Effects Model"
+output: 
+  github_document:
+      pandoc_args: --webtex
 ---
 
 ```{r, echo=FALSE, include=FALSE}

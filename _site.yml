@@ -16,6 +16,7 @@ navbar:
     href: lme02.html
   - text: GLMM
   - href: glmm03.html
+  
 
 output:
   html_document:
