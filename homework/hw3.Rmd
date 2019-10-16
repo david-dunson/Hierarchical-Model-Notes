@@ -1,0 +1,63 @@
+---
+title: "Homework 3"
+---
+
+```{r, echo=FALSE, include=FALSE}
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+```
+
+RECALL: You may discuss this homework only with the TA's or Prof. Herring; it is to be completed independently.
+
+This homework is the third of four and is due by the start of lab on Monday, October 28. Page limit is 8 pages in 11 point font or larger. Please avoid use of information criteria (AIC, BIC, DIC) in this assignment. 
+
+### DNA Damage in Multi-Site Study
+
+Suppose researchers at Duke have identified a novel molecular marker of DNA damage and repair. The researchers wish to evaluate whether this marker (X) is associated with cardiovascular disease and will compare
+values of the marker with values of a cardiometabolic risk score (Y). The researchers have recruited ten recent Duke cardiology fellows, each of whom is a cardiologist in a different hospital around the world, to test the association between the marker and the risk score in volunteers from their hospitals (HOSPITAL). The data are contained in the file dnarepair.txt.
+
+  1. The investigators have requested that you fit a linear regression model to the data. Formulate a model, treating the risk score as the outcome and the marker
+value as the predictor.
+
+    a. Write your model in statistical notation, clearly specifying all components of the model.
+    
+    b. Provide a point and 95% interval estimate of the expected difference in the risk score comparing a subject whose DNA marker value is 1 standard deviation below the mean to a similar subject whose DNA marker value is 1 standard deviation above the mean.
+    
+    c. Provide a plot of the points (X; Y ) along with the fitted regression line.
+    
+    d. Interpret results in language suitable for the investigators. Are higher levels of the marker associated with increasing cardiometabolic risk or with decreasing cardiometabolic risk? What evidence supports your conclusion?
+
+  2. As a statistician, you worry about potential correlation between subjects within
+a hospital and decide to fit a random intercept model.
+
+    a. Write your new model in statistical notation, clearly describing all components of the model.
+    
+    b. Based on your modeling results, describe the relative contributions of within-hospital and between-hospital variation to the overall variability in the data.
+    
+    c. Provide a point and 95% interval estimate of the expected population average difference in the cardiometabolic risk score comparing subjects whose DNA marker value is 1 standard deviation below the mean to subjects whose DNA marker value is 1 standard deviation above the mean.
+    
+    d. Provide a plot of the fitted population average line from this multilevel model in addition to the estimated hospital-specific regression lines from this model.
+    
+    e. Interpret your findings in language suitable for the investigators.
+  
+  3. The investigators do not understand the different effect estimates for the DNA damage marker that you have obtained from the two different models. Which
+of the two population-average slope estimates is the correct one, and why? Explain the difference in the effect estimates in statistical terms and in terms the
+investigators can understand.
+
+  4. Investigators would now like to know whether the association between the marker and the risk score varies across the different hospitals involved in the study. Formulate a multilevel model to address this question.
+
+    a. Write your new model in statistical notation, clearly describing all components of the model.
+  
+    b. Based on the multilevel model, provide estimates of the hospital-specific predicted differences in the risk score for subjects with X values 1 sd below the population mean to subjects with X values 1 sd above the population mean.
+
+    c. Provide a new plot of the fitted population average regression line in addition to the estimated hospital-specific regression lines from this model.
+
+    d. Report and interpret the results of a formal statistical evaluation of whether the association between the DNA damage marker and cardiovascular risk score varies across hospitals.
+
+    e. Interpret these results in language for the investigators.
+  
+  5. Investigators worry that air pollution, Z, may be acting as a confounder. They have obtained the average concentration of PM2.5, an important pollutant, for
+each hospital over the entire study period, ($Z_1, Z_2, \cdots, Z_{10}$). Using statistical notation, specify an extension of your model in (4) that allows you to control for this important potential confounder.  
+
+  6. Investigators also worry that the effect of PM2.5 may vary across the hospitals because the chemical composition of PM2.5 varies considerably across the globe. They wish to test this hypothesis. Provide a paragraph for the investigators explaining how you could adapt the study to evaluate this hypothesis.
