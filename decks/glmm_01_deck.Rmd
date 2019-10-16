@@ -131,7 +131,7 @@ $$\text{logit}(Pr(Y_{ij}=1))=\beta_0+\beta_1x_i+\beta_2t_j+\beta_3x_it_j+b_i$$
 
 ## Estimation
 
-ML estimation is carried out typically using adaptive Gaussian quadrature. To improve accuracy over many package defaults (Laplace approximation), increase the number of quadrature points to be greater than one. Noe that some software require Laplace approximation with Gaussian quadrature if the number of random effects is more than 1 for the sake of computational efficiency.
+ML estimation is carried out typically using adaptive Gaussian quadrature. To improve accuracy over many package defaults (Laplace approximation), increase the number of quadrature points to be greater than one. Noe that some software packages require Laplace approximation with Gaussian quadrature if the number of random effects is more than 1 for the sake of computational efficiency.
 
 ##
 
@@ -368,7 +368,7 @@ We have a subset of the admissions data for 6 departments.
 
 ##
 
-```{r loaddata}
+```{r loaddata,message=FALSE,warning=FALSE}
 library(rethinking)
 data(UCBadmit)
 d <- UCBadmit

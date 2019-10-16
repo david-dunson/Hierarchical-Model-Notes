@@ -616,7 +616,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="estimation" class="slide level2">
 <h2>Estimation</h2>
-<p>ML estimation is carried out typically using adaptive Gaussian quadrature. To improve accuracy over many package defaults (Laplace approximation), increase the number of quadrature points to be greater than one. Noe that some software require Laplace approximation with Gaussian quadrature if the number of random effects is more than 1 for the sake of computational efficiency.</p>
+<p>ML estimation is carried out typically using adaptive Gaussian quadrature. To improve accuracy over many package defaults (Laplace approximation), increase the number of quadrature points to be greater than one. Noe that some software packages require Laplace approximation with Gaussian quadrature if the number of random effects is more than 1 for the sake of computational efficiency.</p>
 </section>
 <section id="section-5" class="slide level2">
 <h2></h2>
@@ -860,58 +860,13 @@ probtrt1dn=<span class="kw">exp</span>(predtrt1dn)<span class="op">/</span>(<spa
 </section>
 <section id="section-16" class="slide level2">
 <h2></h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rethinking)</code></pre></div>
-<pre><code>## Loading required package: rstan</code></pre>
-<pre><code>## Warning: package 'rstan' was built under R version 3.5.2</code></pre>
-<pre><code>## Loading required package: StanHeaders</code></pre>
-<pre><code>## Warning: package 'StanHeaders' was built under R version 3.5.2</code></pre>
-<pre><code>## Loading required package: ggplot2</code></pre>
-<pre><code>## Warning: package 'ggplot2' was built under R version 3.5.2</code></pre>
-<pre><code>## rstan (Version 2.19.2, GitRev: 2e1f913d3ca3)</code></pre>
-<pre><code>## For execution on a local, multicore CPU with excess RAM we recommend calling
-## options(mc.cores = parallel::detectCores()).
-## To avoid recompilation of unchanged Stan programs, we recommend calling
-## rstan_options(auto_write = TRUE)</code></pre>
-<pre><code>## Loading required package: parallel</code></pre>
-<pre><code>## rethinking (Version 1.59)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(UCBadmit)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rethinking)
+<span class="kw">data</span>(UCBadmit)
 d &lt;-<span class="st"> </span>UCBadmit
 <span class="kw">detach</span>(package<span class="op">:</span>rethinking,<span class="dt">unload=</span>T)
-<span class="kw">library</span>(tidyverse)</code></pre></div>
-<pre><code>## ── Attaching packages ───────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ tibble  2.1.3     ✔ purrr   0.3.2
-## ✔ tidyr   1.0.0     ✔ dplyr   0.8.3
-## ✔ readr   1.3.1     ✔ stringr 1.4.0
-## ✔ tibble  2.1.3     ✔ forcats 0.4.0</code></pre>
-<pre><code>## Warning: package 'tibble' was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package 'tidyr' was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package 'purrr' was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package 'dplyr' was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package 'stringr' was built under R version 3.5.2</code></pre>
-<pre><code>## Warning: package 'forcats' was built under R version 3.5.2</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────── tidyverse_conflicts() ──
-## ✖ tidyr::expand()  masks Matrix::expand()
-## ✖ tidyr::extract() masks rstan::extract()
-## ✖ dplyr::filter()  masks stats::filter()
-## ✖ dplyr::lag()     masks stats::lag()
-## ✖ tidyr::pack()    masks Matrix::pack()
-## ✖ tidyr::unpack()  masks Matrix::unpack()</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(brms)</code></pre></div>
-<pre><code>## Warning: package 'brms' was built under R version 3.5.2</code></pre>
-<pre><code>## Loading required package: Rcpp</code></pre>
-<pre><code>## Warning: package 'Rcpp' was built under R version 3.5.2</code></pre>
-<pre><code>## Loading 'brms' package (version 2.9.0). Useful instructions
-## can be found by typing help('brms'). A more detailed introduction
-## to the package is available through vignette('brms_overview').</code></pre>
-<pre><code>## 
-## Attaching package: 'brms'</code></pre>
-<pre><code>## The following object is masked from 'package:rstan':
-## 
-##     loo</code></pre>
-<pre><code>## The following object is masked from 'package:lme4':
-## 
-##     ngrps</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d &lt;-
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(brms)
+d &lt;-
 <span class="st">  </span>d<span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">male=</span><span class="kw">ifelse</span>(applicant.gender<span class="op">==</span><span class="st">&quot;male&quot;</span>,<span class="dv">1</span>,<span class="dv">0</span>),
          <span class="dt">dept_id =</span> <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">each =</span> <span class="dv">2</span>))
