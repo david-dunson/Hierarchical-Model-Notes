@@ -60,7 +60,11 @@ library(tidyverse)
 
 # Labs
 
-[October 21](labs/lab3.html)
+[October 14](labs/lab3.html)
+
+[October 21](labs/lab4.html)
+
+[October 28 coming soon]
 
 
 
