@@ -1,0 +1,13 @@
+---
+title: "Lab 4: Badgered by Badgers"
+---
+
+Management of badgers on Welsh and British farms is a controversial topic. While some argue that culling badger populations is necessary to control the spread of bovine tuberculosis, others argue that badgers are not the major cause of the spread of disease and that culling is inhumane, especially when badger vaccination strategies are an option.
+
+We consider data from observational surveys of 36 farms over a period of three years. Each farm (identified by the variable farm_code_numeric) was observed up to eight times (once per season for a two year period). The primary outcome is whether badger activity (e.g., carcasses of their prey, badger feces, indications of digging) was present in the farmyard. 
+
+Your job is to evaluate factors related to presence of badger activity in the farmyard as well as to estimate the correlation over time in badger activity and farm-specific heterogeneity in the tendency to have badger activity. Predictors to consider include year, season, number of active badger homes in nearby fields (no_active_setts_in_fields), the number of cattle on the farm (no_cattle_in_buildings_yard), whether farm feed can be accessed by badgers (accessible_feed_store_present), and indicators of whether various types of crops were present on the farm (including grass silage, cereal silage, hay, cereal for grain, sugar beets, vegetables, and molasses). 
+
+The data are available on Sakai under Resources->data (the only data file with badgers in the name!).
+
+This lab is due by the start of class on October 25.
