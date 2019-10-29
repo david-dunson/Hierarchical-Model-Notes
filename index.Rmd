@@ -88,10 +88,10 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | October 28    | Lab: Hierarchical Centering | Assignment 3 Due  | 
 | October 30    | Crossed/Non-Nested Random Effects, Case Study 2 Introduction  |    |
 | November 1    | Application: Election Prediction |  |
-| November 4    | Lab: Hierarchical Logistic Regression |   | 
+| November 4    | Lab: Who Votes? |   | 
 | November 6    | Missing Data |  |
 | November 8    | Missing Data  | Group Lab Reports |
-| November 11   | Lab: Election Prediction | Group Lab Reports  |
+| November 11   | Lab: Case Study | Group Lab Reports  |
 | November 13   | Application: GLMM |  |
 | November 15   | Ordinal and Multinomial Outcomes | Assignment 4 Due |
 | November 18   | Ordinal and Multinomial Outcomes |   |
