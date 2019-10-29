@@ -1,0 +1,227 @@
+---
+title: Nested Versus Crossed Random Effects
+
+output: 
+
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Nested Versus Crossed Random Effects
+
+While we have been focused on two-level multilevel models, it is straightforward to extend these models to higher levels of nesting.  For example, we may be studying students nested in classrooms nested in schools nested in counties.
+
+<br>
+
+It is not always the case that groupings will be nested. For example, suppose we are studying university students. A student may be a member of several nonnested groups -- for example the student could be taking a stats class, a comp sci class, and a music performance class. We might expect positive correlation in outcomes of students within each class, yet these three classes are not nested within each other. When random effects are not *nested*, we refer to them as *crossed*.
+
+
+
+## Non-Nested Groups
+
+Consider a study in the semiconductor industry of variability in manufacture of silicon wafers. For each wafer, the thickness of the oxide layer is measured at three different sites. The wafers themselves are sampled from eight different production lots. In this experiment, sites are nested in wafers, and wafers are nested in lots.
+
+```{r oxide}
+data(Oxide,package="nlme")
+head(Oxide,12)
+```
+
+The site index repeats across wafers; wafer index repeats across lot.
+
+## Model
+
+Let's consider a random effect for lot and a random effect for wafer in the model
+
+<br>
+
+$$Y_{ijk}=\gamma_0+\alpha_i+\beta_{ij}+\varepsilon_{ijk}$$ 
+
+<br>
+
+where $\alpha_i \overset{iid}\sim N(0,\sigma^2_\alpha) \perp \beta_{ij} \overset{iid}\sim N(0,\sigma^2_\beta) \perp \varepsilon_{ijk} \overset{iid}\sim N(0,\sigma^2_\varepsilon)$.
+
+<br>
+
+Here $i$ indexes the lot, $j$ indexes the wafer within lot, and $k$ indexes the site within wafer.
+
+## Exercise!
+
+In this model, derive the following quantities.
+
+  - $\text{Var}(Y_{ijk})$
+  - $\text{Cov}(Y_{ijk},Y_{ijk'})$ (different sites on same wafer in same lot)
+  - $\text{Cov}(Y_{ijk},Y_{ij'k})$ (same lot, different wafer, site $k$)
+  - $\text{Cov}(Y_{ijk},Y_{ij'k'})$ (same lot, different wafer, site k and site k')
+  - $\text{Cov}(Y_{ijk},Y_{i'jk})$ (different lots)
+  
+Using the data ordering, put these values (and others) together to show the form of the full matrix $\text{Cov}(Y)$.
+
+##
+
+Using the ordering in the data across the 72 oxide layer thickness measurements, we expect the covariance matrix to have the following block structure in lots and wafers.
+
+```{r hidecode,echo=FALSE,warning=FALSE,message=FALSE,out.width='50%'}
+#function from http://errickson.net/stats-notes/vizrandomeffects.html to reconstruct covariance matrix; seems to have some instability as close but not exactly mapping to what I get by hand so consider just approximate for now to visualize matrix
+rescov <- function(model, data) {
+  var.d <- crossprod(getME(model,"Lambdat"))
+  Zt <- getME(model,"Zt")
+  vr <- sigma(model)^2
+  var.b <- vr*(t(Zt) %*% var.d %*% Zt)
+  sI <- vr * Diagonal(nrow(data))
+  var.y <- var.b + sI
+  invisible(var.y)
+}
+library(lme4)
+ox1 <- lmer(Thickness ~ 1 + (1|Lot/Wafer), data = Oxide)
+rs1=rescov(ox1,Oxide)
+image(rs1)
+
+```
+
+The darker, smaller squares (higher correlations) are for measures taken on the same wafers, and the larger squares are for measures taken in the same lot. Measures from different lots are independent.
+
+##
+
+We need to be careful about specifying the model because the indices are nested. We want a random effect for wafer and a random effect for lot, but we need to be careful about how we specify it because wafer 1 in lot 1 is not the same wafer as wafer 1 in lot 2. To fit a model using the nested indices provided, we use the following code.
+
+```{r mod1,eval=FALSE}
+#specifying that wafer index is nested in lot
+ox1 <- lmer(Thickness ~ 1 + (1|Lot/Wafer), data = Oxide)
+summary(ox1)
+```
+
+##
+
+```{r mod1b,echo=FALSE,message=FALSE,warning=FALSE}
+#specifying that wafer index is nested in lot
+ox1 <- lmer(Thickness ~ 1 + (1|Lot/Wafer), data = Oxide)
+summary(ox1)
+```
+
+Wow, the lot explains a lot of the variability in the response! There is considerable variability across wafers as well.
+
+## 
+
+What if we used our regular old code?
+
+```{r wrongcode}
+ox2 <- lmer(Thickness ~ 1 + (1|Lot) + (1|Wafer), data = Oxide)
+summary(ox2)
+```
+
+Well, the wafer effect went away, and the residual variance got larger. What happened?
+
+##
+
+The model assumed wafer 1 was repeated in all 8 lots, wafer 2 was repeated in all 8 lots, etc. so that there were only 3 wafers (instead of 24). This watered down the wafer effect (wrong model!) and estimated a correlation that looks more like this.
+
+```{r dontshow,echo=FALSE,warning=FALSE,message=FALSE,out.width='50%'}
+rs2=rescov(ox2,Oxide)
+image(rs2)
+```
+
+Yikes, observations from different lots should be independent, but we induced them because of the way the wafer index is coded in the data.
+
+##
+
+If you don't like using the nesting coding, we can fix the issue with the index for wafer and use our regular coding. Below we make the index on wafer unique by appending it to the lot -- so the first digit of the wafer2 index designates lot number, and the 2nd digit designates the wafer within the lot.
+
+```{r fixindex,eval=FALSE}
+library(tidyverse)
+Oxide <- mutate(Oxide, Wafer2 = as.numeric(paste0(Lot, Wafer)))
+head(Oxide, 12)
+
+#now we can also use the coding we're used to
+ox3 <- lmer(Thickness ~ 1 + (1|Lot) + (1|Wafer2), data = Oxide)
+summary(ox3)
+```
+
+##
+
+
+```{r fixindex2,echo=FALSE,message=FALSE,warning=FALSE}
+library(tidyverse)
+Oxide <- mutate(Oxide, Wafer2 = as.numeric(paste0(Lot, Wafer)))
+head(Oxide, 12)
+
+#now we can also use the coding we're used to
+ox3 <- lmer(Thickness ~ 1 + (1|Lot) + (1|Wafer2), data = Oxide)
+summary(ox3)
+```
+
+## Summary of Nesting
+
+If indices are nested, you need to be careful to use coding that indicates the nesting.
+
+![Nested indices](figures/nestedindices.png)
+
+Caveat: if you did actually move the class across schools, then you would want to code the "usual way" without changing the indices!
+
+##
+
+If indices are nonnested, you don't have to worry about codifying the nesting.
+
+![Nonnested indices](figures/nonnestedindices.png)
+
+## In-class activity
+
+We consider data from the 2005 *Nature* study by Silk et al. on prosocial behavior in chimpanzees. Prosocial behavior is designed to benefit others or society as a whole (as opposed to close friends or family members). An experiment was set up in which a chimpanzee was seated at a table that contained two levers that could be controlled by the chimp: one on the right, and one on the left. Another chimpanzee could be seated at the other side of the table without access to the levers.
+
+##
+
+  - Pulling the lever on one side provided food to the chimpanzee in control as well as to the chimpanzee on the other side of the table
+  - Pulling the lever on the other side provided food only to the chimpanzee in control and not to the chimpanzee on the other side of the table
+  - The side linked to giving the other chimp food was varied in order to control for potential effects of right- or left-handedness of the chimps
+  - A control condition was used in which no second chimp was present
+  
+  
+Multiple experiments were conducted per chimp, varying whether another chimp was present at the table and also which other chimp would join at the table.
+  
+##
+
+The experiment also involved *blocking* of trials within a session, so that a random effect for block is needed. The blocks were not nested within chimps, or vice versa -- so that chimp effects and block effects are crossed.
+
+##
+
+The researchers want a model that controls for potential correlation in responses due to blocking and that allows investigation of chimp-specific variability in response and in the tendency to exhibit prosocial behavior.
+
+Variables of interest include the following. 
+
+  - $Y_{ijk}=1$ if chimp $i$ in session $j$ trial $k$ pulled the left-hand lever and 0 if not (pulled_left)
+  - $LP_{ijk}=1$ if the left-handed lever was the one that delivered food to both sides of the table (the prosocial option) (prosoc_left). 
+  - $C_{ijk}=1$ if another chimp was present for the trial (condition 1)
+  - $B_{j}$ indicates the block/session (block)
+  - The variable *actor* identifies the chimpanzee
+  
+##
+
+Write down a model that 
+
+  - accounts for sources of variability of interest and will allow you to describe whether there is significant heterogeneity across chimpanzees and experimental blocks
+  - allows evaluation of whether chimps prefer the left or right-hand lever
+  - allows evaluation of whether chimps prefer an option that delivers food to both sides of the table
+  - allows evaluation of whether chimps prefer an option that delivers food to both sides of the table more often when another chimp is seated across the table (prosocial behavior)
+  
+Then fit the model and describe your results!
+
+##
+
+```{r chimps,warning=FALSE,message=FALSE}
+#code to read data
+library(rethinking)
+data(chimpanzees) 
+d <-
+  chimpanzees %>%
+  select(-recipient) %>%
+  mutate(block_id = block)
+```
