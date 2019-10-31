@@ -1,0 +1,648 @@
+---
+title: Case Study of Polls and Election Predictions
+
+output: 
+
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Election Predictions
+
+One interesting application of hierarchical models has been in the realm of election predictions. We will consider this subject area because of interesting elements involving hierarchical logistic regression models, missing data, and biased samples.
+
+## Important Data Sources and Challenges
+
+  - Polls
+  - Historical Data (who won)
+  - Voter Records and Turnout
+
+## Predictions Based on Current Polling Data
+
+One strategy for predicting the winner in an election would be to use the latest aggregate polling data from a reputable source, e.g. FiveThirtyEight or The New York Times. 
+
+- Polls may use land lines (robocalls), cell phones, or web surveys
+- Some polls are of likely voters, while others may not restrict to this group (prediction opinions of the population is great -- but voters determine an election outcome)
+- Polls vary in quality (you can find some quality ratings online)
+- Polls may be subject to bias (e.g., nonresponse bias, assumptions involved in determining "likely voters")
+- Polls associated with margin of error
+- More polls focus on national sentiments than on state-specific sentiments (state-specific sentiments are important for state and local elections, e.g. the House and Senate representatives, as well as the presidential election, which is decided not by popular vote but by the electoral college)
+
+
+
+
+## Historical Data Incorporation
+
+- Use historical data from past elections, e.g. within a House district, within a state, nationally
+- Useful when a state consistently votes for the same party but less useful for swing states, which are closer to call
+- Check out the [NC Voter Record](https://dl.ncsbe.gov/?prefix=data/) 
+
+## Voter Turnout Data
+
+- States like NC make available data on who votes in each election
+- Voter turnout data can be used to construct a voting history for certain districts, demographic groups, etc.
+- Locations with low or variable turnout often harder to predict
+- Many better predictions take voter turnout data into account in some way
+
+## Sources of Election Uncertainty
+
+  - Sample sizes of polls (often $n=1000$ in a national poll)
+  - Individual changes in turnout
+  - Systematic changes in turnout (different turnout patterns from historical records, e.g. more young people vote)
+  - Individual variation in support (undecided voters)
+  - Unmeasured bias in polls
+
+## Working with Polls
+
+  - Polls are a great source of information!
+  - Polls are fraught with challenges (do you hang up when a pollster calls?)
+  - If our polling data were perfectly representative of the population of voters, predicting election outcomes would be easier
+  - Unfortunately, polls are often too small to cover as many heterogeneous population subgroups as we'd wish
+  - Let's consider some important methods for using polling data: poststratification and weighting
+
+## Why Use Poststratification and Weighting?
+
+- Sometimes we would like to stratify on a key variable, e.g. political party affiliation, but we cannot place the units into their correct strata until the units are sampled. For example, in aggregate polling data we cannot determine if an individual is a Democrat or Republican until after they've been polled (at which point we ask their affiliation). 
+- So, we'll use poststratification, or stratification after the selection of a sample, to handle this type of data
+- We can also use poststratification and weighting if the sample is not representative of the population such as when we have nonresponse bias. 
+- In general, poststratification and weighting are used to obtain more accurate estimates from survey data.
+
+## How It Works - Population Distribution
+The first step in poststratification is knowing the ratio of the size of a stratum in question to that of the relevant population size, e.g. what proportion of eligible voters in Durham County, North Carolina who are Asian females aged 20-25 identify as Republicans. We will denote this as $\frac{N_h}{N}$ where $N_h$ is the number of individuals in stratum $h$, and N is the total number of individuals in the full population.
+
+## How It Works - Poststratifying and Weighting
+
+Suppose we have only two strata: Democrats and Republicans. Once we know the distribution of factors of interest in our population, we can apply poststratifying and weighting. Essentially, we calculate a weighted sum in which the weights are the relevant proportions:
+
+\[
+\bar{y}_{poststrat.} = \frac{N_{democrat}}{N}\cdot \bar{y}_{democrat} + \frac{N_{republican}}{N}\cdot \bar{y}_{republican}
+\]
+
+Now we have a weighted estimate, $\bar{y}_{poststrat.}$, of our population mean. This adjustment is important if, for example, Democrats are more likely than Republicans to participate in a survey, but we want to obtain an estimate that is generalizable to the entire population.
+
+## Example
+
+Suppose a middle school math club wants to estimate the proportion of undergraduate students in the RTP area who agree with the statement "Mike Krzyzewski is the all-time best college basketball coach." 
+
+They take a convenience sample of 100 undergraduate students at the Target on 15-501 to address this question.
+
+Do you see any challenges that may arise due to the study design?
+
+## Strata
+
+Suppose the RTP area contains N=60,000 undergraduates, with 24,000 at NC State, 19,000 at UNC, 6500 each at Duke and NCCU, and 4000 elsewhere (Meredith, Shaw, etc.). Then the proportions $\frac{N_h}{N}$ of interest are roughly 0.40 for NC State, 0.32 for UNC, 0.11 for Duke, 0.11 for NCCU, and 0.06 for other universities (proportions rounded and forced to sum to 1 for convenience).
+
+## Results
+
+Suppose the math club carries out the survey, obtaining the following proportions of 100 surveyed students endorsing the statement: 
+
+  - 1.0 among 50 Duke students surveyed
+  - 0.0 among 25 UNC students surveyed
+  - 0.6 among 20 NCCU students surveyed
+  - 0.5 among 4 NC State students surveyed
+  - 1.0 from the single student from another university surveyed
+  
+This means that overall among the 100 students surveyed, 65 endorsed the statement. Is 65% a valid estimate of the percent of undergraduates in RTP who believe Coach K is the best ever?
+
+## Probably not!
+
+Students who live close to the 15-501 Target are more likely to attend the nearby schools, and Duke is one of the closest schools to the Target. What happens if we use poststratification to reweight our estimate by the representation of each university among area undergraduates (rather than its representation in our biased sample)?
+
+\begin{eqnarray*}
+\widehat{\pi}&=&1.0\left(\frac{6500}{60000}\right)+0.0\left(\frac{19000}{60000}\right)+0.6\left(\frac{6500}{60000}\right) \\  & & +0.5\left(\frac{24000}{60000}\right)
+ +1.0\left(\frac{4000}{60000}\right)=0.44
+\end{eqnarray*}
+
+## Notes
+
+Our estimate is really sensitive to having only 1 student from the other colleges -- if that student had not liked Coach K, our estimate would have been 0.37 instead of 0.44.
+
+For this reason, many surveys will oversample individuals from small or highly variable groups in order to obtain more stable estimates (e.g., we could have taken fewer Duke and UNC students, large groups who are more homogeneous in their thoughts about Coach K, and instead focused our efforts on less predictable groups).
+
+## Further Reading & Resources
+
+This is the basic principle underlying many methods of election prediction. We'll get into details next, but if you want to read more about poststratification, the resources below are useful.
+
+- [Poststratification Tutorial at Penn State Online](https://onlinecourses.science.psu.edu/stat506/node/29/) 
+- [Paper on Poststratification in a Sample Survey Context](https://msu.edu/~barbozag/Web/poststrat.pdf)
+
+## Multilevel Regression and Poststratification
+
+
+- It is often of interest to researchers to consider state-level opinion, in addition to/instead of national-level opinion. 
+- Finding surveys that are uniform across all or most states is extremely challenging, and states done for one state sometimes are of lower quality than national-level surveys. 
+- One method of estimating state-level opinion using national survey data is called **multilevel regression and poststratification ("Mr. P")**. 
+- We will compare this approach with a simple approach of using empirical means and poststratifying without borrowing information across groups (that's what we did on the previous slides).
+
+## Load packages
+
+
+```{r setup, cache=TRUE, message=FALSE,warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lme4)
+library(brms) 
+library(rstan)
+library(cowplot) # plotting
+library(dplyr)
+library(directlabels)
+library(tidybayes) #work easily with posterior samples
+rstan_options(auto_write=TRUE)
+options(mc.cores=parallel::detectCores())
+```
+
+
+## Multilevel Modeling with Poststratification
+
+First, we use multilevel regression to model individual survey responses as a function of demographic and geographic predictors. 
+
+Then we use poststratification, in which we weight (poststratify) the estimates for each demographic-geographic respondent type by the percentages of each type in the actual state populations.
+
+## Tutorial
+
+This tutorial draws heavily on Jonathan Kastellec's [MrP primer](http://www.princeton.edu/~jkastell/mrp_primer.html) and [Tim Mastny's version using Stan](https://timmastny.rbind.io/blog/multilevel-mrp-tidybayes-brms-stan/). You may find the paper at their website useful in addition to the shorter version presented here. First, download three important datasets from Sakai:  gay_marriage_megapoll.dta, state_level_update.dta, and poststratification 2000.dta.
+
+## Analysis goal
+
+The goal is to estimate support for gay marriage in each state based on survey data that are potentially non-representative. Because not all subgroups of the population are equally likely to respond to polls, we worry that relying only on a survey could lead to biased estimates of support for gay marriage.  (For example, younger people may be more likely than older people to answer questions about gay marriage.)
+
+The US Census is a good source of information about characteristics of the full US population. Using Census data, we can scale the average support of population subgorups of interest in proportion to their representation in the state population.
+
+## Data
+
+- A compilation of national gay marriage polls will provide information on support of gay marriage. Five national polls were conducted in 2004 and include information on state, gender, race/ethnicity, education, age, and party identification.
+- State level data provide information including \% of religious voters, voting history (Democrat or Republican), etc.
+- Census data will be used to estimate the \% of voters in subgroups in the state, given that poll respondents may not mirror the demographics of voting-age citizens. Ultimately, we need a dataset of the population counts for each subgroup, e.g. how many African Americans aged 18-25 went to college and reside in NC. For this tutorial, we will use the 5% Public Use Microdata Sample from the 2000 census. 
+
+```{r getdata, cache=TRUE}
+marriage.data=foreign::read.dta('data/gay_marriage_megapoll.dta',
+                                convert.underscore=TRUE)
+Statelevel=foreign::read.dta('data/state_level_update.dta',
+                             convert.underscore=TRUE)
+Census=foreign::read.dta('data/poststratification 2000.dta',
+                         convert.underscore=TRUE)
+```
+
+
+## Data munging
+
+```{r datamanipulation, cache=TRUE}
+#rename to state in preparation for merging
+Statelevel=Statelevel %>% rename(state=sstate) 
+marriage.data=Statelevel %>%
+  select(state,p.evang,p.mormon,kerry.04) %>%
+  right_join(marriage.data)
+
+```
+
+In this step we are combining state-level data on the percentage of evangelical Christians (often conservative), the percentage of members of the LDS church (also often conservative), and the vote share for John Kerry in 2004 (losing Democratic nominee for President) with the individual-level polling data on gay marriage.
+
+
+## More data munging
+
+```{r datamanipulation2, cache=TRUE}
+# combine demographic groups and label them
+marriage.data$race.female <- (marriage.data$female *3) + marriage.data$race.wbh
+marriage.data$race.female=factor(marriage.data$race.female,levels=1:6, labels=c("WhMale","BlMale","HMale","WhFem","BlFem","HFem"))
+marriage.data$age.edu.cat <- 4 * (marriage.data$age.cat -1) + marriage.data$edu.cat
+marriage.data$age.edu.cat=factor(marriage.data$age.edu.cat,levels=1:16,
+                                 labels=c("18-29,<HS","18-29,HS","18-29,SC","18-29,CG",
+"30-44,<HS","30-44,HS","30-44,SC","30-44,CG", "45-64,<HS","45-64,HS","45-64,SC","45-64,CG",
+"65+,<HS","65+,HS","65+,SC","65+,CG"))
+marriage.data$p.evang <- Statelevel$p.evang[marriage.data$state.initnum]
+# proportion of evangelicals in respondent's state
+marriage.data$p.mormon <-Statelevel$p.mormon[marriage.data$state.initnum]
+# proportion of LDS church members in respondent's state
+marriage.data$p.relig <- marriage.data$p.evang + marriage.data$p.mormon
+# combined evangelical + LDS proportions
+marriage.data$kerry.04 <- Statelevel$kerry.04[marriage.data$state.initnum]
+# John Kerry's % of 2-party vote in respondent's state in 2004
+marriage.data <- marriage.data %>%
+  filter(state!="")
+```
+
+
+## Data manipulation
+
+Here we prepare the Census data for merging.
+
+```{r datamanipulation3, cache=TRUE}
+# Census variables
+Census<-Census %>%
+  rename(state=cstate, age.cat=cage.cat, edu.cat=cedu.cat,region=cregion)
+Census$race.female <- (Census$cfemale *3) + Census$crace.WBH 
+Census$race.female=factor(Census$race.female,levels=1:6,
+                           labels=c("WhMale","BlMale","HMale","WhFem","BlFem","HFem"))
+Census$age.edu.cat <- 4 * (Census$age.cat-1) + Census$edu.cat 
+Census$age.edu.cat=factor(Census$age.edu.cat,levels=1:16,
+                           labels=c("18-29,<HS","18-29,HS","18-29,SC","18-29,CG",
+                                    "30-44,<HS","30-44,HS","30-44,SC","30-44,CG",
+                                    "45-64,<HS","45-64,HS","45-64,SC","45-64,CG",
+                                    "65+,<HS","65+,HS","65+,SC","65+,CG"))
+Census <- Statelevel %>%
+  select(state,p.evang,p.mormon,kerry.04) %>%
+  right_join(Census)
+Census <- Census %>% mutate(p.relig=p.evang+p.mormon)
+```
+
+
+
+## Who Participated in the Polls?
+
+Let's consider South Dakota as an example. Of the poll responders, 18% were white males aged 45-64 with a high school degree, and 13.6% were white females aged 65+ with a high school degree. None of the poll responders identified as black or Hispanic.
+
+```{r pollresponders}
+marriageSD=subset(marriage.data,state=="SD")
+table(marriageSD$age.edu.cat,marriageSD$race.female)/length(marriageSD$race.female)
+
+```
+
+
+
+##
+
+According to the Census, there are some black and Hispanic residents of South Dakota. White males aged 45-64 with a high school degree make up 5.5% of the population, and white females aged 65+ with a high school degree make up 4.6% of the population. These groups were vastly overrepresented in the survey. 
+
+
+```{r census}
+CensusSD=subset(Census,state=="SD")
+CensusSD[,c(11,13,14)]
+```
+
+
+
+
+
+## Obtain estimates based on empirical averages
+
+First we calculate the mean responses within each state -- we will call these disaggregated estimates.
+
+```{r empirical, cache=TRUE}
+# Get state averages
+mod.disag=marriage.data%>%
+  group_by(state) %>%
+  summarise(support=mean(yes.of.all)) %>%
+  mutate(model="no_ps")
+```
+
+These averages will not be representative of the actual statewide means if the sampled respondents are not in proportion to each group's percentage of the total state population and the groups differ with respect to their support level. So we'll next poststratify.
+
+## Poststratifying sample estimates
+
+First, we find within-group averages in each state.
+
+```{r groupmeans, cache=TRUE,warning=FALSE}
+# Find average within each group
+grp.means<-marriage.data%>% 
+  group_by(state,region,race.female,age.edu.cat,p.relig,kerry.04) %>%
+  summarize(support=mean(yes.of.all,na.rm=TRUE))
+
+```
+
+## Poststratifying sample estimates
+
+Next we add the group's percentage in each state.
+
+```{r grouppct, cache=TRUE}
+grp.means<- Census %>%
+  select(state, region, kerry.04, race.female, age.edu.cat, p.relig, 
+         cpercent.state) %>%
+  right_join(grp.means)
+```
+
+## Poststratifying sample estimates
+
+```{r poststratempirical, cache=TRUE}
+# sum scaled average and get total state averages
+mod.disag.ps<-grp.means %>%
+  group_by(state) %>%
+  summarize(support=sum(support * cpercent.state, na.rm=TRUE)) %>%
+  mutate(model="ps")
+```
+
+## Define function for plotting (may want to use again)
+
+```{r deffunc, cache=TRUE}
+#make a function so we don't have to type over and over
+compare_scat=function(d) {
+  return(
+    ggplot(data=d, aes(x=support,y=support1))+
+      geom_text(aes(label=state),hjust=0.5,vjust=0.25) +
+      geom_abline(slope=1,intercept=0) +
+      xlim(c(0,0.7)) + ylim(c(0,0.7)) +
+      xlab("support") + ylab("poststrat support") +
+      coord_fixed()
+  )
+}
+```
+
+## Plotting empirical and poststratified means
+
+```{r makeplot, eval=FALSE}
+#compare poststratified and empirical means -- nice plot!
+disag.point <- bind_rows(mod.disag,mod.disag.ps) %>%
+  group_by(model) %>%
+  arrange(support, .by_group=TRUE) %>%
+  ggplot(aes(x=support,y=forcats::fct_inorder(state),color=model)) +
+  geom_point() + theme_classic() +
+  theme(legend.position='none') +
+  directlabels::geom_dl(aes(label=model),method='smart.grid') +
+  ylab('state')
+disag.scat=bind_cols(mod.disag,mod.disag.ps) %>% compare_scat()
+plot_grid(disag.point,disag.scat)
+```
+
+## Plots
+
+```{r showplot, echo=FALSE, cache=TRUE, out.width = '700px', dpi=200}
+#compare poststratified and empirical means -- nice plot!
+disag.point <- bind_rows(mod.disag,mod.disag.ps) %>%
+  group_by(model) %>%
+  arrange(support, .by_group=TRUE) %>%
+  ggplot(aes(x=support,y=forcats::fct_inorder(state),color=model)) +
+  geom_point() + theme_classic() +
+  theme(legend.position='none') +
+  directlabels::geom_dl(aes(label=model),method='smart.grid') +
+  ylab('state')
+disag.scat=bind_cols(mod.disag,mod.disag.ps) %>% compare_scat()
+plot_grid(disag.point,disag.scat)
+```
+
+<small>
+Variation in poststratified estimates is pretty large. Also, the poststratified estimates appear closer to zero -- what is going on?
+</small>
+
+## Demographic representation by state
+
+Let's sum the percentages in the poll data by state to make sure they all sum to 1.
+
+```{r demogrep, eval=FALSE, cache=TRUE}
+grp.means %>%
+  group_by(state) %>%
+  summarize(total_percent=sum(cpercent.state, na.rm=TRUE)) %>%
+  filter(state != "") %>%
+  ggplot(aes(x=state,y=total_percent)) +
+  geom_text(aes(label=state),hjust=0.5,vjust=0.25) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  coord_fixed(ratio=8)+ylim(c(0,1.1))
+```
+
+## Demographic representation by state
+
+```{r demogrepb, echo=FALSE, cache=TRUE, out.width = '550px', dpi=200}
+grp.means %>%
+  group_by(state) %>%
+  summarize(total_percent=sum(cpercent.state, na.rm=TRUE)) %>%
+  filter(state != "") %>%
+  ggplot(aes(x=state,y=total_percent)) +
+  geom_text(aes(label=state),hjust=0.5,vjust=0.25) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  coord_fixed(ratio=8)+ylim(c(0,1.1))
+```
+
+<small>
+Ahh, the surveys do not have responses from each demographic group in each state. Our poststratification is assuming the missing demographic groups have 0% support, which 
+is not good -- even though we have no black men from South Dakota in the polls, 
+there are some in the state (1.7\% of the SD population identifies as black or African-American). We underestimate the level of support by assuming
+no black men in SD support gay marriage.
+</small>
+
+## Multilevel model
+
+One advantage of fitting a multilevel model is that we can borrow information to get better estimates.
+
+In the case of African-American men from South Dakota, we do have responses from black men in nearby states (North Dakota has roughly 3x the African-American population of South Dakota) and other states in the region, which we can use to make a better guess (than 0%!) about the level of support for gay marriage among black men in South Dakota.
+
+## Fitting Individual-level Regression Model
+
+Now we  fit a regression model for individual survey responses on gay marriage rights given demographics and geography, i.e. each individual's response will be a function of their demographics and state. 
+
+We'll denote each individual as *i* with indices for race-gender combination, age-education combination, region, and state. We denote $y_i=1$ for supporters of same-sex marriage and 0 for opponents and those with no opinion. 
+
+## Model
+
+\[
+\mathrm{logit}\left(\mathrm{Pr}(y_i = 1)\right) = \beta_0 + \alpha^{race,gender}_{j[i]} +  \alpha^{age,edu}_{k[i]} + \alpha^{state}_{s[i]}
+\]
+
+We can think of the terms after the intercept as modeled effects for different groups of respondents such as individuals who are a specific age. All of them except the state coefficient will be modeled as drawn from a normal distribution with mean zero and some estimated variance specific to that variable. For example,
+
+\begin{eqnarray*}
+\alpha^{race,gender}_j &\sim& N(0, \sigma^2_{race,gender}), ~~~\mathrm{j=1, ..., 6} \\
+\alpha^{age,edu}_k &\sim& N(0, \sigma^2_{age,edu}), ~~~\mathrm{k=1,...,16} 
+\end{eqnarray*}
+
+
+## Model
+
+For the state effect, we model the mean for the state effect as a function of 3 state level variables: the region into which the state falls, the state’s conservative (defined as evangelical+LDS) religious percentage, and its Democratic 2004 presidential vote share.
+
+$$\alpha^{state}_s \sim N(\alpha^{reg}_{m[s]} + \beta^{relig}\cdot relig_s + \beta^{vote} \cdot vote_s, \sigma^2_{state}),$$ $\mathrm{s = 1, ..., 51}$,
+$$\alpha^{reg}_m \sim N(0,\sigma^2_{region})$$
+
+
+
+## Model coding
+
+
+```{r indiv1, cache=TRUE, warning=FALSE, message=FALSE}
+#run individual-level opinion model
+ml.mod=glmer(yes.of.all~(1|race.female)+(1|age.edu.cat)+(1|state)+(1|region)+
+               p.relig+kerry.04, data=marriage.data,
+             family=binomial(link="logit"))
+# Note: (1|variable) denotes a random effect
+# just checking scale of these proportions
+summary(marriage.data$p.relig)
+summary(marriage.data$kerry.04)
+```
+
+
+
+## Model results
+
+```{r indiv1b}
+summary(ml.mod)
+```
+
+## Model results
+
+Note we have no responses from AK or HI.
+
+```{r AKHI, warning=FALSE,message=FALSE}
+# note nobody from AK or HI in survey
+library(tidyverse)
+library(dplyr)
+marriage.data %>%
+  filter(state=="AK", state=="HI")
+```
+
+## Predictions 
+Using the predict package, we make predictions in states, broken out by the demographic groups of interest, which will allow us to poststratify down the road. For now we calculate the predictions, and we'll examine them closely later.
+
+```{r predm1, cache=TRUE}
+ps.ml.mod <- Census %>%
+  mutate(support=predict(ml.mod,newdata=.,allow.new.levels=TRUE,type='response')) %>%
+  mutate(support=support*cpercent.state) %>%
+  group_by(state) %>%
+  summarize(support=sum(support))
+```
+
+## Bayesian model
+
+Now we fit a fully Bayesian model, with same data model as the ML model but with some weakly informative priors on the SD's of varying intercepts that will help with borrowing of information and convergence.
+
+```{r bayesmod, eval=FALSE}
+bayes.mod=brm(yes.of.all~(1|race.female)+(1|age.edu.cat)+(1|state)+(1|region)+
+               p.relig+kerry.04, data=marriage.data,
+             family=bernoulli(),
+             prior=c(set_prior("normal(0,0.2)",class='b'), #0.2 is SD (not variance)
+                     set_prior("normal(0,0.2)",class='sd',group="race.female"),
+                     set_prior("normal(0,0.2)",class='sd',group="age.edu.cat"),
+                     set_prior("normal(0,0.2)",class='sd',group="state"),
+                     set_prior("normal(0,0.2)",class='sd',group="region")))
+```
+
+## Bayesian model 
+
+```{r bayesmod2, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE}
+bayes.mod=brm(yes.of.all~(1|race.female)+(1|age.edu.cat)+(1|state)+(1|region)+
+               p.relig+kerry.04, data=marriage.data,
+             family=bernoulli(),
+             prior=c(set_prior("normal(0,0.2)",class='b'),
+                     set_prior("normal(0,0.2)",class='sd',group="race.female"),
+                     set_prior("normal(0,0.2)",class='sd',group="age.edu.cat"),
+                     set_prior("normal(0,0.2)",class='sd',group="state"),
+                     set_prior("normal(0,0.2)",class='sd',group="region")))
+```
+
+## Bayesian model results
+
+```{r bayesmod3}
+summary(bayes.mod)
+```
+
+## Benefits of Bayesian approach
+
+The most obvious benefit of a Bayesian approach is the total accounting of uncertainty, as we can easily see by plotting the estimated SD's of the group-level intercepts in the frequentist model against the posteriors from the Bayesian model.
+
+```{r bayesbenefits, eval=FALSE}
+ml_sd<- broom::tidy(ml.mod) %>%
+  filter(stringr::str_detect(term,"sd_"))
+
+bayes.mod %>%
+  gather_samples(`sd.*`,regex=TRUE) %>%
+  ungroup() %>%
+  mutate(group=stringr::str_replace_all(term,c("sd_"="","__Intercept"=""))) %>%
+  ggplot(aes(y=group,x=estimate)) +
+  ggridges::geom_density_ridges(aes(height=..density..),
+                                rel_min_height=0.01,stat="density",
+                                scale=1.5) +
+  geom_point(data=ml_sd)
+```
+
+## Benefits of Bayesian approach
+
+```{r bayesbenefits2, echo=FALSE, cache=TRUE, warning=FALSE, message=FALSE, out.width = '380px', dpi=200}
+ml_sd<- broom::tidy(ml.mod) %>%
+  filter(stringr::str_detect(term,"sd_"))
+
+bayes.mod %>%
+  gather_samples(`sd.*`,regex=TRUE) %>%
+  ungroup() %>%
+  mutate(group=stringr::str_replace_all(term,c("sd_"="","__Intercept"=""))) %>%
+  ggplot(aes(y=group,x=estimate)) +
+  ggridges::geom_density_ridges(aes(height=..density..),
+                                rel_min_height=0.01,stat="density",
+                                scale=1.5) +
+  geom_point(data=ml_sd)
+```
+<small>
+Wow, this is cool!  The dots are the point estimates from the frequentist model, but the Bayesian model gives you an idea of the full posterior distribution of values, from which we can sample. 
+</small>
+
+## Poststratifying Bayes
+
+```{r postbayes, cache=TRUE, warning=FALSE,message=FALSE}
+#next let's get the point estimate and poststratify from the Bayesian model
+ps.bayes.mod <- bayes.mod %>%
+  add_predicted_samples(newdata=Census, allow_new_levels=TRUE) %>%
+  rename(support = pred) %>%
+  mean_qi() %>%
+  mutate(support = support * cpercent.state) %>%
+  group_by(state) %>%
+  summarize(support = sum(support))
+```
+
+## Comparing results
+Now we consider comparisons across the 3 approaches.
+```{r compareresults, cache=TRUE}
+mod.disag[nrow(mod.disag) + 1,] = list("AK", mean(mod.disag$support), "no_ps")
+mod.disag[nrow(mod.disag) + 1,] = list("HI", mean(mod.disag$support), "no_ps")
+disag.ml <- bind_cols(mod.disag, ps.ml.mod) %>% compare_scat() +
+  xlab("disag model") + ylab("ml mod")
+disag.bayes <- bind_cols(mod.disag, ps.bayes.mod) %>% compare_scat() + 
+  xlab("disag model") + ylab("bayes model")
+ml.bayes <- bind_cols(ps.ml.mod, ps.bayes.mod) %>% compare_scat() + 
+  xlab("ml model") + ylab("bayes model")
+```
+
+## Plots
+
+```{r scatterplots, cache=TRUE, out.width = '580px', dpi=200}
+plot_grid(disag.ml, disag.bayes, ml.bayes)
+```
+
+<small>
+Note our predictions from the ML and Bayesian approaches are similar, and the models disagree with the disaggregated model, which does not borrow information.
+</small>
+
+## Prediction
+
+Now we can evaluate predictions, taking advantage of the uncertainty quantification advantages of the Bayesian approach. We will sample from the posterior to get predicted probabilities for each group of interest based on proportions obtained from
+the Census data.
+
+```{r predict, cache=TRUE}
+predict_val=predict(bayes.mod, newdata=Census, allow_new_levels=TRUE, 
+            nsamples=500, summary=FALSE)
+```
+
+
+## Prediction
+
+```{r showpred}
+dim(Census)
+head(Census)
+```
+
+We'll focus on the first four subgroups: white Alaskan men with $<$HS education in the 4 age groups (18-29, 30-44, 45-64, 65+).
+
+## <small> The first 6 sampled support values for those men are in columns 1-4 here.... </small>
+
+```{r showpred2}
+dim(predict_val)
+head(predict_val)
+```
+
+
+## Poststratification again
+
+We could then use these predicted probabilities to estimate public opinion under a variety of assumptions (opinion of all residents, or applying other data on how frequently people in each demographic group vote, to get opinions of likely voters).
+
+These predictions based on data from the Census can be combined with information on how often people in each group vote to predict election outcomes.
+
+ 
+
+
+
