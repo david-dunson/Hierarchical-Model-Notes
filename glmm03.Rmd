@@ -67,6 +67,8 @@ library(tidyverse)
 
 [October 21](labs/lab4.html)
 
+[November 4](labs/lab5.html)
+
 
 
 
