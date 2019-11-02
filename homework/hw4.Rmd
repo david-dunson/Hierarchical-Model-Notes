@@ -1,0 +1,23 @@
+---
+title: "Homework 4: Multilevel Modeling Insights"
+---
+
+```{r, echo=FALSE, include=FALSE}
+library(kableExtra)
+library(knitr)
+library(tidyverse)
+```
+
+RECALL: You may discuss this homework only with the TA's or Prof. Herring; it is to be completed independently. Any online or other resources used must be cited.
+
+Your assignment is to create a helpful tool that illustrates an important aspect of understanding and use of multilevel models. This tool could be an [interesting visualization](https://m-clark.github.io/posts/2019-05-14-shrinkage-in-mixed-models/), a [Shiny app](https://calpolystat3.shinyapps.io/Hierarchical_Models/), or just an extraordinarily clear example illustration/mini-lecture!  You will have 3 minutes to present your tool in class the week of November 18 (18th and 22nd), using the link(s) you upload to Sakai (so that we can just run things based on the class computer). If in-class presentations cause you stress, note that your uploads could include a link to a video of you making a presentation (just be sure it's high quality so we can follow it).
+
+This homework is due by 9:00 am (**note different time**) on Monday, November 18 by uploading a link on Sakai to your creation as well as a document (not to exceed 3 pages) describing the following.
+
+1. Concept your tool is designed to illustrate
+2. Method by which this concept is illustrated (e.g., describing the functionality of a Shiny app or type of content delivered)
+3. Any relevant references important to development of your tool
+
+Grades will be based on the clarity and accuracy of the information delivered by the tool, relevance of the information to understanding multilevel models, and quality/professionalism of the tool developed. One component of the grade will be timely completion of Qualtrics tools designed to evaluate informativeness of your classmates' presentations (this will not be a direct contributor to their grades but will be used for some awards for engaging content in presentations).
+
+
