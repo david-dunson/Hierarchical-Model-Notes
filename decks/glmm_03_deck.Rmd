@@ -56,7 +56,7 @@ One strategy for predicting the winner in an election would be to use the latest
 
 ## Sources of Election Uncertainty
 
-  - Sample sizes of polls (often $n=1000$ in a national poll)
+  - Sample sizes of polls (often $n=1000$ in national polls)
   - Individual changes in turnout
   - Systematic changes in turnout (different turnout patterns from historical records, e.g. more young people vote)
   - Individual variation in support (undecided voters)
