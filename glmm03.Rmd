@@ -59,7 +59,7 @@ library(tidyverse)
 
 [Homework 3](homework/hw3.html)
 
-[Homework 4 coming soon!]
+[Homework 4](homework/hw4.html)
 
 # Labs
 

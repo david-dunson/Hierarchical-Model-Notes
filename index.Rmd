@@ -91,12 +91,12 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | November 4    | Lab: Who Votes? |   | 
 | November 6    | Missing Data |  |
 | November 8    | Missing Data  |  |
-| November 11   | Lab: Case Study |   |
+| November 11   | Lab: Why Votes? |   |
 | November 13   | Application: GLMM | Group Lab Reports |
-| November 15   | Ordinal and Multinomial Outcomes | Assignment 4 Due |
-| November 18   | Ordinal and Multinomial Outcomes |   |
+| November 15   | Ordinal and Multinomial Outcomes |  |
+| November 18   | Assignment 4 Presentations | Assignment 4 Due (9am)  |
 | November 20   | Lab: Exam Review |  | 
-| November 22   | Case Study in Class |  |
+| November 22   | Assignment 4 Presentations |  |
 | November 25   | Exam 2 (in class) | Exam 2 (in class) |
 | December 2    | Make-Up Day (exam/assignment replacement opportunity) |  |
 | December 4    | 5 Case Study 2 Presentations | Case Study 2 Due (8 AM NOT AT CLASS TIME!) |
