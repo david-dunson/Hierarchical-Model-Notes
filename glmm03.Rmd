@@ -40,6 +40,8 @@ library(tidyverse)
 
 [Case Study: Polls and Election Prediction](decks/glmm_03_deck.html)
 
+[Measurement Error](decks/glmm_04_deck.html)
+
 <!--- 
 
 
