@@ -1,0 +1,403 @@
+---
+title: Measurement Error
+
+output: 
+
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Measurement Error
+
+*Measurement error* is the difference between a measured quantity and its true value. It can be due to
+
+  - systematic bias (e.g., a scale is miscalibrated by 1 pound for everyone)
+  - random error (e.g., some people take off their shoes, others are wearing coats, some may be dehydrated or have just eaten) that may be naturally occurring and may occur with any experiment
+  
+Measurement error is often countered by tactics like taking the mean of multiple measurements (e.g., research quality blood pressure measures take the mean of three values) or standardizing experimental conditions. However, sometimes substantial sources of error are unavoidable.
+
+## Example: Divorce and Marriage Rate
+
+McElreath (2016) considers the relationship among divorce rate, marriage rate, and median age at marriage based on state-level data.
+
+```{r divorce, echo=FALSE,warning=FALSE,message=FALSE}
+#devtools::install_github("wmurphyrd/fiftystater")
+library(fiftystater)
+library(rethinking)
+library(tidyverse)
+data(WaffleDivorce)
+d=WaffleDivorce
+rm(WaffleDivorce)
+d %>% 
+  # first we'll standardize the three variables to put them all on the same scale
+  mutate(Divorce_z           = (Divorce - mean(Divorce))                     / sd(Divorce),
+         MedianAgeMarriage_z = (MedianAgeMarriage - mean(MedianAgeMarriage)) / sd(MedianAgeMarriage),
+         Marriage_z          = (Marriage - mean(Marriage))                   / sd(Marriage),
+         # need to make the state names lowercase to match with the map data
+         Location            = str_to_lower(Location)) %>% 
+  # here we select the relevant variables and put them in the long format to facet with `facet_wrap()`
+  select(Divorce_z:Marriage_z, Location) %>% 
+  gather(key, value, -Location) %>% 
+  
+  ggplot(aes(map_id = Location)) +
+  geom_map(aes(fill = value), map = fifty_states, 
+           color = "firebrick", size = 1/15) +
+  expand_limits(x = fifty_states$long, y = fifty_states$lat) +
+  scale_x_continuous(NULL, breaks = NULL) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  scale_fill_gradient(low = "#f8eaea", high = "firebrick4") +
+  coord_map() +
+  theme_bw() +
+  theme(panel.grid       = element_blank(),
+        legend.position  = "none",
+        strip.background = element_rect(fill = "transparent", color = "transparent")) +
+  facet_wrap(~key)
+
+```
+
+##
+
+Note that data from Nevada are not included.
+
+<br>
+
+Is divorce associated with marriage?  Well, yes!
+
+
+<br>
+
+However, does a high marriage rate imply a high divorce rate?  How does median age at marriage affect divorce rates?
+
+##
+
+```{r marriagerate,message=FALSE,warning=FALSE,echo=FALSE}
+library(ggrepel)
+d %>%
+  ggplot(aes(x = Marriage, y = Divorce)) +
+  stat_smooth(method = "lm", fullrange = T, size = 1/2,
+              color = "firebrick4", fill = "firebrick", alpha = 1/5) +
+  geom_point(size = 1.5, color = "firebrick4", alpha = 1/2) +
+  geom_text_repel(data = d %>% filter(Loc %in% c("ME", "OK", "AR", "AL", "GA", "SC", "NJ","NC","MS","UT","WY","AK","ID","ND")),  
+                  aes(label = Loc), 
+                  size = 3, seed = 1042) +  # this makes it reproducible
+  xlab("Marriage Rate (per 1000 pop)")+
+  ylab("Divorce rate (per 1000 pop)") +
+  theme_bw() +
+  theme(panel.grid = element_blank()) 
+```
+
+
+##
+
+```{r marriageage,message=FALSE,warning=FALSE,echo=FALSE}
+d %>%
+  ggplot(aes(x = MedianAgeMarriage, y = Divorce)) +
+  stat_smooth(method = "lm", fullrange = T, size = 1/2,
+              color = "firebrick4", fill = "firebrick", alpha = 1/5) +
+  geom_point(size = 1.5, color = "firebrick4", alpha = 1/2) +
+  geom_text_repel(data = d %>% filter(Loc %in% c("ME", "OK", "AR", "AL", "GA", "SC", "NJ","NC","MS","UT","WY","AK","ID","ND","CA","CT","DC","MA","NY","HI","ME","MD","MI","NH","RI")),  
+                  aes(label = Loc), 
+                  size = 3, seed = 1042) +  # this makes it reproducible
+  xlab("Median Age at Marriage")+
+  ylab("Divorce rate (per 1000 pop)") +
+  theme_bw() +
+  theme(panel.grid = element_blank()) 
+```
+
+##
+
+
+```{r marriageagemarriage,message=FALSE,warning=FALSE,echo=FALSE}
+d %>%
+  ggplot(aes(x = MedianAgeMarriage, y = Marriage)) +
+  stat_smooth(method = "lm", fullrange = T, size = 1/2,
+              color = "firebrick4", fill = "firebrick", alpha = 1/5) +
+  geom_point(size = 1.5, color = "firebrick4", alpha = 1/2) +
+  geom_text_repel(data = d %>% filter(Loc %in% c("ME", "OK", "AR", "AL", "GA", "SC", "NJ","NC","MS","UT","WY","AK","ID","ND","CA","CT","DC","MA","NY","HI","ME","MD","MI","NH","RI")),  
+                  aes(label = Loc), 
+                  size = 3, seed = 1042) +  # this makes it reproducible
+  xlab("Median Age at Marriage")+
+  ylab("Marriage rate (per 1000 pop)") +
+  theme_bw() +
+  theme(panel.grid = element_blank()) 
+```
+
+##
+
+One issue analyzing these data is that we have error involved in the measurement of both marriage rate and divorce rate. First, we'll explore measurement error of our outcome, divorce rate.
+
+```{r diverr,message=FALSE,warning=FALSE,eval=FALSE}
+library(rethinking)
+data(WaffleDivorce)
+d=WaffleDivorce
+
+plot(d$Divorce~d$MedianAgeMarriage,ylim=c(4,15),
+     xlab="Median age at marriage",ylab="Divorce rate per 1000 population")
+
+#add interval of 1 SE in each direction
+for (i in 1:nrow(d)) {
+  ci=d$Divorce[i]+c(-1,1)*d$Divorce.SE[i]
+  x=d$MedianAgeMarriage[i]
+  lines(c(x,x),ci)
+}
+  
+```
+
+##
+
+```{r diverr1,message=FALSE,warning=FALSE,echo=FALSE}
+library(rethinking)
+data(WaffleDivorce)
+d=WaffleDivorce
+
+plot(d$Divorce~d$MedianAgeMarriage,ylim=c(4,15),
+     xlab="Median age at marriage",ylab="Divorce rate per 1000 population")
+
+#add interval of 1 SE in each direction
+for (i in 1:nrow(d)) {
+  ci=d$Divorce[i]+c(-1,1)*d$Divorce.SE[i]
+  x=d$MedianAgeMarriage[i]
+  lines(c(x,x),ci)
+}
+  
+```
+
+There is substantial variability in the certainty in the estimated divorce rates -- why?
+
+##
+
+A hunch is that the size of the state's population may be involved.
+
+```{r diverr2,message=FALSE,warning=FALSE,eval=FALSE}
+
+plot(d$Divorce~log(d$Population),ylim=c(4,15),
+     xlab="Log(population)",ylab="Divorce rate per 1000 population")
+
+#add interval of 1 SE in each direction
+for (i in 1:nrow(d)) {
+  ci=d$Divorce[i]+c(-1,1)*d$Divorce.SE[i]
+  x=log(d$Population[i])
+  lines(c(x,x),ci)
+}
+  
+```
+
+##
+
+```{r diverr3,message=FALSE,warning=FALSE,echo=FALSE}
+
+plot(d$Divorce~log(d$Population),ylim=c(4,15),
+     xlab="Log(population)",ylab="Divorce rate per 1000 population")
+
+#add interval of 1 SE in each direction
+for (i in 1:nrow(d)) {
+  ci=d$Divorce[i]+c(-1,1)*d$Divorce.SE[i]
+  x=log(d$Population[i])
+  lines(c(x,x),ci)
+}
+  
+```
+
+Yes, there is a relationship between population size and certainty in the estimated rate!
+
+##
+
+```{r marerr3,message=FALSE,warning=FALSE,echo=FALSE}
+
+plot(d$Marriage~log(d$Population),ylim=c(10,35),
+     xlab="Log(population)",ylab="Marriage rate per 1000 population")
+
+#add interval of 1 SE in each direction
+for (i in 1:nrow(d)) {
+  ci=d$Marriage[i]+c(-1,1)*d$Marriage.SE[i]
+  x=log(d$Population[i])
+  lines(c(x,x),ci)
+}
+  
+```
+
+We also see this in marriage rates!
+
+## Handling Measurement Error
+
+First, we focus on measurement error in our response, the divorce rate.  One reasonable approach is to use a hierarchical model.
+
+  - Define the parameter $D_{TRUE,i}$ to be the true (unknown) divorce rate for state $i$
+  - Define our observed outcome (subject to measurement error) as $D_{OBS,i}$ and its associated standard error (provided in the data) as $D_{SE,i}$ 
+  - Model $D_{OBS,i} \sim N\left(D_{TRUE,i},D_{SE,i}^2\right)$
+  - Here the observed divorce rates are centered on the true rates with the estimated measurement error treated as known
+  - Define as covariates the median age at marriage $A_i$ and marriage rate $R_i$
+  
+##
+
+Now we can specify our desired model, for the true divorce rates, as follows.
+
+$$D_{TRUE,i} \sim N(\mu_i,\sigma^2)$$
+
+$$\mu_i=\beta_0+\beta_1A_i+\beta_2R_i$$
+
+$$D_{OBS,i} \sim N\left(D_{TRUE,i},D_{SE,i}^2\right)$$
+
+$$\beta_j \sim N(0,100)$$
+$$\sigma \sim \text{HalfCauchy}(0,2.5)$$
+
+##
+First, we fit the model with no adjustment for measurement error, so that the outcome is just the observed (with error) divorce rate.
+
+```{r fitmodel,warning=FALSE,message=FALSE,cache=TRUE}
+library(brms)
+#put data into a list
+dlist <- list(
+    div_obs = d$Divorce,
+    div_sd  = d$Divorce.SE,
+    R       = d$Marriage,
+    A       = d$MedianAgeMarriage-mean(d$MedianAgeMarriage))
+m1 <- 
+  brm(data = dlist, family = gaussian,
+      div_obs ~ 0+ Intercept + R+A,
+      #had to rescale intercept prior
+      prior = c(prior(normal(0,50),class=b,coef=Intercept),
+                prior(normal(0, 10), class = b),
+                prior(cauchy(0, 2.5), class = sigma)),
+      iter = 5000, warmup = 1000, chains = 4, cores = 4,
+      seed = 14,control=list(adapt_delta=0.95))
+```
+
+
+##
+
+```{r m1summ}
+m1
+```
+<small>
+The interpretation of this model is that while marriage rate is not associated with divorce rate conditional on median age at marriage, conditional on the marriage rate, a one-year higher  median age at marriage is associated with an expected 0.99 fewer divorces per 1000 population (95% CrI=(0.50,1.49)). However, we may be concerned because of the error in determination of our outcome.
+</small>
+
+##
+
+What does $D_{OBS,i} \sim N\left(D_{TRUE,i},D_{SE,i}^2\right)$ imply for each state?
+
+```{r divstats}
+d %>% 
+  mutate(Divorce_distribution = str_c("Divorce ~ Normal(", Divorce, ", ", Divorce.SE, ")")) %>% 
+  select(Loc, Divorce_distribution) %>% 
+  head()
+
+```
+
+You can see big differences in the error for CA (very large state) and AK (small state in terms of population).
+
+##
+
+```{r measerr,cache=TRUE,message=FALSE}
+# here we specify the initial (i.e., starting) values
+inits      <- list(Yl = dlist$div_obs)
+inits_list <- list(inits, inits)
+
+#want 0+intercept notation if data not mean-centered
+m2 <- 
+  brm(data = dlist, family = gaussian,
+      div_obs | mi(div_sd) ~ 0 + intercept + R + A,
+      prior = c(prior(normal(0, 10), class = b),
+                prior(cauchy(0, 2.5), class = sigma)),
+      iter = 5000, warmup = 1000, cores = 2, chains = 2,
+      seed = 14,
+      control = list(adapt_delta = 0.99,
+                     max_treedepth = 12),
+      save_mevars = TRUE,  # note this line for the `mi()` model
+      inits = inits_list)
+```
+
+##
+
+```{r summarym2}
+m2
+```
+
+
+
+The interpretation of this model is similar to what we saw before, though our estimate of $\sigma$ is now lower.
+
+## Measurement Error in Exposure
+
+Measurement error in the exposure variable, here marriage rate, can have an effect on estimation as well. Here we allow the marriage rate to be measured with error as well by fitting the following model.
+
+$$D_{TRUE,i} \sim N(\mu_i,\sigma^2)$$
+
+$$\mu_i=\beta_0+\beta_1A_i+\beta_2R_{TRUE,i}$$
+
+$$D_{OBS,i} \sim N\left(D_{TRUE,i},D_{SE,i}^2\right)$$
+
+$$R_{OBS,i} \sim N\left(R_{TRUE,i},R_{SE,i}^2\right)$$
+
+$$\beta_j \sim N(0,100)$$
+$$\sigma \sim \text{HalfCauchy}(0,2.5)$$
+
+##
+
+What does $R_{OBS,i} \sim N\left(R_{TRUE,i},R_{SE,i}^2\right)$ imply for each state?
+
+```{r divstats2}
+d %>% 
+  mutate(Marriage_distribution = str_c("Marriage ~ Normal(", Marriage, ", ", Marriage.SE, ")")) %>% 
+  select(Loc, Marriage_distribution) %>% 
+  head()
+
+```
+
+
+
+## 
+
+```{r exposemod,cache=TRUE,warning=FALSE,message=FALSE}
+dlist <- list(
+  div_obs = d$Divorce,
+  div_sd  = d$Divorce.SE,
+  mar_obs = d$Marriage,
+  mar_sd  = d$Marriage.SE,
+  A       = d$MedianAgeMarriage)
+
+# the `inits`
+inits      <- list(Yl = dlist$div_obs)
+inits_list <- list(inits, inits)
+
+# the model
+
+m3 <- 
+  brm(data = dlist, family = gaussian,
+      div_obs | mi(div_sd) ~ 0 + intercept + me(mar_obs, mar_sd) + A,
+      prior = c(prior(normal(0, 10), class = b),
+                prior(cauchy(0, 2.5), class = sigma)),
+      iter = 5000, warmup = 1000, cores = 2, chains = 2,
+      seed = 14,
+      control = list(adapt_delta = 0.99,
+                     max_treedepth = 12),
+      save_mevars = TRUE,
+      inits = inits_list)
+```
+
+##
+
+```{r summarym3,echo=FALSE}
+m3
+```
+
+<small>
+Now that we've accounted for measurement error in the exposure and outcome, we see substantial changes in effect estimates. The interpretation of this model is that conditional on the marriage rate, a one-year higher  median age at marriage is associated with an expected 0.44 fewer divorces per 1000 population (95% CrI=(0.04,0.83)). Conditional on the median age at marriage, an increase of the marriage rate by 1 per 1000 is associated with an expected increase in the divorce rate of 0.27 per 1000 (95% CrI=(0.07, 0.49)).
+</small>
+
+
+
+## Moral of the Story
+
+The moral of this story is that when you have error associated with a predictor or response (i.e., a distribution of responses), reducing the response to a single value -- discarding uncertainty -- can lead to spurious inference.
