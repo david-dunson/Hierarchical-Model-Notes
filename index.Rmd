@@ -89,11 +89,11 @@ Note: this schedule is approximate and is likely to be modified as the course pr
 | October 30    | Crossed/Non-Nested Random Effects, Case Study 2 Introduction  |    |
 | November 1    | Application: Election Prediction |  |
 | November 4    | Lab: Who Votes? |   | 
-| November 6    | Missing Data |  |
+| November 6    | Measurement Error |  |
 | November 8    | Missing Data  |  |
-| November 11   | Lab: Why Votes? |   |
-| November 13   | Application: GLMM | Group Lab Reports |
-| November 15   | Ordinal and Multinomial Outcomes |  |
+| November 11   | Lab: Who Votes? |   |
+| November 13   | Application: Meta Analysis | Group Lab Reports |
+| November 15   | Multilevel Categorical Outcomes |  |
 | November 18   | Assignment 4 Presentations | Assignment 4 Due (9am)  |
 | November 20   | Lab: Exam Review |  | 
 | November 22   | Assignment 4 Presentations |  |
