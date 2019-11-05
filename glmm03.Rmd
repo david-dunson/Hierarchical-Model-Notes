@@ -42,11 +42,9 @@ library(tidyverse)
 
 [Measurement Error](decks/glmm_04_deck.html)
 
+[Missing Data](decks/glmm_04_deck.html)
+
 <!--- 
-
-
-[Missing Data - notes 14 and rethinking 14]
-
 [gelman poisson police stops chapter 15]
 
 [ordinal/multinomial missing data notes 13]
