@@ -1,0 +1,427 @@
+---
+title: Missing Data
+
+output: 
+
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Missing Data
+
+Missing data (in predictors or outcome) can induce bias in modeling results that may distort conclusions. It is important to monitor the percentage of missing data and consider carefully whether missingness may threaten validity of analysis conclusions.
+
+Important aspects of missing data include
+
+  - the missing data pattern
+  - the percentage of missing data
+  - the distribution of variables subject to missingness
+  - the mechanism generating the missing data
+  
+## Pattern of Missing Data
+
+Missing data patterns may be *monotone* or *nonmonotone*.  In a monotone missing data pattern, observations missing on one variable are a subset of those missing on another variable.  That is, missingness is nested.  One example of monotone missing data is study *dropout*.  If a subject drops out of a study at time $t$, then their observations will also be missing at times $t+1$, $t+2$, and so forth.  When missing data follow such a pattern, the group of responses is never larger at a later follow-up time than it is at an earlier time.  Missing data are nonmonotone when missingness is not nested in this manner, or is intermittent.  
+
+## Missing Data Mechanism
+
+Let ${\bf Y}$ indicate the complete data, with ${\bf Y}_{obs}$ representing the observed part of ${\bf Y}$ and ${\bf Y}_{mis}$ representing the missing part of ${\bf Y}$.  Similarly, define the missing data indicator $R_{ij}$, which takes value 1 if $R_{ij}$ is observed and takes value 0 otherwise.  (We note that sometimes ${\bf R}$ is given the opposite definition, so always verify this.)  So the observed data are $({\bf Y}_{i,obs},{\bf R}_i)$, $i=1,\ldots, N$.
+
+
+##
+
+The *missing data mechanism* concerns the distribution of ${\bf R}$ given ${\bf Y}$.
+
+  - *Missing completely at random (MCAR)*: $p({\bf R} \mid {\bf Y})=p({\bf R})$, so that the observed data are a completely random sample of the complete data
+  - *Missing at random (MAR)*:  $p({\bf R} \mid {\bf Y})=p({\bf R} \mid {\bf Y}_{obs})$, so that the missing data mechanism does not depend on the actual missing values
+  - *Not missing at random (NMAR or MNAR or NIMD)*: $p({\bf R} \mid {\bf Y})$ depends on ${\bf Y}_{mis}$, so that whether or not an observation is observed depends on the quantities that you were not able to observe.
+
+
+##
+
+We note that when conducting studies, it is very important to do everything
+possible to collect data on the reasons for missing values or dropouts, so
+that the investigator can determine the missing data mechanism so that the
+decision can be made regarding how it should be treated the analysis, and
+analysis can properly account for the missing data mechanism if necessary.
+
+
+## Full Model with Incomplete Data
+
+
+The full model with incomplete data is often given by $$f({\bf Y},{\bf R} \mid \boldsymbol{\theta},\boldsymbol{\psi})=f({\bf Y} \mid \boldsymbol{\theta})f({\bf R} \mid {\bf Y}, \boldsymbol{\psi}).$$  We call $$f({\bf Y} \mid \boldsymbol{\theta})$$ the *complete-data model* and $$f({\bf R} \mid {\bf Y}, \boldsymbol{\psi})$$ the *model for the missing-data mechanism*.  For simplicity, we sometimes assume $\boldsymbol{\theta}$ and $\boldsymbol{\psi}$ are distinct, though this is not necessarily the case.
+
+##
+
+The density of the incomplete data is given by $$f({\bf Y}_{obs},{\bf R} \mid
+\boldsymbol{\theta}, \boldsymbol{\psi})=\int f({\bf Y}_{obs},{\bf Y}_{mis}
+\mid \boldsymbol{\theta})f({\bf R} \mid {\bf Y}_{obs}, {\bf Y}_{mis}, \boldsymbol{\psi}) d{\bf Y}_{mis},$$ marginalizing over the missing data, with corresponding full incomplete-data likelihood $$L(\boldsymbol{\theta},\boldsymbol{\psi} \mid {\bf Y}_{obs},{\bf R}) \propto f({\bf Y}_{obs},{\bf R} \mid \boldsymbol{\theta}, \boldsymbol{\psi}).$$
+
+##
+
+If we *ignore* the missing data mechanism and base inference on the marginal likelihood of the observed data, using the marginal density $$f({\bf Y}_{obs} \mid \boldsymbol{\theta})=\int f({\bf Y}_{obs},{\bf Y}_{mis}|\boldsymbol{\theta}) d{\bf Y}_{mis},$$ our likelihood is given by $$L(\boldsymbol{\theta} \mid {\bf Y}_{obs}) \propto f({\bf Y}_{obs} \mid \boldsymbol{\theta}).$$
+
+##
+
+Note that the likelihood ignoring the missing data mechanism does not involve a model for ${\bf R}$.  When are the two likelihoods equivalent?
+
+<br>
+
+If $$L(\boldsymbol{\theta},\boldsymbol{\psi} \mid {\bf Y}_{obs},{\bf R})=cL(\boldsymbol{\theta} \mid {\bf Y}_{obs}),$$  then we can base inferences about $\boldsymbol{\theta}$ on $L(\boldsymbol{\theta} \mid {\bf Y}_{obs})$.  That is, the missing-data mechanism is *ignorable* for likelihood-based inference.
+
+##
+
+We say the missing-data mechanism is *ignorable* for likelihood-based inference if the following conditions hold.
+
+  - $f({\bf R} \mid {\bf Y}, \boldsymbol{\psi})=f({\bf R} \mid {\bf Y}_{obs},\boldsymbol{\psi})$ (data are missing at random)
+  - $\boldsymbol{\theta}$ and $\boldsymbol{\psi}$ are distinct
+
+##
+
+
+If MAR holds but $\boldsymbol{\theta}$ and $\boldsymbol{\psi}$ are not distinct, then maximum likelihood ignoring the missing data mechanism is ok but not fully efficient.  Many ad-hoc methods require the stronger MCAR assumption to hold.
+
+<br>
+
+Obviously, your model for ${\bf Y}$ must also be correctly specified in order for likelihood-based inference to be valid!
+
+## Covariate-Dependent Missingness
+
+In general, missingness in the outcomes that depends on covariates is not a problem, as long as you condition on the covariates.  
+
+<br>
+
+For example, let $X_i$ be a treatment group indicator, with $Y_i \sim N(\mu_0,\sigma^2)$ if $X_i=0$ and $Y_i \sim N(\mu_1,\sigma^2)$ if $X_i=1$.  Suppose that $X_i$ is always observed but that some $Y_i$ are missing.  
+
+##
+
+$$Pr(R_i=1 | X_i=0)=\pi_0 ~~~~~~~~Pr(R_i=1 | X_i=1)=\pi_1$$
+
+
+Conditional on treatment group, the observed $Y_i$'s are a random subgroup of all responses within a treatment group. 
+
+##
+
+We can show that $$E(Y_i \mid R_i=1,X_i)=E(Y_i \mid X_i)$$ and $$f(Y_i \mid R_i=1,X_i)=f(Y_i \mid X_i)$$ but $$E(Y_i \mid R_i=1) \neq E(Y_i).$$  Because we are not interested in $E(Y_i)$ averaged over treatment groups, this is not a concern.
+
+
+##
+
+Conditional on $X_i$, our missingness is MCAR, so inferences based on complete
+data will be valid.  If we do not condition on $X_i$, and $X_i$ and $Y_i$ are
+related, then lack of conditioning on $X_i$ may introduce bias into the analysis.
+
+##
+
+Almost all software
+  implements case deletion when covariates are missing.
+  The approaches we will discuss can all handle missing
+  covariates as well as missing outcomes.  Missing covariates can cause bias
+  (particularly if the missingness of the covariates depends on the response
+  of interest), and it is typically worthwhile to consider methods for
+  handling missing covariates when the missingness of covariates is more than
+  10% or so.
+
+
+## Example: Energy in Milk
+
+Researchers are interested in the hypothesis that primates with larger brains produce milk with higher energy content so that brains can grow more quickly. We consider the outcome of energy content in milk (kcal of energy per g of milk) and predictors including the average female body mass (kg) and the percent of total brain mass that is neocortex mass. The neocortex is the grey, outer part of the brain that is particularly developed in mammals, especially primates.
+
+## Missing Data in Milk Study
+
+```{r mdata, message=FALSE, warning=FALSE, eval=FALSE}
+library(rethinking)
+library(tidyverse)
+data(milk)
+d <- milk
+library(VIM)
+milk_aggr <- aggr(d,numbers=TRUE,sortVars=TRUE,
+labels=names(d),cex.axis=.7, gap=3, ylab=c("Proportion missing","Missingness Pattern"))
+
+```
+
+##
+
+
+```{r mdata2, message=FALSE, warning=FALSE, echo=FALSE, out.width="50%"}
+library(rethinking)
+library(tidyverse)
+data(milk)
+d <- milk
+library(VIM)
+milk_aggr <- aggr(d,numbers=TRUE,sortVars=TRUE,
+labels=names(d),cex.axis=.7, gap=3, ylab=c("Proportion missing","Missingness Pattern"))
+
+```
+
+##
+
+Here we see that only one variable, the percent neocortex, is subject to missingness, and it is missing 41% of the time (12 of 29 observations are NA). This substantial fraction of missing data could lead to significant bias in association estimates of interest.
+
+##
+
+First, we explore whether the missingness in neocortex proportion is related to our other variables of interest: energy content and body mass.
+
+```{r exploremsng,warning=FALSE,message=FALSE,eval=FALSE}
+library(optmatch)
+#create indicator takes value TRUE if neocortex prop missing
+msngind=fill.NAs(data.frame(d$neocortex.perc))$d.neocortex.perc.NA
+summary(lm(d$kcal.per.g~msngind))
+summary(lm(d$mass~msngind))
+```
+
+##
+
+```{r exploremsng2,warning=FALSE,message=FALSE,echo=FALSE}
+library(optmatch)
+#create indicator takes value TRUE if neocortex prop missing
+msngind=fill.NAs(data.frame(d$neocortex.perc))$d.neocortex.perc.NA
+summary(lm(d$kcal.per.g~msngind))
+summary(lm(log(d$mass)~msngind)) #mass really skewed
+```
+
+There is not strong evidence that the missingness in the neocortex variables depends on observed variables. 
+
+##
+
+We can easily impute missing values of neocortex in our Bayesian MCMC (or HMC) framework by treating these as parameters. The only change to our model (assuming data are MCAR or MAR) is that we will specify a distribution for percent neocortex (a covariate -- usually we do not specify covariate distributions, though we did last time in the presence of measurement error). How do the observed values of percent neocortex look?
+
+```{r hist,eval=FALSE,warning=FALSE,out.width='50%'}
+library(ggplot2)
+ggplot(d, aes(x=neocortex.perc)) + geom_histogram(binwidth=6)
+```
+
+##
+
+
+```{r hist2,echo=FALSE,warning=FALSE,out.width='50%'}
+library(ggplot2)
+ggplot(d, aes(x=neocortex.perc)) + geom_histogram(binwidth=6)
+```
+
+Ahh, histograms...looks normal-ish if you pick the right number of bins and has an icky left tail if you don't.  
+
+## Data Model
+
+Let's think about the data model we would fit in the absence of missing data. For today we're going to think about regression -- but looking at the histogram of energy content should give you incentive to take BNP in the spring!
+
+<br>
+
+First, let's normalize both predictors and the outcome to obtain new variables $M_i$, $N_i$, and $K_i$ in order to put them on the same scale (a SD scale). Note we also logged mass (it was highly skewed) -- not to make it normal, but just to pull in the tail values a bit.
+
+```{r normalize}
+d$M=(log(d$mass)-mean(log(d$mass)))/sqrt(var(log(d$mass)))
+d$N=(d$neocortex.perc-mean(d$neocortex.perc,na.rm=TRUE))/sqrt(var(d$neocortex.perc,na.rm=TRUE))
+d$K=(d$kcal.per.g-mean(d$kcal.per.g))/sqrt(var(d$kcal.per.g))
+
+```
+
+## Data Model
+
+A reasonable data model is $$K_i \sim N(\mu_i,\sigma^2) ~~~~~ \mu_i=\beta_0+\beta_1N_i+\beta_2M_i.$$
+
+<br>
+
+Because we do not observe all values of $N_i$, we declare a model for it, e.g. under MCAR we might specify $$N_i \sim N(\nu, \sigma^2_\nu).$$
+
+##
+
+Now all that remains is specifying prior distributions. We can be simple and specify that $\beta_j, \nu \sim N(0,1)$ and $\sigma, \sigma_\nu \sim HalfCauchy(0,1)$.
+
+
+
+##
+
+
+```{r runcodefirst, cache=TRUE}
+detach(package:rethinking, unload = T)
+library(brms)
+
+# prep data
+data_list <- 
+  list(
+    kcal      = d$K,
+    neocortex = d$N,
+    logmass   = d$M)
+#specify model in advance just to simplify code later
+b_model <- 
+  # here's the primary `kcal` model
+  bf(kcal ~ 1 + mi(neocortex) + logmass) + 
+  # here's the model for the missing `neocortex` data 
+  bf(neocortex | mi() ~ 1) + 
+  # here we set the residual correlations for the two models to zero
+  set_rescor(FALSE)
+
+m1 = brm(data = data_list, 
+      family = gaussian,
+      b_model,  # here we insert the model
+      prior = c(prior(normal(0, 1), class = Intercept, resp = kcal),
+                prior(normal(0, 1), class = Intercept, resp = neocortex),
+                prior(normal(0, 1),  class = b),
+                prior(cauchy(0, 1),   class = sigma,     resp = kcal),
+                prior(cauchy(0, 1),   class = sigma,     resp = neocortex)),
+      iter = 1e4, chains = 2, cores = 2,
+      seed = 14)
+
+library(broom)
+
+
+```
+
+##
+
+We can peek at all the parameter estimates (including estimates of missing neocortex).
+
+```{r res}
+library(broom)
+tidy(m1) %>%
+  mutate_if(is.numeric, round, digits = 2)
+```
+
+
+##
+
+Our results of primary interest are those from the energy (kcal) model. Here we see that a one sd (on the log scale) greater typical female BMI is associated with an expected 0.68 95%CrI=(0.31, 1.05) standard deviation decrease in energy content of milk. A one sd greater percent neocortex is associated with an expected 0.66 95%CrI=(0.22, 1.07) standard deviation increase in energy content of milk. 
+
+<br>
+
+Although there is a lot of uncertainty associated with our imputed neocortex values, note that at least we're accounting for it properly in the modeling by treating this as a quantity to be estimated (rather than an *ad hoc* solution with poor properties, like simple mean imputation).
+
+##
+
+What if we had instead done a complete case analysis?  If the data are MCAR, the complete case analysis would be unbiased though inefficient.
+
+```{r cc,warning=FALSE,message=FALSE,cache=TRUE,eval=FALSE}
+library(brms)
+m.cc = brm(data = data_list, 
+              family = gaussian,
+              kcal ~ 1 + neocortex + logmass,
+              prior = c(prior(normal(0, 1), class = Intercept),
+                        prior(normal(0, 1), class = b),
+                        prior(cauchy(0, 1), class = sigma)),
+              iter = 1e4, chains = 2, cores = 2,
+              seed = 1123,control=list(adapt_delta=0.99))
+
+tidy(m.cc) %>%
+  mutate_if(is.numeric, round, digits = 2)
+```
+
+##
+
+```{r cc2,warning=FALSE,message=FALSE,cache=TRUE,echo=FALSE}
+library(brms)
+library(broom)
+m.cc = brm(data = data_list, 
+              family = gaussian,
+              kcal ~ 1 + neocortex + logmass,
+              prior = c(prior(normal(0, 1), class = Intercept),
+                        prior(normal(0, 1), class = b),
+                        prior(cauchy(0, 1), class = sigma)),
+              iter = 1e4, chains = 2, cores = 2,
+              seed = 1123,control=list(adapt_delta=0.99))
+
+tidy(m.cc) %>%
+  mutate_if(is.numeric, round, digits = 2)
+```
+
+Our story here is similar to that imputing data.
+
+##
+
+We can perhaps improve the missing data model by expanding our model for the neocortex percentage to include predictors in the mean. For example, we could let $$N_i \sim N(\nu_i, \sigma^2_\nu) ~~~ \nu_i=\beta_\nu+\beta_{1,\nu}M_i.$$ Let's fit this model and see if results change.
+
+```{r m2, eval=FALSE, message=FALSE, warning=FALSE, cache=TRUE}
+library(brms)
+library(broom)
+b_model = bf(kcal ~ 1 + mi(neocortex) + logmass) + 
+  bf(neocortex | mi() ~ 1 + logmass) + # here's the big difference
+  set_rescor(FALSE)
+
+# fit the model
+m2 <- 
+  brm(data = data_list, 
+      family = gaussian,
+      b_model,
+      prior = c(prior(normal(0, 1), class = Intercept, resp = kcal),
+                prior(normal(0, 1), class = Intercept, resp = neocortex),
+                prior(normal(0, 1),  class = b),
+                prior(cauchy(0, 1),   class = sigma,     resp = kcal),
+                prior(cauchy(0, 1),   class = sigma,     resp = neocortex)),
+      iter = 1e4, chains = 2, cores = 2,
+      seed = 14)
+```
+
+##
+
+
+```{r m22, echo=FALSE, message=FALSE, warning=FALSE, cache=TRUE}
+library(brms)
+library(broom)
+b_model = bf(kcal ~ 1 + mi(neocortex) + logmass) + 
+  bf(neocortex | mi() ~ 1 + logmass) + # here's the big difference
+  set_rescor(FALSE)
+
+# fit the model
+m2 <- 
+  brm(data = data_list, 
+      family = gaussian,
+      b_model,
+      prior = c(prior(normal(0, 1), class = Intercept, resp = kcal),
+                prior(normal(0, 1), class = Intercept, resp =neocortex),
+                prior(normal(0, 1), class = b),
+                prior(cauchy(0, 1), class = sigma,     resp = kcal),
+                prior(cauchy(0, 1),   class = sigma,  resp=neocortex)),
+      iter = 1e4, chains = 2, cores = 2,
+      seed = 1234)
+```
+
+
+```{r res3,echo=FALSE}
+library(broom)
+tidy(m2) %>%
+  mutate_if(is.numeric, round, digits = 2)
+```
+
+Here we see that mass is indeed predictive of the neocortex percentage.  Our results of primary interest are similar. Here we see that a one sd (on the log scale) greater typical female BMI is associated with an expected 0.85 95%CrI=(0.46, 1.22) standard deviation decrease in energy content of milk. A one sd greater percent neocortex is associated with an expected 0.81 95%CrI=(0.35, 1.24) standard deviation increase in energy content of milk.  
+
+## Missing Not at Random
+
+Next, we consider a much more difficult problem that arises when the probability of nonresponse is thought to be related to the specific value that *should* have been measured.  
+
+<br>
+
+If $Pr({\bf R}_i \mid {\bf Y}_i, {\bf X}_i, \boldsymbol{\psi})$ is a function of ${\bf Y}_{i,mis}$, then the missing data mechanism is *nonignorable* (this is not the only setting in which we can have nonignorable missing data).  In this setting, for modeling we need to specify the joint distribution $$f({\bf Y}_i,{\bf R}_i \mid {\bf X}_i, \boldsymbol{\beta}, \boldsymbol{\psi})$$ for inference.  This can be problematic because it is often hard to estimate a missing data mechanism that depends on values that are not even observed!  Results in this case often depend strongly on the assumed model, and sensitivity analyses are a useful tool for determining the consequences if your assumed model is not correct.
+
+## Examples
+
+  - Suppose you are estimating mean income as a function of various covariates.  Missingness may be more likely for people with very high or very low incomes, in addition to a subset of people who consider their income "none of your business" regardless of their income level.
+  -  Consider a longitudinal clinical trial with interest in modeling health-related quality of life, which is measured every three months by self-report on a detailed multiple-item questionnaire (items might include ability to carry out everyday activities, outlook, daily pain, etc.).  There may be a lot of missing data, even on subjects who do not drop out.  For example, if subjects who are sicker, or who are in more pain, do not respond, then we may have nonignorable nonresponse.  In particular, nonresponse at time $j$ is likely to be related to quality of life at time $j$, even conditional on quality of life at times $1, \cdots, j-1$.
+  
+## Selection Models
+
+A popular choice for handling data missing not at random in a Bayesian framework is a *selection model*. Selection models factor the joint distribution of the outcomes and nonresponse pattern as $$f({\bf Y}_i, {\bf R}_i \mid {\bf X}_i, \boldsymbol{\beta}, \boldsymbol{\psi})=f({\bf R}_i \mid {\bf Y}_i, {\bf X}_i, \boldsymbol{\beta}, \boldsymbol{\psi})f({\bf Y}_i \mid {\bf X}_i, \boldsymbol{\beta}).$$  We specify both of these components completely and then base our inferences on $$L(\boldsymbol{\beta},\boldsymbol{\psi} \mid {\bf Y}_{i,obs},{\bf R}_i),$$ integrating out the missing values.
+
+##
+
+Selection models use a *complete data* model for ${\bf Y}$ and then model
+the probability of nonresponse conditional on the observed and unobserved
+outcomes.  Identifiability can be a serious issue in these models, and often
+the assumptions needed to model the missing data mechanism are unverifiable.
+NOTE:  complete case analysis assumptions are also usually unverifiable!
+
+##
+
+Selection models are nice because they directly model $f({\bf Y}_i \mid {\bf X}_i, \boldsymbol{\beta})$, the target of our inference.  However, they can be computationally intractable in frequentist settings (often involve difficult integrals and need complex versions of EM), results may depend heavily on modeling assumptions, and identifiability can be difficult to characterize.
+
+<br>
+
+In a Bayesian framework, it is usually straightforward to add a model for ${\bf R}_i$.
