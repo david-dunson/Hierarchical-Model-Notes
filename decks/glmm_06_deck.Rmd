@@ -1,0 +1,301 @@
+---
+title: Meta-Analysis
+
+output: 
+
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+## Meta-Analysis
+
+A *meta-analysis* is the "statistical analysis of a large collection of analysis results from individual studies for the purpose of integrating the findings" (Glass, 1976). Meta-analysis is a standard tool for producing summaries of research findings in medicine and other fields.
+
+<br>
+
+Meta-analysis can be useful when studies yield potentially conflicting results, when sample sizes in individual studies are modest, when events are rare, and in general to summarize a literature.
+
+
+## TB Studies
+
+Hierarchical models are often used as part of meta-analysis. On the next page we examine a forest plot illustrating the results of 13 studies evaluating the efficacy of a vaccine (BCG) for preventing tuberculosis. The figure shows the relative risk of tuberculosis infection in the treated versus control groups in 13 studies (along with CI's from each study) as well as a summary estimate and 95% CI based on a random effects meta-analysis.
+
+##
+
+```{r htn,warning=FALSE,message=FALSE,echo=FALSE}
+library(metafor)
+
+dat=escalc(measure="RR", ai = tpos, bi = tneg, ci = cpos, di = cneg, data = dat.bcg, append = TRUE)
+res <- rma(yi, vi, data = dat)
+
+forest(res, slab = paste(dat$author, dat$year, sep = ", "), xlim = c(-16, 6), at = log(c(0.05, 0.25, 1, 4)), atransf = exp, ilab = cbind(dat$tpos, dat$tneg, dat$cpos, dat$cneg), ilab.xpos = c(-9.5, -8, -6, -4.5), cex = 0.75)
+op <- par(cex = 0.75, font = 2)
+text(c(-9.5, -8, -6, -4.5), 15, c("TB+", "TB-", "TB+", "TB-")) 
+text(c(-8.75, -5.25), 16, c("Vaccinated", "Control"))
+text(-16, 15, "Author(s) and Year", pos = 4)
+text(6, 15, "Relative Risk [95% CI]", pos = 2)
+par(op)
+
+```
+
+You can [click here to see where the vaccine is given](http://www.bcgatlas.org). The vaccine is not currently given in the US due to low TB prevalence.
+
+## Random Effects Meta-Analysis
+
+A random effects meta analysis typically assumes the model $$y_i=\theta_i+e_i~~~~\theta_i=\mu+b_i ~~~ b_i \sim N(0,\tau^2),$$ where $y_i$ is the effect estimate (possibly transformed) from study $i$, $e_i \sim N(0,v_i)$ is the sampling error from study i (the sampling variance $v_i$ estimated from each study is assumed known),  $\mu$ is the average "true" effect, and $\tau^2$ is the heterogeneity among true effects.
+
+In this framework, we may think of individual studies as:
+
+  - replicates
+  - results from a variety of completely different studies of the same topic
+  - exchangeable yet not completely identical or unrelated
+  
+##
+
+Note the following.
+
+  - $\mu$ is typically the primary quantity of interest as a summary measure across studies
+  - the error variance $v_i$ of individual study estimate $y_i$ varies across studies and is often treated as known as the standard error estimate from study $i$. 
+  
+## Example: Spanking Data
+
+Kurz considers data on corporal punishment of children. UNICEF (2014) reports that 80% of children worldwide are spanked or physically punished by their parents. Spanking is one of the most studied (and controversial) aspects of parenting, and hundreds of studies are available on the topic. The data [spank.xlsx](data/spank.xlsx) contain 111 summary measures of a variety of child behavioral, emotional, cognitive, and physical outcomes from studies.
+
+##
+
+```{r readdata}
+library(readxl)
+spank=readxl::read_excel("data/spank.xlsx")
+head(spank)
+```
+
+##
+
+The effect size of interest in the meta-analysis is the standardized difference in mean outcomes given by $$d=\frac{\mu_{spanked}-\mu_{not spanked}}{\sigma_{pooled}},$$ where $$\sigma_{pooled}=\sqrt{\frac{(n_1-1)\sigma_1^2+(n_2-1)\sigma_2^2}{n_1+n_2-2}}.$$
+
+This effect size is just a mean difference converted to standard deviation units. Most effect sizes will be fairly small -- for example, seeing an effect size of 1 would correspond to a 1 SD difference in the outcome between the spanking groups. Let's peek at the full data in a forest plot.
+
+##
+
+```{r forestplots,warning=FALSE,message=FALSE,eval=FALSE}
+library(forestplot)
+forestplot(rep(NA,length(spank$study)),spank$d,spank$ll,spank$ul)
+```
+
+##
+
+
+```{r forestplots2,warning=FALSE,message=FALSE,echo=FALSE}
+library(forestplot)
+forestplot(rep(NA,length(spank$study)),spank$d,spank$ll,spank$ul)
+```
+
+##
+
+Note that the data on the previous slides do not provide us with standard errors for the effect sizes $d$; however, we can calculate them based on the CI's as
+
+$$SE=\frac{\text{upper limit}-\text{lower limit}}{2\times 1.96}.$$
+
+```{r spankse,warning=FALSE, message=FALSE}
+library(tidyverse)
+spank <-
+  spank %>% 
+  mutate(se = (ul - ll) / 3.92)
+glimpse(spank)
+
+```
+
+## Model for Spanking Data
+
+$$y_i=\theta_i+e_i~~~~\theta_i=\mu+b_i ~~~ b_i \sim N(0,\tau^2),$$ where $y_i$ is the effect estimate (possibly transformed) from study $i$, and $e_i \sim N(0,v_i)$ is the sampling error from study i (the sampling variance $v_i$ estimated from each study is assumed known). Let's put a half-Cauchy(0,1) prior on $\tau$ and a N(0,1) prior on $\mu$ (as it would be really rare to have a summary $d$ that was very big on the effect size scale -- probably not the case for spanking but maybe if we were measuring more severe physical abuse).
+
+```{r spankmodel,cache=TRUE,warning=FALSE,message=FALSE}
+library(brms)
+m.spank <- 
+  brm(data = spank, family = gaussian,
+      d | se(se) ~ 1 + (1 | study),
+      prior = c(prior(normal(0, 1), class = Intercept),
+                prior(cauchy(0, 1), class = sd)),
+      iter = 4000, warmup = 1000, cores = 4, chains = 4,
+      seed = 123)
+```
+
+##
+
+```{r brmsm1,message=FALSE,warning=FALSE}
+print(m.spank)
+```
+
+Our summary measure for $d$ is 0.38, with 95% CrI=(0.31,0.45). Kids who were spanked had on average scores 0.38 SD higher than kids who were not spanked. (Note: presumably these studies are not randomized, and this correlation does not imply causation.)
+
+##
+
+What are the outcomes?
+
+```{r outcomes}
+spank %>% 
+  distinct(outcome) %>% 
+  knitr::kable()
+```
+
+These outcomes were coded by authors in the same direction, so that larger values of $d$ imply more negative outcomes among kids who were spanked.
+
+## 
+
+One interesting aspect of the data is while we have 111 outcome effect sizes, these come from only 76 separate studies -- some studies measured multiple outcomes.
+
+```{r summary}
+spank %>% 
+  distinct(study) %>% 
+  count()
+```
+
+We may wish to shrink outcomes of similar types together -- so let's fit a cross-classified random effects model by adding a random effect for outcome type.
+
+##
+
+```{r reoutcome,cache=TRUE,warning=FALSE,message=FALSE}
+m.spank.outcome <- 
+  brm(data = spank, family = gaussian,
+      d | se(se) ~ 1 + (1 | study) + (1 | outcome),
+      prior = c(prior(normal(0, 1), class = Intercept),
+                prior(cauchy(0, 1), class = sd)),
+      iter = 4000, warmup = 1000, cores = 4, chains = 4,
+      seed = 123)
+```
+
+##
+
+```{r spankoutcomeredux}
+print(m.spank.outcome)
+```
+
+The estimates of $d$ are quite similar to our previous ones. Looking at the variance components, the study-to-study heterogeneity is larger than heterogeneity across outcomes. We can explore further in a figure. 
+
+##
+
+```{r plotredists,eval=FALSE}
+
+# we'll want this to label the plot
+label <-
+  tibble(tau   = c(.12, .3),
+         y     = c(15, 10),
+         label = c("sigma['outcome']", "sigma['study']"))
+
+# wrangle
+posterior_samples(m.spank.outcome) %>% 
+  select(starts_with("sd")) %>% 
+  gather(key, tau) %>% 
+  mutate(key = str_remove(key, "sd_") %>% str_remove(., "__Intercept")) %>% 
+  
+  # plot
+  ggplot(aes(x = tau)) +
+  geom_density(aes(fill = key),
+               color = "transparent") +
+  geom_text(data = label,
+            aes(y = y, label = label, color = label),
+            parse = T, size = 5) +
+  scale_fill_viridis_d(NULL, option = "B", begin = .5) +
+  scale_color_viridis_d(NULL, option = "B", begin = .5) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  xlab(expression(tau)) +
+  theme(panel.grid = element_blank())
+```
+
+##
+
+```{r plotredists2,echo=FALSE,warning=FALSE,message=FALSE}
+library(brms)
+# we'll want this to label the plot
+label <-
+  tibble(tau   = c(.12, .3),
+         y     = c(15, 10),
+         label = c("sigma['outcome']", "sigma['study']"))
+
+# wrangle
+posterior_samples(m.spank.outcome) %>% 
+  select(starts_with("sd")) %>% 
+  gather(key, tau) %>% 
+  mutate(key = str_remove(key, "sd_") %>% str_remove(., "__Intercept")) %>% 
+  
+  # plot
+  ggplot(aes(x = tau)) +
+  geom_density(aes(fill = key),
+               color = "transparent") +
+  geom_text(data = label,
+            aes(y = y, label = label, color = label),
+            parse = T, size = 5) +
+  scale_fill_viridis_d(NULL, option = "C", begin = .5) +
+  scale_color_viridis_d(NULL, option = "C", begin = .5) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  xlab(expression(tau)) +
+  theme(panel.grid = element_blank())
+```
+
+##
+
+What I'm really curious about is whether spanking has similar effects on all the different outcomes -- let's examine those more closely.
+
+```{r outcomes3,eval=FALSE}
+library(tidybayes)
+library(brms)
+m.spank.outcome %>% 
+  spread_draws(b_Intercept, r_outcome[outcome,]) %>%
+  # add the grand mean to the group-specific deviations
+  mutate(mu = b_Intercept + r_outcome) %>%
+  ungroup() %>%
+  mutate(outcome = str_replace_all(outcome, "[.]", " ")) %>% 
+
+  # plot
+  ggplot(aes(x = mu, y = reorder(outcome, mu), fill = reorder(outcome, mu))) +
+  geom_vline(xintercept = fixef(m.spank.outcome)[1, 1], color = "grey33", size = 1) +
+  geom_vline(xintercept = fixef(m.spank.outcome)[1, 3:4], color = "grey33", linetype = 2) +
+  geom_halfeyeh(.width = .95, size = 2/3, color = "white") +
+  scale_fill_viridis_d(option = "B", begin = .2) +
+  labs(x = expression(italic("Cohen's d")),
+       y = NULL) +
+  theme(panel.grid   = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.y  = element_text(hjust = 0))
+```
+
+##
+
+```{r outcomes4,echo=FALSE,message=FALSE,warning=FALSE}
+library(tidybayes)
+library(brms)
+m.spank.outcome %>% 
+  spread_draws(b_Intercept, r_outcome[outcome,]) %>%
+  # add the grand mean to the group-specific deviations
+  mutate(mu = b_Intercept + r_outcome) %>%
+  ungroup() %>%
+  mutate(outcome = str_replace_all(outcome, "[.]", " ")) %>% 
+
+  # plot
+  ggplot(aes(x = mu, y = reorder(outcome, mu), fill = reorder(outcome, mu))) +
+  geom_vline(xintercept = fixef(m.spank.outcome)[1, 1], color = "grey33", size = 1) +
+  geom_vline(xintercept = fixef(m.spank.outcome)[1, 3:4], color = "grey33", linetype = 2) +
+  geom_halfeyeh(.width = .95, size = 2/3, color = "white") +
+  scale_fill_viridis_d(option = "B", begin = .2) +
+  labs(x = expression(italic("Cohen's d")),
+       y = NULL) +
+  theme(panel.grid   = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.y  = element_text(hjust = 0))
+```
+
+<small>
+We see evidence that spanking may be particularly linked with child externalizing behavior problems (again, this is chicken & egg -- we cannot infer causation).
+</small>
+
+
