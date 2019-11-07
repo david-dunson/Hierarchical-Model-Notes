@@ -62,7 +62,6 @@ d %>%
         legend.position  = "none",
         strip.background = element_rect(fill = "transparent", color = "transparent")) +
   facet_wrap(~key)
-
 ```
 
 ##
@@ -140,10 +139,8 @@ One issue analyzing these data is that we have error involved in the measurement
 library(rethinking)
 data(WaffleDivorce)
 d=WaffleDivorce
-
 plot(d$Divorce~d$MedianAgeMarriage,ylim=c(4,15),
      xlab="Median age at marriage",ylab="Divorce rate per 1000 population")
-
 #add interval of 1 SE in each direction
 for (i in 1:nrow(d)) {
   ci=d$Divorce[i]+c(-1,1)*d$Divorce.SE[i]
@@ -159,10 +156,8 @@ for (i in 1:nrow(d)) {
 library(rethinking)
 data(WaffleDivorce)
 d=WaffleDivorce
-
 plot(d$Divorce~d$MedianAgeMarriage,ylim=c(4,15),
      xlab="Median age at marriage",ylab="Divorce rate per 1000 population")
-
 #add interval of 1 SE in each direction
 for (i in 1:nrow(d)) {
   ci=d$Divorce[i]+c(-1,1)*d$Divorce.SE[i]
@@ -179,10 +174,8 @@ There is substantial variability in the certainty in the estimated divorce rates
 A hunch is that the size of the state's population may be involved.
 
 ```{r diverr2,message=FALSE,warning=FALSE,eval=FALSE}
-
 plot(d$Divorce~log(d$Population),ylim=c(4,15),
      xlab="Log(population)",ylab="Divorce rate per 1000 population")
-
 #add interval of 1 SE in each direction
 for (i in 1:nrow(d)) {
   ci=d$Divorce[i]+c(-1,1)*d$Divorce.SE[i]
@@ -195,10 +188,8 @@ for (i in 1:nrow(d)) {
 ##
 
 ```{r diverr3,message=FALSE,warning=FALSE,echo=FALSE}
-
 plot(d$Divorce~log(d$Population),ylim=c(4,15),
      xlab="Log(population)",ylab="Divorce rate per 1000 population")
-
 #add interval of 1 SE in each direction
 for (i in 1:nrow(d)) {
   ci=d$Divorce[i]+c(-1,1)*d$Divorce.SE[i]
@@ -213,10 +204,8 @@ Yes, there is a relationship between population size and certainty in the estima
 ##
 
 ```{r marerr3,message=FALSE,warning=FALSE,echo=FALSE}
-
 plot(d$Marriage~log(d$Population),ylim=c(10,35),
      xlab="Log(population)",ylab="Marriage rate per 1000 population")
-
 #add interval of 1 SE in each direction
 for (i in 1:nrow(d)) {
   ci=d$Marriage[i]+c(-1,1)*d$Marriage.SE[i]
@@ -292,7 +281,6 @@ d %>%
   mutate(Divorce_distribution = str_c("Divorce ~ Normal(", Divorce, ", ", Divorce.SE, ")")) %>% 
   select(Loc, Divorce_distribution) %>% 
   head()
-
 ```
 
 You can see big differences in the error for CA (very large state) and AK (small state in terms of population).
@@ -303,7 +291,6 @@ You can see big differences in the error for CA (very large state) and AK (small
 # here we specify the initial (i.e., starting) values
 inits      <- list(Yl = dlist$div_obs)
 inits_list <- list(inits, inits)
-
 #want 0+intercept notation if data not mean-centered
 m2 <- 
   brm(data = dlist, family = gaussian,
@@ -352,7 +339,6 @@ d %>%
   mutate(Marriage_distribution = str_c("Marriage ~ Normal(", Marriage, ", ", Marriage.SE, ")")) %>% 
   select(Loc, Marriage_distribution) %>% 
   head()
-
 ```
 
 
@@ -366,20 +352,17 @@ dlist <- list(
   mar_obs = d$Marriage,
   mar_sd  = d$Marriage.SE,
   A       = d$MedianAgeMarriage)
-
 # the `inits`
 inits      <- list(Yl = dlist$div_obs)
 inits_list <- list(inits, inits)
-
 # the model
-
 m3 <- 
   brm(data = dlist, family = gaussian,
       div_obs | mi(div_sd) ~ 0 + intercept + me(mar_obs, mar_sd) + A,
       prior = c(prior(normal(0, 10), class = b),
                 prior(cauchy(0, 2.5), class = sigma)),
       iter = 5000, warmup = 1000, cores = 2, chains = 2,
-      seed = 14,
+      seed = 1235,
       control = list(adapt_delta = 0.99,
                      max_treedepth = 12),
       save_mevars = TRUE,

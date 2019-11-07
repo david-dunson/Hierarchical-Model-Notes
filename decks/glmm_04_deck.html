@@ -534,10 +534,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rethinking)
 <span class="kw">data</span>(WaffleDivorce)
 d=WaffleDivorce
-
 <span class="kw">plot</span>(d<span class="op">$</span>Divorce<span class="op">~</span>d<span class="op">$</span>MedianAgeMarriage,<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">15</span>),
      <span class="dt">xlab=</span><span class="st">&quot;Median age at marriage&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Divorce rate per 1000 population&quot;</span>)
-
 <span class="co">#add interval of 1 SE in each direction</span>
 <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(d)) {
   ci=d<span class="op">$</span>Divorce[i]<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="op">*</span>d<span class="op">$</span>Divorce.SE[i]
@@ -555,7 +553,6 @@ d=WaffleDivorce
 <p>A hunch is that the size of the state’s population may be involved.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(d<span class="op">$</span>Divorce<span class="op">~</span><span class="kw">log</span>(d<span class="op">$</span>Population),<span class="dt">ylim=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">15</span>),
      <span class="dt">xlab=</span><span class="st">&quot;Log(population)&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Divorce rate per 1000 population&quot;</span>)
-
 <span class="co">#add interval of 1 SE in each direction</span>
 <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(d)) {
   ci=d<span class="op">$</span>Divorce[i]<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)<span class="op">*</span>d<span class="op">$</span>Divorce.SE[i]
@@ -661,7 +658,6 @@ m1 &lt;-<span class="st"> </span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># here we specify the initial (i.e., starting) values</span>
 inits      &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Yl =</span> dlist<span class="op">$</span>div_obs)
 inits_list &lt;-<span class="st"> </span><span class="kw">list</span>(inits, inits)
-
 <span class="co">#want 0+intercept notation if data not mean-centered</span>
 m2 &lt;-<span class="st"> </span>
 <span class="st">  </span><span class="kw">brm</span>(<span class="dt">data =</span> dlist, <span class="dt">family =</span> gaussian,
@@ -732,24 +728,23 @@ m2 &lt;-<span class="st"> </span>
   <span class="dt">mar_obs =</span> d<span class="op">$</span>Marriage,
   <span class="dt">mar_sd  =</span> d<span class="op">$</span>Marriage.SE,
   <span class="dt">A       =</span> d<span class="op">$</span>MedianAgeMarriage)
-
 <span class="co"># the `inits`</span>
 inits      &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">Yl =</span> dlist<span class="op">$</span>div_obs)
 inits_list &lt;-<span class="st"> </span><span class="kw">list</span>(inits, inits)
-
 <span class="co"># the model</span>
-
 m3 &lt;-<span class="st"> </span>
 <span class="st">  </span><span class="kw">brm</span>(<span class="dt">data =</span> dlist, <span class="dt">family =</span> gaussian,
       div_obs <span class="op">|</span><span class="st"> </span><span class="kw">mi</span>(div_sd) <span class="op">~</span><span class="st"> </span><span class="dv">0</span> <span class="op">+</span><span class="st"> </span>intercept <span class="op">+</span><span class="st"> </span><span class="kw">me</span>(mar_obs, mar_sd) <span class="op">+</span><span class="st"> </span>A,
       <span class="dt">prior =</span> <span class="kw">c</span>(<span class="kw">prior</span>(<span class="kw">normal</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="dt">class =</span> b),
                 <span class="kw">prior</span>(<span class="kw">cauchy</span>(<span class="dv">0</span>, <span class="fl">2.5</span>), <span class="dt">class =</span> sigma)),
       <span class="dt">iter =</span> <span class="dv">5000</span>, <span class="dt">warmup =</span> <span class="dv">1000</span>, <span class="dt">cores =</span> <span class="dv">2</span>, <span class="dt">chains =</span> <span class="dv">2</span>,
-      <span class="dt">seed =</span> <span class="dv">14</span>,
+      <span class="dt">seed =</span> <span class="dv">1235</span>,
       <span class="dt">control =</span> <span class="kw">list</span>(<span class="dt">adapt_delta =</span> <span class="fl">0.99</span>,
                      <span class="dt">max_treedepth =</span> <span class="dv">12</span>),
       <span class="dt">save_mevars =</span> <span class="ot">TRUE</span>,
       <span class="dt">inits =</span> inits_list)</code></pre></div>
+<pre><code>## [[1]]
+## Stan model 'cf10f52a9e78d534fbc2d2a42e429046' does not contain samples.</code></pre>
 </section>
 <section id="section-17" class="slide level2">
 <h2></h2>
@@ -757,22 +752,22 @@ m3 &lt;-<span class="st"> </span>
 ##   Links: mu = identity; sigma = identity 
 ## Formula: div_obs | mi(div_sd) ~ 0 + intercept + me(mar_obs, mar_sd) + A 
 ##    Data: dlist (Number of observations: 50) 
-## Samples: 2 chains, each with iter = 5000; warmup = 1000; thin = 1;
-##          total post-warmup samples = 8000
+## Samples: 1 chains, each with iter = 5000; warmup = 1000; thin = 1;
+##          total post-warmup samples = 4000
 ## 
 ## Population-Level Effects: 
 ##                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-## intercept          15.65      6.68     2.54    28.53 1.00     2333
-## A                  -0.44      0.20    -0.83    -0.04 1.00     2660
-## memar_obsmar_sd     0.27      0.11     0.07     0.49 1.00     2107
+## intercept          15.88      6.92     1.89    29.17 1.00     1911
+## A                  -0.44      0.21    -0.84    -0.03 1.00     2113
+## memar_obsmar_sd     0.27      0.11     0.06     0.49 1.00     1743
 ##                 Tail_ESS
-## intercept           4369
-## A                   4563
-## memar_obsmar_sd     3786
+## intercept           2280
+## A                   2390
+## memar_obsmar_sd     2587
 ## 
 ## Family Specific Parameters: 
 ##       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-## sigma     1.00      0.21     0.62     1.45 1.00     1887     2970
+## sigma     1.01      0.21     0.63     1.49 1.00      924     1587
 ## 
 ## Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
 ## is a crude measure of effective sample size, and Rhat is the potential 

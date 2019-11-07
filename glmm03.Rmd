@@ -44,6 +44,8 @@ library(tidyverse)
 
 [Missing Data](decks/glmm_05_deck.html)
 
+[Meta-Analysis](decks/glmm_06_deck.html)
+
 <!--- 
 [gelman poisson police stops chapter 15]
 
