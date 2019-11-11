@@ -1,0 +1,75 @@
+---
+title: Poststratification and Weighting
+output: 
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Why Use Poststratification and Weighting?
+
+- Sometimes we would like to stratify on a key variable, e.g. political party affiliation, but cannot place the units into their correct strata until the units are sampled. For example, in aggregate polling data we cannot determine if an individual is a democrat or republican until after they've been polled. 
+- So, we'll use poststratification, or stratification after the selection of a sample, to handle this type of data
+- We can also use poststratification and weighting if the sample is not representative of the population such as when we have nonresponse bias. 
+- In general poststratification and weighting are used to obtain more accurate estimates from survey data.
+
+## How It Works - Population Distribution
+The first step in poststratification is knowing the ratio of the size of a stratum in question to that of the relevant population size, e.g. what proportion of individuals in North Carolina aged 20-25 identify as republicans. We will denote this as $\frac{N_h}{N}$ where $N_h$ is the number of individuals in that stratum, and N is the total number of individuals in the populations.
+
+## How It Works - Poststratifying and Weighting
+Once we know the distribution of factors of interest in our population, we can apply poststratifying and weighting. Essentially, we calculate a weighted sum in which the weights are the relevant proportions:
+
+\[
+\bar{y}_{poststrat.} = \frac{N_{democrat}}{N}\cdot \bar{y}_{democrat} + \frac{N_{republican}}{N}\cdot \bar{y}_{republican}
+\]
+
+Now we have a weighted estimate, $\bar{y}_{poststrat.}$, of our population mean. This adjustment is important if, for example, democrats are more likely than republicans to participate in a survey, but we wanted to obtain an estimate that was generalizable to the entire population.
+
+## Example
+
+Suppose a middle school math club wants to estimate the proportion of undergraduate students in the RTP area who agree with the statement "Mike Krzyzewski is the all-time best college basketball coach." 
+
+They take a convenience sample of 100 undergraduate students at the Target on 15-501 to address this question.
+
+Do you see any challenges that may arise due to the study design?
+
+## Strata
+
+Suppose the RTP area contains N=60,000 undergraduates, with 24,000 at NC State, 19,000 at UNC, 6500 each at Duke and NCCU, and 4000 elsewhere (Meredith, Shaw, etc.). Then the proportions $\frac{N_h}{N}$ of interest are roughly 0.40 for NC State, 0.32 for UNC, 0.11 for Duke, 0.11 for NCCU, and 0.06 for other universities (proportions rounded and forced to sum to 1 for convenience).
+
+## Results
+
+Suppose the math club carries out the survey, obtaining the following proportions of 100 surveyed students endorsing the statement: 1.0 among 50 Duke students surveyed, 0.0 among 25 UNC students surveyed, 0.6 among 20 NCCU students surveyed, 0.5 among 4 NC State students surveyed, and 1.0 from the single student from another university surveyed. This means that overall among the 100 students surveyed, 65 endorsed the statement. Is 65% a valid estimate of the percent of undergraduates in RTP who believe Coach K is the best ever?
+
+## Probably not!
+
+Students who live close to the 15-501 Target are more likely to attend the nearby schools, and Duke is one of the closest schools to the Target. What happens if we use poststratification to reweight our estimate by the representation of each university among area undergraduates (rather than its representation in our biased sample)?
+
+\begin{eqnarray*}
+\widehat{\pi}&=&1.0\left(\frac{6500}{60000}\right)+0.0\left(\frac{19000}{60000}\right)+0.6\left(\frac{6500}{60000}\right) \\  & & +0.5\left(\frac{24000}{60000}\right)
+ +1.0\left(\frac{4000}{60000}\right)=0.44
+\end{eqnarray*}
+
+## Notes
+
+Our estimate is really sensitive to having only 1 student from the other colleges -- if that student had not liked Coach K, our estimate would have been 0.37 instead of 0.44.
+
+For this reason, many surveys will oversample individuals from small groups in order to obtain more stable estimates (e.g., we could have taken fewer Duke and UNC students, large groups who are more homogeneous in their thoughts about Coach K, and instead focused our efforts on less predictable groups).
+
+## Further Reading & Resources
+
+- [Poststratification Tutorial at Penn State Online](https://onlinecourses.science.psu.edu/stat506/node/29/) 
+- [Paper on Poststratification in a Sample Survey Context](https://msu.edu/~barbozag/Web/poststrat.pdf)
+ 
+
