@@ -1,0 +1,184 @@
+---
+title: Categorical Outcomes
+
+output: 
+
+  revealjs::revealjs_presentation:
+    theme: night
+    highlight: espresso
+    center: true
+    transition: none
+    css: styles.css
+    fig_caption: true
+    reveal_options:
+      progress: true
+      slideNumber: true
+      
+  
+---
+
+```{r setup, echo=FALSE,warning=FALSE,message=FALSE}
+library(brms)
+library(ggplot2)
+data(inhaler)
+```
+
+## Categorical Data
+
+We've focused on hierarchical models for binary and continuous data. Of course, our data may follow a wide variety of distributions. Today we'll consider extensions to categorical data, as these may be less straightforward than extensions to say count data.
+
+<br>
+
+Examples of categorical data: beverage order in a restaurant (water, tea, coffee, soda, wine, beer, mixed drink) or favorite Duke stats professor
+
+## Categorical Data
+
+Define $\pi_{ijk}$ as the probability that response $j$ for subject $i$ takes value $k$: $Pr(y_{ij}=k)$, $k=1,\cdots,K$. The *generalized logistic* model does not assume any ordering of the $K$ response categories and models $$\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_kx_{ij}, ~~~~~ k\neq 1.$$ 
+
+<br>
+
+Note that this is not a model for the log odds unless $k=2$. We interpret $\beta_k$ as the log ratio of probabilities of responding in category $k$ versus category 1 associated with a 1-unit difference in the predictor $x_{ij}$.
+
+## Example interpretation
+
+$$\log \left(\frac{\pi_{ik}}{\pi_{i1}}\right) = \alpha_k+\beta_kx_{i}, ~~~~~ k\neq 1.$$ 
+
+Suppose $k=1$ for Clyde, $k=2$ for Reiter, $k=3$ for Hoff, and $k=4$ for Berger and let $x_i$ be the student's grade in STA 521.
+
+In this model,
+
+  - the $\alpha_k$ are related to general preferences for the four professors
+  - $e^{\beta_k}$ is the ratio of ratios of probabilities of preferring Professor $k$ to Professor Clyde (so negative values indicate a preference for Clyde, and positive values indicate a preference for Reiter) for a 1-unit difference in $x$
+  
+##
+$$\log \left(\frac{\pi_{ik}}{\pi_{i1}}\right) = \alpha_k+\beta_kx_{i}, ~~~~~ k\neq 1.$$ 
+
+Huh?
+
+  - Say made a 95 in 521: $\frac{\pi_{i2}}{\pi_{i1}}=e^{\alpha_2+95\beta_2}$ 
+  - Say made a 94: $\frac{\pi_{i2}}{\pi_{i1}}=e^{\alpha_2+94\beta_2}$
+  - Ratio of these probability ratios is $e^\beta_2$
+    - If $\beta_2>0$ prefer Reiter more when made better grade in Clyde's course
+    - If $\beta>2<0$ then preference for Reiter diminishes when made better grade in Clyde's course
+
+
+
+## Multilevel Categorical Data
+
+$$\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_kx_{ij}, ~~~~~ k\neq 1$$ 
+
+Suppose we have multiple measurements $j$ per participant $i$ in a study or per group -- for example we might ask about instructor preference for a list of courses. How might we add random effects to this model?
+
+##
+
+You don't want to assume that just because a participant has more of a tendency to select category 2 than category 1, they will also have more of a tendency to select category 3 than category 1. Thus a single random intercept per person is insufficient; we want to allow $k-1$ random intercepts per person:
+
+$$\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_kx_{ij}+b_{ik}, ~~~~~ k\neq 1, ~~ b_{ik}\overset{iid}\sim N(0,\sigma^2_k)$$ 
+
+## Example: Clarity of Inhaler Instructions
+
+Ezzet and Whitehead (1991) present data from an industry-sponsored clinical trial designed to evaluate the clarity of two different sets of instructions for using two different inhalers (the variable treat indicates the inhaler used and is coded 0.5 and -0.5) to deliver an asthma drug. Each participant rated each inhaler; the variable period indicates whether the rating is from the first or second inhaler evaluated (in case participants learned from the first evaluation). The order of evaluation was randomized across subjects.
+
+<br>
+
+After using a device, the participant rated the instruction leaflet as 1=easy to understand, 2=only clear after rereading, 3=not very clear, or 4=confusing.
+
+##
+
+```{r plotresponses,out.width="40%"}
+table(inhaler$treat)
+ggplot(data=inhaler, aes(x=rating)) +
+geom_bar(stat="count")+facet_wrap(~treat)
+``` 
+<small>
+We see equal numbers in each group; it seems that the inhaler insert labeled 0.5 may have been easier to understand.
+</small>
+
+##
+
+```{r plotresponses2,out.width="80%"}
+ggplot(data=inhaler, aes(x=rating)) +
+geom_bar(stat="count")+facet_wrap(~period)
+``` 
+
+Period does not seem to have much impact on the ratings.
+
+##
+
+Let's consider the model $$\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_{k,trt}t_{ij}+\beta_{k,per}p_{ij}+b_{ik}, ~~~~~ k=2,3,4,$$  $b_{ik}\overset{iid}\sim N(0,\sigma^2_k),$
+where $t_{ij}$ indicates the inhaler insert used by individual $i$ in period $j$ and $p_{ij}$ indicates the period of measurement of $y_{ij}$.
+
+```{r brmscategorical, eval=FALSE}
+#Note this models can have relatively low ESS
+#Default priors t_3 scale 10 on alpha, Half t_3, scale 10 on SD, uniform improper on betas
+m1=brm(rating~treat+period+(1|subject),data=inhaler,
+       family=categorical(), control=list(adapt_delta=0.99),
+       chains=8)
+```
+
+## Posterior Estimates
+
+|Parameter | Posterior Mean  | 95% CrI |
+|--------|----------:|------------:|
+| $\alpha_2$ | -0.89 | (-1.20, -0.61) |
+| $\alpha_3$ | -8.94 | (-19.00,-3.88) |
+| $\alpha_4$ | -7.91 | (-20.12, -3.75) |
+| $\beta_{2,trt}$ | -1.13 | (-1.57,-0.70) |
+| $\beta_{3,trt}$ | -4.30 | (-8.50, -1.79) |
+| $\beta_{4,trt}$ | -2.31 | (-5.98,-0.15) |
+| $\beta_{2,per}$ | 0.10 | (-0.30,0.50) |
+| $\beta_{3,per}$ | 0.15 | (-2.03,1.90) |
+| $\beta_{4,per}$ | 1.18 | (-0.80, 4.44) |
+| $\sigma_2$ | 1.33 | (0.80, 1.91) |
+| $\sigma_3$ | 4.17 | (0.87, 9.63) |
+| $\sigma_4$ | 2.87 | (0.09, 9.07) |
+<small>
+Here we see evidence that when using the inhaler and instructions labeled 0.5, participants are more likely than when using the other inhaler and instructions (labeled -0.5) to select the "easy" rating than any of the other options. It's hard to estimate these variance components -- data are sparse for the higher categories.
+</small>
+
+## Proportional Odds Model
+
+Sometimes when scales have some natural ordering, it is appealing to take advantage of this in modeling.
+
+The *proportional odds* model is based on modeling cumulative logits. For our example with 4 levels of response, these logits would be
+
+$$\text{logit}(\theta_{ij1})=\log \left(\frac{\pi_{ij1}}{\pi_{ij2}+\pi_{ij3}+\pi_{ij4}}\right)$$
+$$\text{logit}(\theta_{ij2})=\log \left(\frac{\pi_{ij1}+\pi_{ij2}}{\pi_{ij3}+\pi_{ij4}}\right)$$
+$$\text{logit}(\theta_{ij3})=\log \left(\frac{\pi_{ij1}+\pi_{ij2}+\pi_{ij3}}{\pi_{ij4}}\right)$$
+
+In each case we are modeling the log odds of having a lower level versus a higher level of response.
+
+##
+
+The *proportional odds* model assumes that the coefficients of predictors are the same no matter which cumulative logit we consider; that is, $$\text{logit}(\theta_{ijk})=\alpha_k+\beta x_{ij}, ~~~ k=1,2,3.$$
+
+<br>
+
+That is, the association with a one-unit change in the predictor $x$ is the same moving from "easy" to "all others" as it is for moving from "easy or only clear after rereading" to "not very clear or confusing."
+
+## Multilevel Proportional Odds Model
+
+Let's fit the model $$\text{logit}(\theta_{ijk})=\alpha_k+\beta_{trt} t_{ij}+\beta_{per}p_{ij}+b_i, ~~~ k=1,2,3, ~~ b_i \sim N(0,\sigma^2)$$ to the inhaler data. Because of the ordinal response, it makes sense here just to have one $b_i$ per person, unlike the unordered categorical case.
+
+```{r brmspropodds,eval=FALSE}
+#BRMS follows an econometrics convention and models
+#Pr(Y \leq k \mid \eta)=F(\alpha_k-\eta)
+#so need to flip signs on betas to get model specified above
+m2=brm(rating~treat+period+(1|subject),data=inhaler,
+       family=cumulative(logit), control=list(adapt_delta=0.95))
+```
+
+
+
+## Posterior Estimates
+
+|Parameter | Posterior Mean  | 95% CrI |
+|--------|----------:|------------:|
+| $\alpha_1$ | 0.71 | (0.46, 1.00) |
+| $\alpha_2$ | 3.93 | (3.34,4.60) |
+| $\alpha_3$ | 5.28 | (4.42, 6.25) |
+| $\beta_{trt}$ | 1.31 | (0.89,1.74) |
+| $\beta_{per}$ | -0.21 | (-0.60, 0.18) |
+| $\sigma$ | 1.25 | (0.77, 1.73) |
+
+Here we see evidence that when using the inhaler and instructions labeled 0.5, participants are more likely than when using the other inhaler and instructions (labeled -0.5) to select the "easy" rating than any of the other options. In particular, with the 0.5 inhaler, participants have 1.31 (0.89, 1.74) times the odds of picking "easy" versus the other 3 categories.  They also have 1.31 (0.89, 1.74) times the odds of picking "easy or only clear after rereading" versus the other 2 categories. Again, there's not much of a learning effect reflected in the period estimate.
