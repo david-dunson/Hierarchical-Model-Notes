@@ -48,14 +48,6 @@ library(tidyverse)
 
 [Multilevel Categorical Data](decks/glmm_07_deck.html)
 
-<!--- 
-[gelman poisson police stops chapter 15]
-
-[ordinal/multinomial missing data notes 13]
-
-
-
---->
 
 
 
