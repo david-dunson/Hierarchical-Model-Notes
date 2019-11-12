@@ -89,7 +89,8 @@ This effect size is just a mean difference converted to standard deviation units
 
 ```{r forestplots,warning=FALSE,message=FALSE,eval=FALSE}
 library(forestplot)
-forestplot(rep(NA,length(spank$study)),spank$d,spank$ll,spank$ul)
+forestplot(rep(NA,length(spank$study)),spank$d,spank$ll,spank$ul,
+           col = fpColors(lines="#990000", box="#660000", zero = "darkblue"))
 ```
 
 ##
@@ -97,7 +98,8 @@ forestplot(rep(NA,length(spank$study)),spank$d,spank$ll,spank$ul)
 
 ```{r forestplots2,warning=FALSE,message=FALSE,echo=FALSE}
 library(forestplot)
-forestplot(rep(NA,length(spank$study)),spank$d,spank$ll,spank$ul)
+forestplot(rep(NA,length(spank$study)),spank$d,spank$ll,spank$ul,
+           col = fpColors(lines="#990000", box="#660000", zero = "darkblue"))
 ```
 
 ##
