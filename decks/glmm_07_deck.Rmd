@@ -57,9 +57,9 @@ Huh?
 
   - Say made a 95 in 521: $\frac{\pi_{i2}}{\pi_{i1}}=e^{\alpha_2+95\beta_2}$ 
   - Say made a 94: $\frac{\pi_{i2}}{\pi_{i1}}=e^{\alpha_2+94\beta_2}$
-  - Ratio of these probability ratios is $e^\beta_2$
+  - Ratio of these probability ratios is $e^{\beta_2}$
     - If $\beta_2>0$ prefer Reiter more when made better grade in Clyde's course
-    - If $\beta>2<0$ then preference for Reiter diminishes when made better grade in Clyde's course
+    - If $\beta_2<0$ then preference for Reiter diminishes when made better grade in Clyde's course
 
 
 
