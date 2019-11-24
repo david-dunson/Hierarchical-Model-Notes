@@ -105,7 +105,7 @@ Period does not seem to have much impact on the ratings.
 
 ##
 
-Let's consider the model $$\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_{k,trt}t_{ij}+\beta_{k,per}p_{ij}+b_{ik}, ~~~~~ k=2,3,4,$$  $b_{ik}\overset{iid}\sim N(0,\sigma^2_k),$
+Let's consider the model $$\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_{k,trt}t_{ij}+\beta_{k,per}p_{ij}+b_{ik}, ~~~~~ k=2,3,4,$$  $b_{ik}\sim N(0,\sigma^2_k),$
 where $t_{ij}$ indicates the inhaler insert used by individual $i$ in period $j$ and $p_{ij}$ indicates the period of measurement of $y_{ij}$.
 
 ```{r brmscategorical, eval=FALSE}

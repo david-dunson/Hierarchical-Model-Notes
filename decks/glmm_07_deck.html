@@ -565,7 +565,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section>
 <section id="section-4" class="slide level2">
 <h2></h2>
-<p>Let’s consider the model <span class="math display">\[\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_{k,trt}t_{ij}+\beta_{k,per}p_{ij}+b_{ik}, ~~~~~ k=2,3,4,\]</span> <span class="math inline">\(b_{ik}\overset{iid}\sim N(0,\sigma^2_k),\)</span> where <span class="math inline">\(t_{ij}\)</span> indicates the inhaler insert used by individual <span class="math inline">\(i\)</span> in period <span class="math inline">\(j\)</span> and <span class="math inline">\(p_{ij}\)</span> indicates the period of measurement of <span class="math inline">\(y_{ij}\)</span>.</p>
+<p>Let’s consider the model <span class="math display">\[\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_{k,trt}t_{ij}+\beta_{k,per}p_{ij}+b_{ik}, ~~~~~ k=2,3,4,\]</span> <span class="math inline">\(b_{ik}\sim N(0,\sigma^2_k),\)</span> where <span class="math inline">\(t_{ij}\)</span> indicates the inhaler insert used by individual <span class="math inline">\(i\)</span> in period <span class="math inline">\(j\)</span> and <span class="math inline">\(p_{ij}\)</span> indicates the period of measurement of <span class="math inline">\(y_{ij}\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Note this models can have relatively low ESS</span>
 <span class="co">#Default priors t_3 scale 10 on alpha, Half t_3, scale 10 on SD, uniform improper on betas</span>
 m1=<span class="kw">brm</span>(rating<span class="op">~</span>treat<span class="op">+</span>period<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>subject),<span class="dt">data=</span>inhaler,
