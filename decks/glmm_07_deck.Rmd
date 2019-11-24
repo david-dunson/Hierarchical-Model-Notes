@@ -57,9 +57,9 @@ Huh?
 
   - Say made a 95 in 521: $\frac{\pi_{i2}}{\pi_{i1}}=e^{\alpha_2+95\beta_2}$ 
   - Say made a 94: $\frac{\pi_{i2}}{\pi_{i1}}=e^{\alpha_2+94\beta_2}$
-  - Ratio of these probability ratios is $e^\beta_2$
+  - Ratio of these probability ratios is $e^{\beta_2}$
     - If $\beta_2>0$ prefer Reiter more when made better grade in Clyde's course
-    - If $\beta>2<0$ then preference for Reiter diminishes when made better grade in Clyde's course
+    - If $\beta_2<0$ then preference for Reiter diminishes when made better grade in Clyde's course
 
 
 
@@ -73,7 +73,7 @@ Suppose we have multiple measurements $j$ per participant $i$ in a study or per 
 
 You don't want to assume that just because a participant has more of a tendency to select category 2 than category 1, they will also have more of a tendency to select category 3 than category 1. Thus a single random intercept per person is insufficient; we want to allow $k-1$ random intercepts per person:
 
-$$\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_kx_{ij}+b_{ik}, ~~~~~ k\neq 1, ~~ b_{ik}\overset{iid}\sim N(0,\sigma^2_k)$$ 
+$$\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_kx_{ij}+b_{ik}, ~~~~~ k\neq 1, ~~ b_{ik}\sim N(0,\sigma^2_k)$$ 
 
 ## Example: Clarity of Inhaler Instructions
 

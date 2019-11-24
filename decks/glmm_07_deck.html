@@ -523,10 +523,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li>Say made a 95 in 521: <span class="math inline">\(\frac{\pi_{i2}}{\pi_{i1}}=e^{\alpha_2+95\beta_2}\)</span></li>
 <li>Say made a 94: <span class="math inline">\(\frac{\pi_{i2}}{\pi_{i1}}=e^{\alpha_2+94\beta_2}\)</span></li>
-<li>Ratio of these probability ratios is <span class="math inline">\(e^\beta_2\)</span>
+<li>Ratio of these probability ratios is <span class="math inline">\(e^{\beta_2}\)</span>
 <ul>
 <li>If <span class="math inline">\(\beta_2&gt;0\)</span> prefer Reiter more when made better grade in Clyde’s course</li>
-<li>If <span class="math inline">\(\beta&gt;2&lt;0\)</span> then preference for Reiter diminishes when made better grade in Clyde’s course</li>
+<li>If <span class="math inline">\(\beta_2&lt;0\)</span> then preference for Reiter diminishes when made better grade in Clyde’s course</li>
 </ul></li>
 </ul>
 </section>
@@ -538,7 +538,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section id="section-1" class="slide level2">
 <h2></h2>
 <p>You don’t want to assume that just because a participant has more of a tendency to select category 2 than category 1, they will also have more of a tendency to select category 3 than category 1. Thus a single random intercept per person is insufficient; we want to allow <span class="math inline">\(k-1\)</span> random intercepts per person:</p>
-<p><span class="math display">\[\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_kx_{ij}+b_{ik}, ~~~~~ k\neq 1, ~~ b_{ik}\overset{iid}\sim N(0,\sigma^2_k)\]</span></p>
+<p><span class="math display">\[\log \left(\frac{\pi_{ijk}}{\pi_{ij1}}\right) = \alpha_k+\beta_kx_{ij}+b_{ik}, ~~~~~ k\neq 1, ~~ b_{ik}\sim N(0,\sigma^2_k)\]</span></p>
 </section>
 <section id="example-clarity-of-inhaler-instructions" class="slide level2">
 <h2>Example: Clarity of Inhaler Instructions</h2>
