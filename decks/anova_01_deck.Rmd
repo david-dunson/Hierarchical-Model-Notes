@@ -34,7 +34,7 @@ Our research question of interest is whether the distance from the bike to the c
 ## Exploring the data
 
 ```{r descstat}
-load("~/Documents/GitHub/STA-410-610/PsychBikeData.RData")
+load("/Users/dunson/Documents/COURSES/STA610/NOTES/Hierarchical-Model-Notes/PsychBikeData.RData")
 summary(PsychBikeData)
 
 ```
